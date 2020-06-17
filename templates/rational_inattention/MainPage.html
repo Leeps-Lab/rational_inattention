@@ -1,0 +1,23 @@
+{% extends "otree_redwood/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Title? Rational Inattention 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'rational_inattention/highcharts.js' %}"></script>
+    <script type="module" src="{% static 'rational_inattention/rational_inattention.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h4>Round #{{ round_num }}</h4>
+    <p>Your total wealth: {{ Constants.endowment }}</p>
+    <rational-inattention
+        default-prob="{{ subsession.default_probability }}"
+    ></rational-inattention>
+    <p>If non-default, the asset repays {{ Constants.endowment }} game credits.</p>
+    <p>If default, the asset repays in ratio of {{ Constants.endowment }} game credits (0 < m < 1).</p>
+    {% next_button %}
+
+{% endblock %}

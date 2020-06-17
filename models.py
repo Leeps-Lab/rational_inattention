@@ -1,3 +1,6 @@
+import csv
+import random
+import math
 from otree.api import (
     models,
     widgets,
@@ -8,7 +11,7 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
-
+from otree_redwood.models import DecisionGroup
 
 author = 'Your name here'
 
@@ -20,16 +23,25 @@ Your app description
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
     players_per_group = None
-    num_rounds = 1
+    num_rounds = 2
 
+    endowment = 100
+    default_probability = round(random.uniform(0, 1), 2)
+
+    def get_round_number(self):
+        return self.round_number
 
 class Subsession(BaseSubsession):
-    pass
+    def default_probability(self):
+        return round(random.uniform(0, 1), 2)
 
-
-class Group(BaseGroup):
+class Group(DecisionGroup):
     pass
 
 
 class Player(BasePlayer):
-    pass
+    # amount of money player starts with
+    spend = models.FloatField(
+        min=0,
+        max=Constants.endowment
+    )
