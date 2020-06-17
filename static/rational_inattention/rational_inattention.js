@@ -12,17 +12,17 @@ class RationalInattention extends PolymerElement {
     }
     static get template() {
         return html`
-            <div>Public information:</div>
-            <div>This asset has [[ defaultProb ]] default probability
-                and [[ _getNondefault(defaultProb) ]] non-default probability.</div>
+            <h4>Public information:</h4>
+            <div>This asset has [[ defaultProb ]]% default probability
+                and [[ _getNondefault(defaultProb) ]]% non-default probability.</div>
             <pie-chart
-                default-probability="[[ defaultProb ]]"
+                default-prob="[[ defaultProb ]]"
             ></pie-chart>
         `;
     }
 
     _getNondefault(def) {
-        return (1 - def).toFixed(2);
+        return 100 - def;
     }
 }
 

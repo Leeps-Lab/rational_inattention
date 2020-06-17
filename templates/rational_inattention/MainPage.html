@@ -2,7 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-    Title? Rational Inattention 
+    Rational Inattention 
 {% endblock %}
 
 {% block scripts %}
@@ -12,7 +12,7 @@
 
 {% block content %}
     <h4>Round #{{ round_num }}</h4>
-    <p>Your total wealth: {{ Constants.endowment }}</p>
+    <p><strong>Your total wealth:</strong> {{ Constants.endowment }}</p>
     <rational-inattention
         default-prob="{{ subsession.default_probability }}"
     ></rational-inattention>

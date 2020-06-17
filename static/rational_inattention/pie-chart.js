@@ -3,7 +3,7 @@ import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polyme
 class PieChart extends PolymerElement {
     static get properties() {
         return {
-            defaultProbability: {
+            defaultProb: {
                 type: Number,
             }
         }
@@ -23,7 +23,7 @@ class PieChart extends PolymerElement {
     }
 
     _getNondefault(def) {
-        return (1 - def).toFixed(2);
+        return 100 - def;
     }
 
     ready() {
@@ -32,6 +32,7 @@ class PieChart extends PolymerElement {
     }
 
     _initHighchart() {
+        console.log(this.defaultProb);
         this.graphObj = Highcharts.chart({
             chart: {
                 renderTo: this.$.chart,
@@ -67,10 +68,10 @@ class PieChart extends PolymerElement {
                 colorByPoint: true,
                 data: [{
                     name: 'Default Probability',
-                    y: this.defaultProbability*100,
+                    y: this.defaultProb,
                 }, {
                     name: 'Non-default Probability',
-                    y: this._getNondefault(this.defaultProbability)*100
+                    y: this._getNondefault(this.defaultProb)
                 }]
             }]
         });

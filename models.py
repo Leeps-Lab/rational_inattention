@@ -32,8 +32,9 @@ class Constants(BaseConstants):
         return self.round_number
 
 class Subsession(BaseSubsession):
+    # default_probability = round(random.uniform(0, 1), 2)
     def default_probability(self):
-        return round(random.uniform(0, 1), 2)
+        return round(random.uniform(0, 100))
 
 class Group(DecisionGroup):
     pass
