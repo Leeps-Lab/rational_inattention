@@ -1,6 +1,8 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
-import './pie_chart.js';
-
+import './public_info/public_info.js';
+import './info_precision.js';
+import './asset_price.js';
+import './polymer-elements/paper-button.js';
 class RationalInattention extends PolymerElement {
 
     static get properties() {
@@ -12,43 +14,39 @@ class RationalInattention extends PolymerElement {
             defaultProb: {
                 type: Number,
             },
+            initialCredits: {
+                type: Number,
+            },
+            test: {
+                type: Boolean,
+                value: true,
+            }
         }
     }
     static get template() {
         return html`
-            <h4>Public information:</h4>
-            <div>This asset has [[ defaultProb ]]% default probability
-                and [[ _getNondefault(defaultProb) ]]% non-default probability.</div>
-            <pie-chart
-                default-prob="[[ defaultProb ]]"
-            ></pie-chart>
-            <button type="button" on-click="_nextStep">next</button>
-            <div>Step [[ step ]]</div>
-            <div>
-            <template is="dom-if" if="{{  _showStep(step, 1) }}">
-                <h1>should display as step 1</h1>
-                <div> [[ step ]]</div>
-            </template>
-            </div>
-            <div>
-            <template is="dom-if" if="{{ _showStep(step, 2) }}">
-                <div> [[ step ]]</div>
-            </template>
-            </div>
+           <public-info
+            default-prob="[[ defaultProb ]]"
+            credits="[[ initialCredits ]]"
+           ></public-info>
+           <div hidden$="{{ _hideStep(step, 1) }}">
+               <info-precision></info-precision>
+           </div>
+           <div hidden$="{{ _hideStep(step, 2) }}">
+            <asset-price></asset-price>
+           </div>
+           <button type="button" on-click="_nextStep">next</button>
+           <paper-button class="indigo">paper button</paper-button>
+           <div>Step [[ step ]]</div>
         `;
-    }
-
-    _getNondefault(def) {
-        return 100 - def;
     }
 
     _nextStep() {
         this.step++;
     }
 
-    _showStep(step, num) {
-        console.log('chcking step', step, num, step >=num);
-        return step >= num;
+    _hideStep(step, num) {
+        return step < num;
     }
 }
 

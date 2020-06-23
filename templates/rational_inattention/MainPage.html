@@ -15,9 +15,8 @@
     <p><strong>Your total wealth:</strong> {{ Constants.endowment }}</p>
     <rational-inattention
         default-prob="{{ subsession.default_probability }}"
+        initial-credits="{{ Constants.endowment }}"
     ></rational-inattention>
-    <p>If non-default, the asset repays {{ Constants.endowment }} game credits.</p>
-    <p>If default, the asset repays in ratio of {{ Constants.endowment }} game credits (0 < m < 1).</p>
     {% next_button %}
 
 {% endblock %}
