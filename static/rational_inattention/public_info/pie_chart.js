@@ -32,6 +32,9 @@ class PieChart extends PolymerElement {
     }
 
     _initHighchart() {
+        Highcharts.setOptions({
+            colors:  ['#DF5353', '#55BF3B'],
+        });
         this.graphObj = Highcharts.chart({
             chart: {
                 renderTo: this.$.chart,
