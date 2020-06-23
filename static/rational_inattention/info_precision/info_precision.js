@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
+import './precision_slider.js';
 
 class InfoPrecision extends PolymerElement {
    
@@ -9,7 +10,7 @@ class InfoPrecision extends PolymerElement {
     static get template() {
         return html`
          <div>
-            <p>Element for selecting precision of private information</p>
+            <precision-slider></precision-slider>
          </div>
         `;
     }
