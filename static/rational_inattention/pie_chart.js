@@ -32,7 +32,6 @@ class PieChart extends PolymerElement {
     }
 
     _initHighchart() {
-        console.log(this.defaultProb);
         this.graphObj = Highcharts.chart({
             chart: {
                 renderTo: this.$.chart,
