@@ -16,8 +16,8 @@ class PublicInfo extends PolymerElement {
 
     static get template() {
         return html`
-            <h4>Public information:</h4>
-            <div>This asset has [[ defaultProb ]]% default probability
+            <div><strong>Public information: </strong>
+            This asset has [[ defaultProb ]]% default probability
                 and [[ _getNondefault(defaultProb) ]]% non-default probability.</div>
             <pie-chart
                 default-prob="[[ defaultProb ]]"

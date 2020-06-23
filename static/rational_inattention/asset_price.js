@@ -8,7 +8,9 @@ class AssetPrice extends PolymerElement {
 
     static get template() {
         return html`
-        <div>Element for selecting prices to buy/sell the asset</div>
+        <div>
+            <p>Element for selecting prices to buy/sell the asset</p>
+        </div>
         `;
     }
 }

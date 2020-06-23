@@ -35,9 +35,9 @@ class RationalInattention extends PolymerElement {
            <div hidden$="{{ _hideStep(step, 2) }}">
             <asset-price></asset-price>
            </div>
-           <button type="button" on-click="_nextStep">next</button>
-           <paper-button class="indigo">paper button</paper-button>
-           <div>Step [[ step ]]</div>
+           <div>
+            <paper-button on-click="_nextStep">Next</paper-button>
+           </div>
         `;
     }
 
