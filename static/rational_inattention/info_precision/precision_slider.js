@@ -3,19 +3,33 @@ import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polyme
 class PrecisionSlider extends PolymerElement {
    
     static get properties() {
-        
+        return {
+            // credits: {
+            //     type: Number,
+            // },
+            precision: {
+                type: Number,
+                value: 0,
+            },
+            cost: {
+                type: Number,
+                value: 0,
+            },
+        }
     }
 
     static get template() {
         return html`
+            <style>
+                input {
+                    width: 700px;
+                }
+            </style>
             <figure class="highcharts-figure">
             <div id="container"></div>
-            <p class="highcharts-description">
-                Basic line chart showing trends in a dataset. This chart includes the
-                <code>series-label</code> module, which adds a label to each line for
-                enhanced readability.
-            </p>
             </figure>
+            <input type="range" min="0" max="1" step="0.1" value="{{ precision::change }}">
+            <div>precision (width): [[ precision ]]</div>
         `;
     }
 
@@ -30,7 +44,7 @@ class PrecisionSlider extends PolymerElement {
                 renderTo: this.$.container,
             },
             title: {
-                text: 'Solar Employment Growth by Sector, 2010-2016'
+                text: ''
             },
         
             subtitle: {
@@ -38,13 +52,14 @@ class PrecisionSlider extends PolymerElement {
         
             yAxis: {
                 title: {
-                    text: 'Number of Employees'
+                    text: 'Cost'
                 }
             },
         
             xAxis: {
+                // type: 'logarithmic',
                 accessibility: {
-                    rangeDescription: 'Range: 2010 to 2017'
+                    rangeDescription: 'Range: 1 to 10'
                 }
             },
         
@@ -64,26 +79,15 @@ class PrecisionSlider extends PolymerElement {
             },
         
             series: [{
-                name: 'Installation',
-                data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-            }, {
-                name: 'Manufacturing',
-                data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-            }, {
-                name: 'Sales & Distribution',
-                data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-            }, {
-                name: 'Project Development',
-                data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-            }, {
-                name: 'Other',
-                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-            }],
+                name: 'Precision',
+                data: [512, 256, 128, 64, 32, 16, 8, 4, 2, 1],
+                pointStart: 1
+            },],
         
             responsive: {
                 rules: [{
                     condition: {
-                        maxWidth: 500
+                        maxWidth: 1000
                     },
                     chartOptions: {
                         legend: {

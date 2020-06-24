@@ -4,14 +4,16 @@ import './precision_slider.js';
 class InfoPrecision extends PolymerElement {
    
     static get properties() {
-        
+        return {
+        }
     }
 
     static get template() {
         return html`
          <div>
             <p><strong>Select the precision of your private information about m.</strong></p>
-            <precision-slider></precision-slider>
+            <precision-slider
+            ></precision-slider>
          </div>
         `;
     }
