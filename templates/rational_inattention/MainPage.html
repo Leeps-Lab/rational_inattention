@@ -2,21 +2,23 @@
 {% load otree static %}
 
 {% block title %}
-    Rational Inattention 
+    Rational Inattention
 {% endblock %}
 
 {% block scripts %}
-    <script type="module" src="{% static 'rational_inattention/rational_inattention.js' %}"></script>
     <script src="{% static 'rational_inattention/highcharts.js' %}"></script>
+    <script type="module" src="{% static 'rational_inattention/rational_inattention.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
     <h4>Round #{{ round_num }}</h4>
-    <p><strong>Your total wealth:</strong> {{ Constants.endowment }}</p>
+    <p><strong>Your total wealth:</strong> {{ endowment }}</p>
     <rational-inattention
-        default-prob="{{ subsession.default_probability }}"
-        initial-credits="{{ Constants.endowment }}"
+            default-prob="{{ default_probability }}"
+            initial-credits="{{ endowment }}"
     ></rational-inattention>
+
 
     <!-- {% next_button %} -->
 
