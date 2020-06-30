@@ -11,7 +11,7 @@ class InfoPrecision extends PolymerElement {
     static get template() {
         return html`
          <div>
-            <p><strong>Select the precision of your private information about m.</strong></p>
+            <h3>Select the precision of your private information about m.</h3>
             <precision-slider
             ></precision-slider>
          </div>
