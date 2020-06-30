@@ -1,7 +1,7 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
 import './public_info/public_info.js';
 import './info_precision/info_precision.js';
-import './asset_price.js';
+import './asset_price/asset_price.js';
 import './polymer-elements/paper-button.js';
 class RationalInattention extends PolymerElement {
 
