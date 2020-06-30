@@ -10,6 +10,7 @@ class RationalInattention extends PolymerElement {
             step: {
                 type: Number,
                 value: 0,
+                observer: '_updateButtonLabel',
             },
             defaultProb: {
                 type: Number,
@@ -17,10 +18,10 @@ class RationalInattention extends PolymerElement {
             initialCredits: {
                 type: Number,
             },
-            test: {
-                type: Boolean,
-                value: true,
-            }
+            buttonLabel: {
+                type: String,
+                value: 'Next',
+            },
         }
     }
     static get template() {
@@ -36,7 +37,7 @@ class RationalInattention extends PolymerElement {
             <asset-price></asset-price>
            </div>
            <div>
-            <paper-button on-click="_nextStep">Next</paper-button>
+           <paper-button on-click="_nextStep">[[ buttonLabel ]]</paper-button>
            </div>
         `;
     }
@@ -48,6 +49,14 @@ class RationalInattention extends PolymerElement {
     _hideStep(step, num) {
         return step < num;
     }
+
+    _updateButtonLabel() {
+        if(this.step == 1 || this.step == 2)
+            this.buttonLabel = 'Submit';
+        else
+            this.buttonLabel = 'Next';
+    }
+
 }
 
 window.customElements.define('rational-inattention', RationalInattention);
