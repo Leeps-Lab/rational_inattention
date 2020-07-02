@@ -1,12 +1,11 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
 
-class PrecisionSlider extends PolymerElement {
+class PrecisionSelector extends PolymerElement {
 
     static get properties() {
         return {
             precision: {
-                type: Object,
-                value: 1,
+                type: Number,
                 observer: '_updateSelected',
                 notify: true,
                 reflectToAttribute: true,
@@ -24,18 +23,27 @@ class PrecisionSlider extends PolymerElement {
                 :host {
                     display: block;
                 }
+                .container {
+                    display: flex;
+                    flex-direction: row;
+                }
+                .display {
+                    margin: auto;
+                }
                 #chart {
                     width: 640px;
                 }
                 input {
-                    width: 600px;
+                    width: 610px;
                 }
             </style>
-            <figure class="highcharts-figure">
-            <div id="chart"></div>
-            <input type="range" min="0" max="1" step="0.1" precision-changed value="{{ precision::input }}" class="slider">
-            </figure>
-            <div>precision (width): [[ precision ]] cost: [[ cost ]]</div>
+            <div class="container">
+                <figure class="highcharts-figure">
+                <div id="chart"></div>
+                <input type="range" min="0" max="1" step="0.1" precision-changed value="{{ precision::input }}">
+                </figure>
+                <h4 class="display">precision (width): [[ precision ]]<br/>cost: [[ cost ]]</h4>
+            </div>
         `;
     }
 
@@ -62,11 +70,16 @@ class PrecisionSlider extends PolymerElement {
             },
             tooltip: {
                 crosshairs: true,
-                crosshairs: {
-                    color: 'green',
-                    dashStyle: 'solid'
-                },
-                // shared: true
+                pointFormat: '{series.name}: <b>{point.y}</><br/>',
+                valueSuffix: ' credits',
+                style: {
+                    width: '500px',
+                    fontSize: '16px'
+                }
+                // crosshairs: {
+                //     color: 'green',
+                //     dashStyle: 'solid'
+                // },
             },
             title: {
                 text: ''
@@ -74,13 +87,11 @@ class PrecisionSlider extends PolymerElement {
 
             subtitle: {
             },
-
             yAxis: {
                 title: {
                     text: 'Cost'
                 }
             },
-
             xAxis: {
                 // min: 0,
                 // max: 1,
@@ -88,13 +99,11 @@ class PrecisionSlider extends PolymerElement {
                     rangeDescription: 'Range: 0 to 1'
                 }
             },
-
             legend: {
                 layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'middle'
             },
-
             plotOptions: {
                 // line: { marker: { enabled: false } },
                 series: {
@@ -102,17 +111,13 @@ class PrecisionSlider extends PolymerElement {
                     marker: {
                         states: {
                             select: {
-                                fillColor: 'green',
-                                lineWidth: 0
+                                // fillColor: 'green',
+                                // lineWidth: 0
                             }
                         }
                     },
                     cursor: 'pointer',
                     events: {
-                        mouseOver: function () {
-                            console.log('hover');
-                            // console.log(this.chart);
-                        },
                         click: function (event) {
                             console.log(event.point.x, event.point.y);
                         }
@@ -123,13 +128,11 @@ class PrecisionSlider extends PolymerElement {
                     },
                 },
             },
-
             series: [{
-                name: 'Precision',
+                name: 'Precision Cost',
                 data: [[0, 16], [0.1, 12], [0.2, 8], [0.3, 6], [0.4, 4], [0.5, 3], [0.6, 2], [0.7, 1.5], [0.8, 1], [0.9, 0.5], [1, 0]],
                 pointStart: 0
             },],
-
             responsive: {
                 rules: [{
                     condition: {
@@ -146,7 +149,6 @@ class PrecisionSlider extends PolymerElement {
             }
         });
     }
-
 }
 
-window.customElements.define('precision-slider', PrecisionSlider);
+window.customElements.define('precision-selector', PrecisionSelector);
