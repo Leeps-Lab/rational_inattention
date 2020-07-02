@@ -9,7 +9,7 @@ part of the polymer project is also subject to an additional IP rights grant
 found at http://polymer.github.io/PATENTS.txt
 */
 import '/static/otree-redwood/node_modules/@polymer/iron-flex-layout/iron-flex-layout.js';
-// import './paper-material-styles.js';
+import './paper-material-styles.js';
 
 import {PaperButtonBehavior, PaperButtonBehaviorImpl} from './paper-button-behavior.js';
 import {Polymer} from '/static/otree-redwood/node_modules/@polymer/polymer/lib/legacy/polymer-fn.js';
@@ -19,7 +19,6 @@ import {html} from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-
 import '/static/otree-redwood/node_modules/@polymer/polymer/polymer-legacy.js';
 import '/static/otree-redwood/node_modules/@polymer/paper-styles/default-theme.js';
 import '/static/otree-redwood/node_modules/@polymer/iron-flex-layout/iron-flex-layout.js';
-// import {html} from '/static/otree-redwood/node_modules/@polymer/polymer/lib/utils/html-tag.js'
 
 const template = html`
   <style include="paper-material-styles">
