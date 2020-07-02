@@ -14,6 +14,14 @@ class PrecisionSelector extends PolymerElement {
                 type: Number,
                 value: 0,
             },
+            data: {
+                type: Array,
+                value: [],
+            },
+            step: {
+                type: Number,
+                value: 0.1,
+            }
         }
     }
 
@@ -40,7 +48,7 @@ class PrecisionSelector extends PolymerElement {
             <div class="container">
                 <figure class="highcharts-figure">
                 <div id="chart"></div>
-                <input type="range" min="0" max="1" step="0.1" precision-changed value="{{ precision::input }}">
+                <input type="range" min="0" max="1" step="[[ step ]]" value="{{ precision::input }}">
                 </figure>
                 <h4 class="display">precision (width): [[ precision ]]<br/>cost: [[ cost ]]</h4>
             </div>
@@ -49,7 +57,17 @@ class PrecisionSelector extends PolymerElement {
 
     ready() {
         super.ready();
+        for(let x = 0; x < 1; x += this.step) {
+            this.data.push([+((x).toFixed(1)), this._getCosts(x)])
+        }
         this._initHighchart();
+    }
+
+    _getCosts(x) {
+        // Cost Function: -c * ln(width)
+        let c = -10;
+        return +((c * Math.log(x)).toFixed(2));
+
     }
 
     _updateSelected() {
@@ -93,10 +111,10 @@ class PrecisionSelector extends PolymerElement {
                 }
             },
             xAxis: {
-                // min: 0,
-                // max: 1,
+                min: 0,
+                max: 1,
                 accessibility: {
-                    rangeDescription: 'Range: 0 to 1'
+                    // rangeDescription: 'Range: 0 to 1'
                 }
             },
             legend: {
@@ -105,7 +123,7 @@ class PrecisionSelector extends PolymerElement {
                 verticalAlign: 'middle'
             },
             plotOptions: {
-                // line: { marker: { enabled: false } },
+                line: { marker: { enabled: false } },
                 series: {
                     allowPointSelect: true,
                     marker: {
@@ -130,7 +148,7 @@ class PrecisionSelector extends PolymerElement {
             },
             series: [{
                 name: 'Precision Cost',
-                data: [[0, 16], [0.1, 12], [0.2, 8], [0.3, 6], [0.4, 4], [0.5, 3], [0.6, 2], [0.7, 1.5], [0.8, 1], [0.9, 0.5], [1, 0]],
+                data: this.data,//[[0, 16], [0.1, 12], [0.2, 8], [0.3, 6], [0.4, 4], [0.5, 3], [0.6, 2], [0.7, 1.5], [0.8, 1], [0.9, 0.5], [1, 0]],
                 pointStart: 0
             },],
             responsive: {
