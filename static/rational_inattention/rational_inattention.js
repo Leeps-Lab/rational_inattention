@@ -18,6 +18,10 @@ class RationalInattention extends PolymerElement {
             initialCredits: {
                 type: Number,
             },
+            precision: {
+                type: Number,
+                value: 1,
+            },
             buttonLabel: {
                 type: String,
                 value: 'Next',
@@ -26,24 +30,46 @@ class RationalInattention extends PolymerElement {
     }
     static get template() {
         return html`
+            <style>
+                :host {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                }
+                .main {
+                    display: flex;
+                    flex-direction: column;
+                }
+                .btn {
+                    margin: 20px;
+                    width: 50px;
+                }
+            </style>
+            <div class="main">
            <public-info
             default-prob="[[ defaultProb ]]"
             credits="[[ initialCredits ]]"
            ></public-info>
            <div hidden$="{{ _hideStep(step, 1) }}">
-               <info-precision></info-precision>
+               <info-precision
+                precision="{{ precision }}"
+               ></info-precision>
            </div>
            <div hidden$="{{ _hideStep(step, 2) }}">
-            <asset-price></asset-price>
+            <asset-price
+                precision="[[ precision ]]"
+                default-prob="[[ defaultProb ]]"
+            ></asset-price>
            </div>
-           <div>
-           <paper-button on-click="_nextStep">[[ buttonLabel ]]</paper-button>
+           <paper-button class="btn" on-click="_nextStep">[[ buttonLabel ]]</paper-button>
            </div>
         `;
     }
 
     _nextStep() {
         this.step++;
+        // auto scroll down to next step/screen
+        window.scrollBy({top: 600, behavior: 'smooth'});
     }
 
     _hideStep(step, num) {
