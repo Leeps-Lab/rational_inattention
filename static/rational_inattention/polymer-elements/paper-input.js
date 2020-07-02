@@ -11,17 +11,11 @@ found at http://polymer.github.io/PATENTS.txt
 // import '@polymer/polymer/polymer-legacy.js';
 import '/static/otree-redwood/node_modules/@polymer/polymer/polymer-legacy.js';
 // import '@polymer/iron-input/iron-input.js';
-import './paper-input-char-counter.js';
 import './paper-input-container.js';
-import './paper-input-error.js';
 
-// import {IronFormElementBehavior} from '@polymer/iron-form-element-behavior/iron-form-element-behavior.js';
 import {IronFormElementBehavior} from './iron-form-element-behavior.js';
 
-// import {DomModule} from '@polymer/polymer/lib/elements/dom-module.js';
-// import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {Polymer} from '/static/otree-redwood/node_modules/@polymer/polymer/lib/legacy/polymer-fn.js';
-// import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {html} from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-legacy.js';
 import {PaperInputBehavior} from './paper-input-behavior.js';
 

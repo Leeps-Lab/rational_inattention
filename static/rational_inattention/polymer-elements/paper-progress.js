@@ -10,8 +10,6 @@ found at http://polymer.github.io/PATENTS.txt
 */
 import '/static/otree-redwood/node_modules/@polymer/polymer/polymer-legacy.js';
 import '/static/otree-redwood/node_modules/@polymer/iron-flex-layout/iron-flex-layout.js';
-import './color.js';
-
 import {IronRangeBehavior} from './iron-range-behavior.js';
 import {Polymer} from '/static/otree-redwood/node_modules/@polymer/polymer/lib/legacy/polymer-fn.js';
 import {html} from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-legacy.js';
