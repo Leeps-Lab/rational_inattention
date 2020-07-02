@@ -15,6 +15,10 @@ class InfoPrecision extends PolymerElement {
                 type: Number,
                 value: 0,
             },
+            disableSelect: {
+                type: Boolean,
+                value: false,
+            }
         }
     }
 
@@ -31,6 +35,7 @@ class InfoPrecision extends PolymerElement {
             <precision-selector
                 precision="{{ precision }}"
                 cost="{{ cost }}"
+                disable-select="[[ disableSelect ]]"
             ></precision-selector>
          </div>
         `;

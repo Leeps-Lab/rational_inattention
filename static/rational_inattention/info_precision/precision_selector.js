@@ -21,7 +21,11 @@ class PrecisionSelector extends PolymerElement {
             step: {
                 type: Number,
                 value: 0.1,
-            }
+            },
+            disableSelect: {
+                type: Boolean,
+                value: false,
+            },
         }
     }
 
@@ -48,7 +52,7 @@ class PrecisionSelector extends PolymerElement {
             <div class="container">
                 <figure class="highcharts-figure">
                 <div id="chart"></div>
-                <input type="range" min="0" max="1" step="[[ step ]]" value="{{ precision::input }}">
+                <input type="range" min="0" max="1" step="[[ step ]]" value="{{ precision::input }}" disabled$="[[ disableSelect ]]">
                 </figure>
                 <h4 class="display">width: [[ precision ]]<br/>cost: [[ cost ]]</h4>
             </div>

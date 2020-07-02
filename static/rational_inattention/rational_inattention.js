@@ -3,6 +3,7 @@ import './public_info/public_info.js';
 import './info_precision/info_precision.js';
 import './asset_price/asset_price.js';
 import './polymer-elements/paper-button.js';
+import './results.js';
 class RationalInattention extends PolymerElement {
 
     static get properties() {
@@ -56,6 +57,7 @@ class RationalInattention extends PolymerElement {
            <div hidden$="{{ _hideStep(step, 1) }}">
                <info-precision
                 precision="{{ precision }}"
+                disable-select="{{ _disableStep(step, 1) }}"
                ></info-precision>
            </div>
            <div hidden$="{{ _hideStep(step, 2) }}">
@@ -63,7 +65,11 @@ class RationalInattention extends PolymerElement {
                 m="[[ m ]]"
                 precision="[[ precision ]]"
                 default-prob="[[ defaultProb ]]"
+                disable-select="{{ _disableStep(step, 2) }}"
             ></asset-price>
+           </div>
+           <div hidden$="{{ _hideStep(step, 3) }}">
+            <results-page></results-page>
            </div>
            <paper-button class="btn" on-click="_nextStep">[[ buttonLabel ]]</paper-button>
            </div>
@@ -78,6 +84,10 @@ class RationalInattention extends PolymerElement {
 
     _hideStep(step, num) {
         return step < num;
+    }
+
+    _disableStep(step, num) {
+        return step != num;
     }
 
     _updateButtonLabel() {
