@@ -29,16 +29,20 @@ class AssetSlider extends PolymerElement {
     }
 
     static get template() {
-
+        // paper-slider seems to be incompatible with ::input
         return html`
         <style>
         </style>
-          <div>m: [[ m ]], precision: [[ precision ]], high: [[ highValue ]], low: [[ lowValue ]]</div>        
+          <div>m: [[ m ]], precision: [[ precision ]], high: [[ highValue ]], low: [[ lowValue ]],
+          buyPrice: [[ buyPrice ]] sellPrice: [[ sellPrice ]]</div>
+          <br/>        
           <paper-range-slider
             slider-width="600px"
             always-show-pin
-            min="[[ lowValue ]]"
-            max="[[ highValue ]]"
+            min="0"
+            max="100"
+            value-min="{{ buyPrice::change }}"
+            value-max="{{ sellPrice::change }}"
           ></paper-range-slider
           >
         `;

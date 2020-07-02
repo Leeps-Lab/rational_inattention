@@ -50,7 +50,7 @@ class PrecisionSelector extends PolymerElement {
                 <div id="chart"></div>
                 <input type="range" min="0" max="1" step="[[ step ]]" value="{{ precision::input }}">
                 </figure>
-                <h4 class="display">precision (width): [[ precision ]]<br/>cost: [[ cost ]]</h4>
+                <h4 class="display">width: [[ precision ]]<br/>cost: [[ cost ]]</h4>
             </div>
         `;
     }
