@@ -17,6 +17,10 @@ class PublicInfo extends PolymerElement {
     static get template() {
         return html`
             <style>
+                :host {
+                    display: flex;
+                    flex-direction: column;
+                }
                 .def {
                     color: #DF5353;
                 }
@@ -30,8 +34,8 @@ class PublicInfo extends PolymerElement {
             <pie-chart
                 default-prob="[[ defaultProb ]]"
             ></pie-chart>
-            <p class="non-def">If non-default, the asset repays [[ credits ]] game credits.</p>
-            <p class="def">If default, the asset repays in ratio of [[ credits ]] game credits (0 < m < 1).</p>        
+            <span class="non-def">If non-default, the asset repays [[ credits ]] game credits.</span>
+            <span class="def">If default, the asset repays in ratio of [[ credits ]] game credits (0 < m < 1).</span>        
             `;
     }
 
