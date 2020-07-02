@@ -23,7 +23,7 @@ Your app description
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
     players_per_group = None
-    num_rounds = 2
+    num_rounds = 3
     endowment = 100
 
     def get_round_number(self):
@@ -34,6 +34,7 @@ class Subsession(BaseSubsession):
     def creating_session(self):
         for p in self.get_players():
             p.default_probability = int(random.uniform(0, 100))
+            p.m = int(random.uniform(0, 100))
 
 
 class Group(DecisionGroup):
@@ -47,3 +48,4 @@ class Player(BasePlayer):
         max=Constants.endowment
     )
     default_probability = models.IntegerField()
+    m = models.IntegerField()

@@ -15,6 +15,9 @@ class RationalInattention extends PolymerElement {
             defaultProb: {
                 type: Number,
             },
+            m: {
+                type: Number,
+            },
             initialCredits: {
                 type: Number,
             },
@@ -57,6 +60,7 @@ class RationalInattention extends PolymerElement {
            </div>
            <div hidden$="{{ _hideStep(step, 2) }}">
             <asset-price
+                m="[[ m ]]"
                 precision="[[ precision ]]"
                 default-prob="[[ defaultProb ]]"
             ></asset-price>

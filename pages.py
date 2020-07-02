@@ -9,6 +9,7 @@ class MainPage(Page):
         return {
             'round_num': self.round_number,
             'default_probability': self.player.default_probability,
+            'm': self.player.m,
             'endowment': Constants.endowment,
         }
     def get_round_number(self):
