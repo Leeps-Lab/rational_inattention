@@ -28,7 +28,8 @@ class PublicInfo extends PolymerElement {
                     color: #55BF3B;
                 }
             </style>
-            <div><strong>Public information: </strong>
+            <h3>Public information:</h3>
+            <div>
             This asset has <span class="def">[[ defaultProb ]]%</span> default probability
                 and <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> non-default probability.</div>
             <pie-chart

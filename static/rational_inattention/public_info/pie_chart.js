@@ -75,7 +75,14 @@ class PieChart extends PolymerElement {
                     name: 'Non-default Probability',
                     y: this._getNondefault(this.defaultProb)
                 }]
-            }]
+            },],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 800
+                    },
+                }]
+            }
         });
     }
 }

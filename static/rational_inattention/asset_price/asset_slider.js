@@ -24,7 +24,11 @@ class AssetSlider extends PolymerElement {
             },
             sellPrice: {
               type: Number,
-            }
+            },
+            disableSelect: {
+              type: Boolean,
+              value: false,
+          },
         }
     }
 
@@ -33,8 +37,7 @@ class AssetSlider extends PolymerElement {
         return html`
         <style>
         </style>
-          <div>m: [[ m ]], precision: [[ precision ]], high: [[ highValue ]], low: [[ lowValue ]],
-          buyPrice: [[ buyPrice ]] sellPrice: [[ sellPrice ]]</div>
+          <h4>Buying price: [[ buyPrice ]]<br/>Selling price: [[ sellPrice ]]</h4>
           <br/>        
           <paper-range-slider
             slider-width="600px"

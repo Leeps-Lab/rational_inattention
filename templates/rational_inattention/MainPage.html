@@ -1,4 +1,4 @@
-{% extends "otree_redwood/Page.html" %}
+{% extends "global/Page.html" %}
 {% load otree static %}
 
 {% block title %}
@@ -23,4 +23,16 @@
 
     <!-- {% next_button %} -->
 
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+            margin: 20px;
+            padding: 0 !important;
+        }
+    .otree-body {
+        max-width: none;    
+    }
+</style>   
 {% endblock %}

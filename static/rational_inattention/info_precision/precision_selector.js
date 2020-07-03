@@ -32,21 +32,18 @@ class PrecisionSelector extends PolymerElement {
     static get template() {
         return html`
             <style>
-                :host {
-                    display: block;
-                }
                 .container {
                     display: flex;
                     flex-direction: row;
-                }
-                .display {
-                    margin: auto;
                 }
                 #chart {
                     width: 640px;
                 }
                 input {
                     width: 610px;
+                }
+                .display {
+                    margin: auto;
                 }
             </style>
             <div class="container">
@@ -158,7 +155,7 @@ class PrecisionSelector extends PolymerElement {
             responsive: {
                 rules: [{
                     condition: {
-                        maxWidth: 1000
+                        maxWidth: 800
                     },
                     chartOptions: {
                         legend: {

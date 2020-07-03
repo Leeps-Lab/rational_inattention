@@ -37,49 +37,58 @@ class RationalInattention extends PolymerElement {
             <style>
                 :host {
                     display: flex;
-                    flex-direction: row;
-                    flex-wrap: wrap;
+                    flex-direction: column;
                 }
                 .main {
                     display: flex;
-                    flex-direction: column;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                }
+                .step {
+                    width: 30%;
+                    padding: 0 30px;
+                    margin: 30px;
                 }
                 .btn {
-                    margin: 20px;
+                    position: relative;
+                    margin: 10px 400px auto auto;
                     width: 50px;
                 }
             </style>
             <div class="main">
-           <public-info
-            default-prob="[[ defaultProb ]]"
-            credits="[[ initialCredits ]]"
-           ></public-info>
-           <div hidden$="{{ _hideStep(step, 1) }}">
-               <info-precision
-                precision="{{ precision }}"
-                disable-select="{{ _disableStep(step, 1) }}"
-               ></info-precision>
-           </div>
-           <div hidden$="{{ _hideStep(step, 2) }}">
-            <asset-price
-                m="[[ m ]]"
-                precision="[[ precision ]]"
-                default-prob="[[ defaultProb ]]"
-                disable-select="{{ _disableStep(step, 2) }}"
-            ></asset-price>
-           </div>
-           <div hidden$="{{ _hideStep(step, 3) }}">
-            <results-page></results-page>
+                <div class="step">
+                    <public-info
+                        default-prob="[[ defaultProb ]]"
+                        credits="[[ initialCredits ]]"
+                    ></public-info>
+            </div>
+            <div class="step" hidden$="{{ _hideStep(step, 1) }}">
+                <info-precision
+                    precision="{{ precision }}"
+                    disable-select="{{ _disableStep(step, 1) }}"
+                ></info-precision>
+            </div>
+            <div class="step" hidden$="{{ _hideStep(step, 2) }}">
+                <asset-price
+                    m="[[ m ]]"
+                    precision="[[ precision ]]"
+                    default-prob="[[ defaultProb ]]"
+                    disable-select="{{ _disableStep(step, 2) }}"
+                ></asset-price>
+            </div>
+            <div class="step" hidden$="{{ _hideStep(step, 3) }}">
+                <results-page></results-page>
+            </div>
            </div>
            <paper-button class="btn" on-click="_nextStep">[[ buttonLabel ]]</paper-button>
-           </div>
         `;
     }
 
     _nextStep() {
         this.step++;
         // auto scroll down to next step/screen
-        window.scrollBy({top: 600, behavior: 'smooth'});
+        if(this.step === 2)
+            window.scrollBy({top: 600, behavior: 'smooth'});
     }
 
     _hideStep(step, num) {

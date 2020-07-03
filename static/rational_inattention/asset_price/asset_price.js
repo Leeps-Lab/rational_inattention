@@ -34,6 +34,10 @@ class AssetPrice extends PolymerElement {
             defaultProb: {
                 type: Number,
             },
+            disableSelect: {
+                type: Boolean,
+                value: false,
+            },  
         }
     }
 
@@ -46,15 +50,18 @@ class AssetPrice extends PolymerElement {
             .non-def {
                 color: #55BF3B;
             }
+            .values {
+                text-align: center;
+            }
         </style>
         <div>
             <h3>Your private information about m: [[ mLow ]] < m < [[ mHigh ]]</h3>
             <p>Select the price for which you'd like to buy the asset and the price for which you'd like to sell the asset.</p>
             <p>Assuming you don't care about uncertainty, you would expect:</p>
-            <p>VL = <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
-            * [[ mLow ]] * 100 = [[ lowValue ]]</p>
-            <p>VH = <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
-            * [[ mHigh ]] *  100 = [[ highValue ]]</p>
+            <p class="values">The lowest asset value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
+            * [[ mLow ]] * 100 = <strong>[[ lowValue ]]</strong></p>
+            <p class="values">The highest asset value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
+            * [[ mHigh ]] *  100 = <strong>[[ highValue ]]</strong></p>
             <asset-slider
                 m="[[ m ]]"
                 precision="[[ precision ]]"
@@ -62,6 +69,7 @@ class AssetPrice extends PolymerElement {
                 low-value="[[ lowValue ]]"
                 buy-price="[[ lowValue ]]"
                 sell-price="[[ highValue ]]"
+                disable-select="[[ disableSelect ]]"
             ></asset-slider>
         </div>
         `;
@@ -102,12 +110,12 @@ class AssetPrice extends PolymerElement {
         return +((mLow).toFixed(2));
     }
 
-    _getHighValue(m, defaultProb, precision) {
+    _getHighValue(defaultProb) {
         return +((this._getNondefault(defaultProb) + defaultProb * this.mHigh).toFixed(2));
 
     }
 
-    _getLowValue(m, defaultProb, precision) {
+    _getLowValue(defaultProb) {
         return +((this._getNondefault(defaultProb) + defaultProb * this.mLow).toFixed(2));
     }
 

@@ -24,12 +24,6 @@ class InfoPrecision extends PolymerElement {
 
     static get template() {
         return html`
-        <style>
-        :host {
-            display: flex;
-            flex-direction: column;
-        }
-        </style>
          <div>
             <h3>Select the precision of your private information about m (slide and submit).</h3>
             <precision-selector
