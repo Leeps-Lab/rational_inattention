@@ -129,17 +129,7 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
             type: Boolean,
             value: false,
             notify: true
-        },
-
-        markers: {
-          type: Array,
-          readOnly: true,
-          value: function() {
-              return [];
-          },
-          notify: true,
-          reflectToAttribute: true
-        },    
+        },  
 
         /**
          * if true, pins with numeric value label are shown when the slider thumb
@@ -168,7 +158,8 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
         disabled: {
             type: Boolean,
             value: false,
-            notify: true
+            notify: true,
+            observer: 'setDisabled', // propagates disabling upon update
         },
 
         /**
@@ -394,7 +385,6 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
           }
       }
       _ready();
-      console.log('markers?', this.markers);
       return;
   }
 
@@ -1365,10 +1355,9 @@ Polymer({
     markers: {
       type: Array,
       readOnly: true,
-      // value: function() {
-      //     return [];
-      // }
-      value: [5],
+      value: function() {
+          return [];
+      }
     },
   },
 
