@@ -45,13 +45,13 @@ class RationalInattention extends PolymerElement {
                     flex-wrap: wrap;
                 }
                 .step {
-                    width: 30%;
+                    width: 38%;
                     padding: 0 30px;
                     margin: 30px;
                 }
                 .btn {
                     position: relative;
-                    margin: 10px 400px auto auto;
+                    margin: 30px 25% auto auto;
                     width: 50px;
                 }
             </style>
@@ -81,6 +81,7 @@ class RationalInattention extends PolymerElement {
             </div>
            </div>
            <paper-button class="btn" on-click="_nextStep">[[ buttonLabel ]]</paper-button>
+           <h4>debug m: [[ m ]]</h4>
         `;
     }
 

@@ -131,6 +131,16 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
             notify: true
         },
 
+        markers: {
+          type: Array,
+          readOnly: true,
+          value: function() {
+              return [];
+          },
+          notify: true,
+          reflectToAttribute: true
+        },    
+
         /**
          * if true, pins with numeric value label are shown when the slider thumb
          * is pressed. Use for settings for which users need to know the exact
@@ -233,6 +243,13 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
   --paper-range-slider-pin-start-color:         var(--paper-grey-400);
   --paper-range-slider-knob-start-color:        transparent;
   --paper-range-slider-knob-start-border-color: var(--paper-grey-400);
+
+  // attempt at adding more styles
+  --paper-range-slider-higher-pin-color:               var(--primary-color);
+  --paper-range-slider-lower-pin-color:               var(--primary-color);
+  --paper-range-slider-higher-knob-color:              var(--primary-color);
+  --paper-range-slider-lower-knob-color:              var(--primary-color);
+
 }
 
 #sliderOuterDiv_0 {
@@ -270,8 +287,8 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
 #sliderMax {
     line-height: normal;
     --paper-single-range-slider-bar-color:               transparent;
-    --paper-single-range-slider-knob-color:              var(--paper-range-slider-knob-color);
-    --paper-single-range-slider-pin-color:               var(--paper-range-slider-pin-color);
+    --paper-single-range-slider-knob-color:              var(--paper-range-slider-higher-knob-color);
+    --paper-single-range-slider-pin-color:               var(--paper-range-slider-higher-pin-color);
     --paper-single-range-slider-active-color:            var(--paper-range-slider-active-color);
     --paper-single-range-slider-secondary-color:         var(--paper-range-slider-higher-color);
     --paper-single-range-slider-pin-start-color:         var(--paper-range-slider-pin-start-color);
@@ -282,8 +299,8 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
     line-height: normal;
     --paper-single-range-slider-active-color:            var(--paper-range-slider-lower-color);
     --paper-single-range-slider-secondary-color:         transparent;
-    --paper-single-range-slider-knob-color:              var(--paper-range-slider-knob-color);
-    --paper-single-range-slider-pin-color:               var(--paper-range-slider-pin-color);
+    --paper-single-range-slider-knob-color:              var(--paper-range-slider-lower-knob-color);
+    --paper-single-range-slider-pin-color:               var(--paper-range-slider-lower-pin-color);
     --paper-single-range-slider-pin-start-color:         var(--paper-range-slider-pin-start-color);
     --paper-single-range-slider-knob-start-color:        var(--paper-range-slider-knob-start-color);
     --paper-single-range-slider-knob-start-border-color: var(--paper-range-slider-knob-start-border-color);
@@ -302,13 +319,13 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
   <div class="divSpanWidth" style="pointer-events: none;">
     <paper-single-range-slider id='sliderMax' display-function="[[displayFunction]]" disabled$="[[disabled]]" on-down="_sliderMaxDown"
                   on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]"
-                  value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;">
+                  value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;" markers="[[markers]]">
     </paper-single-range-slider>
   </div>
 
   <div class="divSpanWidth" style="pointer-events: none;">
     <paper-single-range-slider id='sliderMin' display-function="[[displayFunction]]" disabled$="[[disabled]]" on-down="_sliderMinDown"
-                  on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]"
+                  on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" markers="[[markers]]"
                   value="[[valueMin]]" style="width:100%;">
     </paper-single-range-slider>
   </div>
@@ -377,7 +394,7 @@ class PaperRangeSlider extends PolymerElement {//Polymer.GestureEventListeners(P
           }
       }
       _ready();
-
+      console.log('markers?', this.markers);
       return;
   }
 
@@ -1348,9 +1365,10 @@ Polymer({
     markers: {
       type: Array,
       readOnly: true,
-      value: function() {
-          return [];
-      }
+      // value: function() {
+      //     return [];
+      // }
+      value: [5],
     },
   },
 

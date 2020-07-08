@@ -7,13 +7,14 @@ class Results extends PolymerElement {
             <h4>Default? Yes or No<br/>
             Actual m = 0.5</br>
             Expected Asset value: ##</br>
-            Asset price: idk</h4>
-            <div>Your selling price: A. Did you sell?<br/>
-                Your buying price: B. Did you sell?<br/>
-                Actual asset payment: 100 or # * 100
-                Your private info cost:
-                Your payoff: 100 - cost
-                Your total wealth: 
+            Asset price: #p</h4>
+            <div>
+                Your selling price: A. Did you sell? Yes if #p > A<br/>
+                Your buying price: B. Did you sell? Yes if #p <= B<br/>
+                Actual asset payment: 100 or # * 100<br/>
+                Your private info cost:<br/>
+                Your payoff: 100 - cost<br/>
+                Your total wealth: <br/>
             </div>
 
         `;

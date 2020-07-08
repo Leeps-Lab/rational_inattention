@@ -45,11 +45,35 @@ class PrecisionSelector extends PolymerElement {
                 .display {
                     margin: auto;
                 }
+                .sliderticks {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 610px;
+                }
+
+                .sliderticks p {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    text-align: center;
+                    width: 1px;
+                    background: #D3D3D3;
+                    height: 10px;
+                    line-height: 40px;
+                }
             </style>
             <div class="container">
                 <figure class="highcharts-figure">
                 <div id="chart"></div>
                 <input type="range" min="0" max="1" step="[[ step ]]" value="{{ precision::input }}" disabled$="[[ disableSelect ]]">
+                <div class="sliderticks">
+                    <p>0<br/>precise</p>
+                    <p>0.2</p>
+                    <p>0.4</p>
+                    <p>0.6</p>
+                    <p>0.8</p>
+                    <p>1<br/>imprecise</p>
+                </div>
                 </figure>
                 <h4 class="display">width: [[ precision ]]<br/>cost: [[ cost ]]</h4>
             </div>
