@@ -74,6 +74,7 @@ class AssetSlider extends PolymerElement {
           background: #F06292;
           height: 10px;
           line-height: 40px;
+          z-index: 1;
         }
         .high {
           background-color: #007bff;
@@ -91,6 +92,10 @@ class AssetSlider extends PolymerElement {
         }
         </style>
         <br/>        
+        <div class="valticks">
+          <p class="mark" style$="margin: 85px 0 20px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
+          <p class="mark" style$="margin: 85px 0 20px {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
+        </div>
         <paper-range-slider
           class="slider1"
           slider-width="100%"
@@ -106,10 +111,6 @@ class AssetSlider extends PolymerElement {
         <template is="dom-repeat" items="[[ markers ]]">
             <p>[[ item ]]</p>
             </template>
-        </div>
-        <div class="valticks">
-          <p class="mark" style$="margin: 80px 0 20px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
-          <p class="mark" style$="margin: 120px 0 20px {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
         </div>
         `;
       }
