@@ -67,7 +67,6 @@ class AssetSlider extends PolymerElement {
           flex-direction: column;
           justify-content: space-around;
         }
-    
         p.mark {
           position: absolute;
           width: 2px;
@@ -78,17 +77,15 @@ class AssetSlider extends PolymerElement {
         }
         .high {
           background-color: #007bff;
-          border: 2px #007bff double;
         }
         .low {
           background-color: #2F3238;
-          border: 2px #2F3238 double;
         }
         span {
           color: white;
           margin-top: 5px;
-          padding: 1px;
-          border-radius: 2px;
+          padding: 5px;
+          border-radius: 5px;
         }
         </style>
         <br/>        
@@ -116,11 +113,11 @@ class AssetSlider extends PolymerElement {
       }
 
       _getHighMark(highVal) {
-        return 36.8 - ((100 - highVal) * 0.36);
+        return 37 - ((100 - highVal) * 0.36);
       }
 
       _getLowMark(lowVal) {
-        return (lowVal * 0.37);
+        return (lowVal * 0.373);
       }
 }
 
