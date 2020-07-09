@@ -29,6 +29,10 @@ class AssetSlider extends PolymerElement {
               type: Boolean,
               value: false,
           },
+          markers: {
+            type: Array,
+            value: [0, 20, 40, 60, 80, 100],
+          }
         }
     }
 
@@ -46,8 +50,7 @@ class AssetSlider extends PolymerElement {
           .sliderticks {
             display: flex;
             justify-content: space-between;
-            max-width: 800px;
-        }
+          }
         .sliderticks p {
             position: relative;
             display: flex;
@@ -59,28 +62,64 @@ class AssetSlider extends PolymerElement {
             line-height: 40px;
             margin: 0 15px;
         }
+        .valticks {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+    
+        p.mark {
+          position: absolute;
+          width: 2px;
+          background: #F06292;
+          height: 10px;
+          line-height: 40px;
+        }
+        .high {
+          background-color: #007bff;
+          border: 2px #007bff double;
+        }
+        .low {
+          background-color: #2F3238;
+          border: 2px #2F3238 double;
+        }
+        span {
+          color: white;
+          margin-top: 5px;
+          padding: 1px;
+          border-radius: 2px;
+        }
         </style>
-          <br/>        
-          <paper-range-slider
-            class="slider1"
-            slider-width="800px"
-            always-show-pin
-            min="0"
-            max="100"
-            step="0.1"
-            value-min="{{ buyPrice::change }}"
-            value-max="{{ sellPrice::change }}"
-            max-markers="10"
-          ></paper-range-slider>
-          <div class="sliderticks">
-              <p>0</p>
-              <p>20</p>
-              <p>40</p>
-              <p>60</p>
-              <p>80</p>
-              <p>100</p>
-          </div>
+        <br/>        
+        <paper-range-slider
+          class="slider1"
+          slider-width="100%"
+          always-show-pin
+          min="0"
+          max="100"
+          step="0.1"
+          value-min="{{ buyPrice::change }}"
+          value-max="{{ sellPrice::change }}"
+          disabled="[[ disableSelect ]]"
+        ></paper-range-slider>
+        <div class="sliderticks">
+        <template is="dom-repeat" items="[[ markers ]]">
+            <p>[[ item ]]</p>
+            </template>
+        </div>
+        <div class="valticks">
+          <p class="mark" style$="margin: 80px 0 20px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
+          <p class="mark" style$="margin: 120px 0 20px {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
+        </div>
         `;
+      }
+
+      _getHighMark(highVal) {
+        return 36.8 - ((100 - highVal) * 0.36);
+      }
+
+      _getLowMark(lowVal) {
+        return (lowVal * 0.37);
       }
 }
 
