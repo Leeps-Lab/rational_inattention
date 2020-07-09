@@ -35,20 +35,22 @@ class PrecisionSelector extends PolymerElement {
                 .container {
                     display: flex;
                     flex-direction: row;
+                    justify-content: space-around;
                 }
                 #chart {
-                    width: 640px;
                 }
                 input {
-                    width: 610px;
+                    width: 98%;
+                    margin-left: 2%;
                 }
                 .display {
-                    margin: auto;
+                    text-align: center;
+                    width: 10%;
                 }
                 .sliderticks {
                     display: flex;
                     justify-content: space-between;
-                    width: 610px;
+                    width: 98%;
                 }
 
                 .sliderticks p {
@@ -75,7 +77,9 @@ class PrecisionSelector extends PolymerElement {
                     <p>1<br/>imprecise</p>
                 </div>
                 </figure>
-                <h4 class="display">width: [[ precision ]]<br/>cost: [[ cost ]]</h4>
+                <div class="display">
+                    <h4>width: [[ precision ]]<br/>cost: [[ cost ]]</h4>
+                </div>
             </div>
         `;
     }

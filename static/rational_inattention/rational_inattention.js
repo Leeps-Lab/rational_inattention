@@ -38,11 +38,16 @@ class RationalInattention extends PolymerElement {
                 :host {
                     display: flex;
                     flex-direction: column;
+                    justify-content: space-around;
                 }
-                .main {
+                .row {
                     display: flex;
                     flex-direction: row;
                     flex-wrap: wrap;
+                    justify-content: space-around;
+                }
+                .first {
+                    margin-top: -9%;
                 }
                 .step {
                     width: 38%;
@@ -55,26 +60,26 @@ class RationalInattention extends PolymerElement {
                     width: 50px;
                 }
             </style>
-            <div class="main">
-                <div class="step">
-                    <public-info
-                        default-prob="[[ defaultProb ]]"
-                        credits="[[ initialCredits ]]"
-                    ></public-info>
+            <div class="first">
+            <public-info
+            default-prob="[[ defaultProb ]]"
+            credits="[[ initialCredits ]]"
+            ></public-info>
             </div>
-            <div class="step" hidden$="{{ _hideStep(step, 1) }}">
-                <info-precision
+            <div hidden$="{{ _hideStep(step, 1) }}">
+            <info-precision
                     precision="{{ precision }}"
                     disable-select="{{ _disableStep(step, 1) }}"
-                ></info-precision>
+                    ></info-precision>
             </div>
+            <div class="row">
             <div class="step" hidden$="{{ _hideStep(step, 2) }}">
-                <asset-price
-                    m="[[ m ]]"
-                    precision="[[ precision ]]"
-                    default-prob="[[ defaultProb ]]"
-                    disable-select="{{ _disableStep(step, 2) }}"
-                ></asset-price>
+            <asset-price
+            m="[[ m ]]"
+            precision="[[ precision ]]"
+            default-prob="[[ defaultProb ]]"
+            disable-select="{{ _disableStep(step, 2) }}"
+            ></asset-price>
             </div>
             <div class="step" hidden$="{{ _hideStep(step, 3) }}">
                 <results-page></results-page>
@@ -88,7 +93,7 @@ class RationalInattention extends PolymerElement {
     _nextStep() {
         this.step++;
         // auto scroll down to next step/screen
-        if(this.step === 2)
+        if(this.step !== 3)
             window.scrollBy({top: 600, behavior: 'smooth'});
     }
 
@@ -97,7 +102,8 @@ class RationalInattention extends PolymerElement {
     }
 
     _disableStep(step, num) {
-        return step != num;
+        // return step != num;
+        return false;
     }
 
     _updateButtonLabel() {
