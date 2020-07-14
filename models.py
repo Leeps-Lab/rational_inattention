@@ -35,6 +35,8 @@ class Subsession(BaseSubsession):
         for p in self.get_players():
             p.default_probability = int(random.uniform(0, 100))
             p.m = int(random.uniform(0, 100))
+            p.y = int(random.uniform(0, 100))
+            p.q = int(random.uniform(0, 100))
 
 
 class Group(DecisionGroup):
@@ -49,3 +51,5 @@ class Player(BasePlayer):
     )
     default_probability = models.IntegerField()
     m = models.IntegerField()
+    y = models.IntegerField()
+    q = models.IntegerField()

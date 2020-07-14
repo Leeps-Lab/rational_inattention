@@ -8,9 +8,12 @@ class MainPage(Page):
     def vars_for_template(self):
         return {
             'round_num': self.round_number,
+            'endowment': Constants.endowment,
             'default_probability': self.player.default_probability,
             'm': self.player.m,
-            'endowment': Constants.endowment,
+            'y': self.player.y,
+            'q': self.player.q,
+
         }
     def get_round_number(self):
         return self.round_number
