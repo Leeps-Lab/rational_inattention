@@ -14,6 +14,8 @@ class InfoPrecision extends PolymerElement {
             cost: {
                 type: Number,
                 value: 0,
+                notify: true,
+                reflectToAttribute: true,
             },
             disableSelect: {
                 type: Boolean,

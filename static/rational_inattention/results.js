@@ -6,15 +6,17 @@ class Results extends PolymerElement {
             defaultProb: {
                 type: Number,
             },
-            isDefault: {
+            defaultResult: {
                 type: String,
-                computed: '_getActualDefault(y, defaultProb)',
+                computed: '_getDefaultResult(y, defaultProb)',
             },
             buyPrice: {
                 type: Number,
+                value: 0,
             },
             sellPrice: {
                 type: Number,
+                value: 100,
             },
             isBuy: {
                 type: String,
@@ -26,26 +28,29 @@ class Results extends PolymerElement {
 
             },
             y: {
-                type: String,
+                type: Number,
             },
             m: {
-                type: String,
+                type: Number,
             }
         }
     }
     static get template() {
         return html`
             <h2>Results:</h2>
-            <h4>Default? [[ isDefault ]]<br/>
-            Actual m = [[ _getPercent(m) ]]</br>
+            <h4>You [[ isBuy ]]</h4>
+            <div>Your buying price: [[ buyPrice ]]</div>
+            <h4>You [[ isSold ]]</h4>
+            <div>Your selling price: [[ sellPrice ]]</div>
+            <h4>Asset price: [[ q ]]<br/>
+            Default? [[ defaultResult ]]<br/>
+            Actual m: [[ _getPercent(m) ]]</br>
             Expected Asset value: [[ _expectedAssetVal(m) ]]</br>
-            Asset price: #p</h4>
+            </h4>
             <div>
-                Your selling price: A. Did you sell? (Yes if #q > A). You [[ isBuy ]]<br/>
-                Your buying price: B. Did you buy? (Yes if #q <= B) You [[ isSold ]]<br/>
-                Actual asset payment: 100 or # * 100<br/>
-                Your private info cost:<br/>
-                Your payoff: 100 - cost<br/>
+                Actual asset payment: [[ _getAssetPayment(defaultResult) ]]<br/>
+                Your private info cost: [[ cost ]]<br/>
+                Your payoff: [[ _getPayoff(cost) ]]<br/>
                 Your total wealth: <br/>
             </div>
 
@@ -57,7 +62,7 @@ class Results extends PolymerElement {
     }
 
 
-    _getActualDefault(y, defaultProb) {
+    _getDefaultResult(y, defaultProb) {
         if (y < defaultProb)
             return 'Yes';
         else
@@ -65,27 +70,42 @@ class Results extends PolymerElement {
     }
 
     _getBuy(q, buyPrice) {
-        console.log('buyPrice', buyPrice);
         if (q < buyPrice)
-            return 'sold!';
+            return 'bought!';
         else
-            return 'didn\'t sell.';
+        {
+            return 'didn\'t buy.';
+        }
     }
 
     _getSell(q, sellPrice) {
-        console.log('sellPrice', sellPrice);
         if (q > sellPrice)
-            return 'bought!';
+            return 'sold!';
         else
-            return 'didn\'t buy.';
+            return 'didn\'t sell.';
     }
 
     _expectedAssetVal(m) {
         return +((this._getNondefault(this.defaultProb) + this.defaultProb * this._getPercent(m)).toFixed(2));
     }
 
+    _getAssetPayment(defaultResult) {
+        if (defaultResult === 'Yes')
+            return this.m;
+        else
+            return 100;
+    }
+
     _getPercent(val) {
         return (val / 100).toFixed(2);
+    }
+
+    _getPayoff(cost) {
+        return 100 - cost;
+    }
+
+    _getTotal() {
+        this._getAssetPayment(this.defaultResult) - this.buyPrice;
     }
 }
 

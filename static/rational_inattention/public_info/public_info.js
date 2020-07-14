@@ -5,9 +5,6 @@ class PublicInfo extends PolymerElement {
 
     static get properties() {
         return {
-            defaultProb: {
-                type: Number,
-            },
             credits: {
                 type: Number,
             },
@@ -32,10 +29,10 @@ class PublicInfo extends PolymerElement {
                 }
             </style>
             <h3>Public information:</h3>
-            <h4>This asset has <span class="def">[[ defaultProb ]]%</span> default probability
-            and <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> non-default probability.</h4>
+            <h4>This asset has <span class="def">[[ g ]]%</span> default probability
+            and <span class="non-def">[[ _getNondefault(g) ]]%</span> non-default probability.</h4>
             <pie-chart
-            default-prob="[[ defaultProb ]]"
+            default-prob="[[ g ]]"
             ></pie-chart>
             <h4 class="non-def">If non-default, the asset repays [[ credits ]] game credits.</h4>
             <h4 class="def">If default, the asset repays in ratio of [[ credits ]] game credits (0 < m < 1).</h4>        

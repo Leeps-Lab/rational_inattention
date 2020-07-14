@@ -13,7 +13,7 @@ class RationalInattention extends PolymerElement {
                 value: 0,
                 observer: '_updateButtonLabel',
             },
-            defaultProb: {
+            g: {
                 type: Number,
             },
             m: {
@@ -30,7 +30,10 @@ class RationalInattention extends PolymerElement {
             },
             precision: {
                 type: Number,
-                value: 1,
+            },
+            cost: {
+                type: Number,
+                value: 0,
             },
             buyPrice: {
                 type: Number,
@@ -74,13 +77,14 @@ class RationalInattention extends PolymerElement {
             </style>
             <div class="first">
             <public-info
-            default-prob="[[ defaultProb ]]"
-            credits="[[ initialCredits ]]"
+                g="[[ g ]]"
+                credits="[[ initialCredits ]]"
             ></public-info>
             </div>
             <div hidden$="{{ _hideStep(step, 1) }}">
             <info-precision
                     precision="{{ precision }}"
+                    cost="{{ cost }}"
                     disable-select="{{ _disableStep(step, 1) }}"
                     ></info-precision>
             </div>
@@ -89,7 +93,7 @@ class RationalInattention extends PolymerElement {
                 <asset-price
                 m="[[ m ]]"
                 precision="[[ precision ]]"
-                default-prob="[[ defaultProb ]]"
+                default-prob="[[ g ]]"
                 buy-price="{{ buyPrice }}"
                 sell-price="{{ sellPrice }}"
                 disable-select="{{ _disableStep(step, 2) }}"
@@ -97,17 +101,18 @@ class RationalInattention extends PolymerElement {
             </div>
             <div class="step" hidden$="{{ _hideStep(step, 3) }}">
                 <results-page
-                    default-prob="[[ defaultProb ]]"
+                    default-prob="[[ g ]]"
                     m="[[ m ]]"
                     y="[[ y ]]"
                     buy-price="[[ buyPrice ]]"
                     sell-price="[[ sellPrice ]]"
+                    cost="[[ cost ]]"
                     q="[[ q ]]"
                 ></results-page>
             </div>
            </div>
            <paper-button class="btn" on-click="_nextStep">[[ buttonLabel ]]</paper-button>
-           <h4>debug m: [[ m ]], y: [[ y ]], q: [[ q ]]</h4>
+           <h3>DEBUG m: [[ m ]], y: [[ y ]], q: [[ q ]]</h3>
         `;
     }
 
@@ -115,7 +120,7 @@ class RationalInattention extends PolymerElement {
         this.step++;
         // auto scroll down to next step/screen
         if (this.step !== 3)
-            window.scrollBy({ top: 600, behavior: 'smooth' });
+            window.scrollBy({ top: 550, behavior: 'smooth' });
     }
 
     _hideStep(step, num) {
