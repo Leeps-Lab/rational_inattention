@@ -1147,7 +1147,7 @@ const template1 = html`
         height: 26px;
         text-align: center;
         color: var(--paper-single-range-slider-font-color, #fff);
-        font-size: 10px;
+        font-size: 12px;
 
         -webkit-transform: scale(0) translate(0);
         transform: scale(0) translate(0);

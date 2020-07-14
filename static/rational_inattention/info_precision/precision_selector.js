@@ -13,6 +13,8 @@ class PrecisionSelector extends PolymerElement {
             cost: {
                 type: Number,
                 value: 0,
+                notify: true,
+                reflectToAttribute: true,
             },
             data: {
                 type: Array,
@@ -44,8 +46,7 @@ class PrecisionSelector extends PolymerElement {
                     margin-left: 2%;
                 }
                 .display {
-                    text-align: center;
-                    width: 10%;
+                    width: 20%;
                 }
                 .sliderticks {
                     display: flex;
@@ -58,10 +59,6 @@ class PrecisionSelector extends PolymerElement {
                     display: flex;
                     justify-content: center;
                     text-align: center;
-                    width: 1px;
-                    background: #D3D3D3;
-                    height: 10px;
-                    line-height: 40px;
                 }
             </style>
             <div class="container">
@@ -69,16 +66,16 @@ class PrecisionSelector extends PolymerElement {
                 <div id="chart"></div>
                 <input type="range" min="0" max="1" step="[[ step ]]" value="{{ precision::input }}" disabled$="[[ disableSelect ]]">
                 <div class="sliderticks">
-                    <p>0<br/>precise</p>
-                    <p>0.2</p>
-                    <p>0.4</p>
-                    <p>0.6</p>
-                    <p>0.8</p>
-                    <p>1<br/>imprecise</p>
+                    <p>precise</p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p>imprecise</p>
                 </div>
                 </figure>
                 <div class="display">
-                    <h4>width: [[ precision ]]<br/>cost: [[ cost ]]</h4>
+                    <h2>width: [[ precision ]]<br/>cost: [[ cost ]]</h2>
                 </div>
             </div>
         `;
