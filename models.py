@@ -31,12 +31,10 @@ class Constants(BaseConstants):
 
 class Subsession(BaseSubsession):
     # initial values of fields for players for each subsession
-    def creating_session(self):
-        for p in self.get_players():
-            p.default_probability = int(random.uniform(0, 100))
-            p.m = int(random.uniform(0, 100))
-            p.y = int(random.uniform(0, 100))
-            p.q = int(random.uniform(0, 100))
+    g = int(random.uniform(0, 100))
+    m = int(random.uniform(0, 100))
+    y = int(random.uniform(0, 100))
+    q = int(random.uniform(0, 100))
 
 
 class Group(DecisionGroup):
@@ -49,7 +47,7 @@ class Player(BasePlayer):
         min=0,
         max=Constants.endowment
     )
-    default_probability = models.IntegerField()
+    g = models.IntegerField()
     m = models.IntegerField()
     y = models.IntegerField()
     q = models.IntegerField()
