@@ -5,6 +5,9 @@ class AssetPrice extends PolymerElement {
 
     static get properties() {
         return {
+            defaultProb: {
+                type: Number,
+            },
             m: {
                 type: Number,
             },
@@ -31,13 +34,20 @@ class AssetPrice extends PolymerElement {
                 type: Number,
                 computed: '_getLowValue(m, defaultProb, precision)',
             },
-            defaultProb: {
+            buyPrice: {
                 type: Number,
+                notify: true,
+                reflectToAttribute: true,
+            },
+            sellPrice: {
+                type: Number,
+                notify: true,
+                reflectToAttribute: true,
             },
             disableSelect: {
                 type: Boolean,
                 value: false,
-            },  
+            },
         }
     }
 
@@ -75,8 +85,8 @@ class AssetPrice extends PolymerElement {
                 precision="[[ precision ]]"
                 high-value="[[ highValue ]]"
                 low-value="[[ lowValue ]]"
-                buy-price="[[ lowValue ]]"
-                sell-price="[[ highValue ]]"
+                buy-price="{{ buyPrice }}"
+                sell-price="{{ sellPrice }}"
                 disable-select="[[ disableSelect ]]"
             ></asset-slider>
         </div>
@@ -98,7 +108,7 @@ class AssetPrice extends PolymerElement {
         }
         return 0;
     }
-    
+
     _getMHighOverflow() {
         let mHigh = this.m / 100 + this.r;
         if (mHigh > 1) {
@@ -130,8 +140,6 @@ class AssetPrice extends PolymerElement {
     _getNondefault(def) {
         return 100 - def;
     }
-
-
 }
 
 window.customElements.define('asset-price', AssetPrice);

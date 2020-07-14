@@ -19,12 +19,24 @@ class RationalInattention extends PolymerElement {
             m: {
                 type: Number,
             },
+            y: {
+                type: Number,
+            },
+            q: {
+                type: Number,
+            },
             initialCredits: {
                 type: Number,
             },
             precision: {
                 type: Number,
                 value: 1,
+            },
+            buyPrice: {
+                type: Number,
+            },
+            sellPrice: {
+                type: Number,
             },
             buttonLabel: {
                 type: String,
@@ -74,27 +86,36 @@ class RationalInattention extends PolymerElement {
             </div>
             <div class="row">
             <div class="step" hidden$="{{ _hideStep(step, 2) }}">
-            <asset-price
-            m="[[ m ]]"
-            precision="[[ precision ]]"
-            default-prob="[[ defaultProb ]]"
-            disable-select="{{ _disableStep(step, 2) }}"
-            ></asset-price>
+                <asset-price
+                m="[[ m ]]"
+                precision="[[ precision ]]"
+                default-prob="[[ defaultProb ]]"
+                buy-price="{{ buyPrice }}"
+                sell-price="{{ sellPrice }}"
+                disable-select="{{ _disableStep(step, 2) }}"
+                ></asset-price>
             </div>
             <div class="step" hidden$="{{ _hideStep(step, 3) }}">
-                <results-page></results-page>
+                <results-page
+                    default-prob="[[ defaultProb ]]"
+                    m="[[ m ]]"
+                    y="[[ y ]]"
+                    buy-price="[[ buyPrice ]]"
+                    sell-price="[[ sellPrice ]]"
+                    q="[[ q ]]"
+                ></results-page>
             </div>
            </div>
            <paper-button class="btn" on-click="_nextStep">[[ buttonLabel ]]</paper-button>
-           <h4>debug m: [[ m ]]</h4>
+           <h4>debug m: [[ m ]], y: [[ y ]], q: [[ q ]]</h4>
         `;
     }
 
     _nextStep() {
         this.step++;
         // auto scroll down to next step/screen
-        if(this.step !== 3)
-            window.scrollBy({top: 600, behavior: 'smooth'});
+        if (this.step !== 3)
+            window.scrollBy({ top: 600, behavior: 'smooth' });
     }
 
     _hideStep(step, num) {
@@ -107,7 +128,7 @@ class RationalInattention extends PolymerElement {
     }
 
     _updateButtonLabel() {
-        if(this.step == 1 || this.step == 2)
+        if (this.step == 1 || this.step == 2)
             this.buttonLabel = 'Submit';
         else
             this.buttonLabel = 'Next';

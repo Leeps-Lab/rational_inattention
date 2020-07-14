@@ -21,9 +21,13 @@ class AssetSlider extends PolymerElement {
             },
             buyPrice: {
               type: Number,
+              notify: true,
+              reflectToAttribute: true,
             },
             sellPrice: {
               type: Number,
+              notify: true,
+              reflectToAttribute: true,
             },
             disableSelect: {
               type: Boolean,
