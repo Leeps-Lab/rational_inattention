@@ -107,7 +107,7 @@ class RationalInattention extends PolymerElement {
             </div>
             <div class="step" hidden$="{{ _hideStep(step, 3) }}">
                 <results-page
-                    default-prob="[[ g ]]"
+                    g="[[ g ]]"
                     m="[[ m ]]"
                     y="[[ y ]]"
                     buy-price="[[ buyPrice ]]"

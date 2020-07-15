@@ -5,9 +5,6 @@ class AssetPrice extends PolymerElement {
 
     static get properties() {
         return {
-            defaultProb: {
-                type: Number,
-            },
             r: {
                 type: Number,
                 computed: '_getRandomRange(precision)',
@@ -20,9 +17,6 @@ class AssetPrice extends PolymerElement {
                 type: Number,
                 computed: '_getMHigh(m, precision, r)'
             },
-            precision: {
-                type: Number,
-            },
             highValue: {
                 type: Number,
                 computed: '_getHighValue(m, defaultProb, precision)',
@@ -34,11 +28,13 @@ class AssetPrice extends PolymerElement {
             buyPrice: {
                 type: Number,
                 notify: true,
+                value: 0,
                 reflectToAttribute: true,
             },
             sellPrice: {
                 type: Number,
                 notify: true,
+                value: 100,
                 reflectToAttribute: true,
             },
             disableSelect: {
