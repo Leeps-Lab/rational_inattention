@@ -9,10 +9,12 @@ class MainPage(Page):
         return {
             'round_num': self.round_number,
             'endowment': Constants.endowment,
+            'initial_bonds' : Constants.initial_bonds,
             'g': self.subsession.g,
             'm': self.subsession.m,
             'y': self.subsession.y,
             'q': self.subsession.q,
+            'finish': self.subsession.finish,
 
         }
     def get_round_number(self):
