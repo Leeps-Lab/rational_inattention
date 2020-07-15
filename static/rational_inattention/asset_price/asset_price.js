@@ -8,9 +8,6 @@ class AssetPrice extends PolymerElement {
             defaultProb: {
                 type: Number,
             },
-            m: {
-                type: Number,
-            },
             r: {
                 type: Number,
                 computed: '_getRandomRange(precision)',
@@ -100,8 +97,8 @@ class AssetPrice extends PolymerElement {
         return random;
     }
 
-    _getMLowOverflow() {
-        let mLow = this.m / 100 - (this.precision - this.r);
+    _getMLowOverflow(m) {
+        let mLow = m / 100 - (this.precision - this.r);
         if (mLow < 0) {
             let overflow = 0 - mLow;
             return overflow;
@@ -109,8 +106,8 @@ class AssetPrice extends PolymerElement {
         return 0;
     }
 
-    _getMHighOverflow() {
-        let mHigh = this.m / 100 + this.r;
+    _getMHighOverflow(m) {
+        let mHigh = m / 100 + this.r;
         if (mHigh > 1) {
             let overflow = mHigh - 1;
             return overflow;
@@ -119,12 +116,12 @@ class AssetPrice extends PolymerElement {
     }
 
     _getMHigh(m, precision, r) {
-        let mHigh = Math.min(1, m / 100 + this.r + this._getMLowOverflow());
+        let mHigh = Math.min(1, m / 100 + this.r + this._getMLowOverflow(m));
         return +((mHigh).toFixed(2));
     }
 
     _getMLow(m, precision, r) {
-        let mLow = Math.max(0, m / 100 - (precision - this.r) - this._getMHighOverflow());
+        let mLow = Math.max(0, m / 100 - (precision - this.r) - this._getMHighOverflow(m));
         return +((mLow).toFixed(2));
     }
 

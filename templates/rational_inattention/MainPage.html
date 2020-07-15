@@ -13,17 +13,19 @@
 
 {% block content %}
     <h4>Round #{{ round_num }}</h4>
-    <p><strong>Your total wealth:</strong> {{ endowment }}</p>
+    <p><strong>Total endowment:</strong> {{ endowment }} credits and {{ initial_bonds }} bond(s)</p>
     <rational-inattention
             g="{{ g }}"
-            initial-credits="{{ endowment }}"
+            endowment="{{ endowment }}"
             m="{{ m }}"
             y="{{ y }}"
             q="{{ q }}"
+            finish="{{ finish }}"
     ></rational-inattention>
 
-
-    <!-- {% next_button %} -->
+{% if finish %}
+    <button>Next Round</button>
+{% endif %}
 
 {% endblock %}
 

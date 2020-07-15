@@ -3,9 +3,6 @@ import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polyme
 class Results extends PolymerElement {
     static get properties() {
         return {
-            defaultProb: {
-                type: Number,
-            },
             defaultResult: {
                 type: String,
                 computed: '_getDefaultResult(y, defaultProb)',
@@ -51,7 +48,6 @@ class Results extends PolymerElement {
                 Actual asset payment: [[ _getAssetPayment(defaultResult) ]]<br/>
                 Your private info cost: [[ cost ]]<br/>
                 Your payoff: [[ _getPayoff(cost) ]]<br/>
-                Your total wealth: <br/>
             </div>
 
         `;
@@ -101,11 +97,7 @@ class Results extends PolymerElement {
     }
 
     _getPayoff(cost) {
-        return 100 - cost;
-    }
-
-    _getTotal() {
-        this._getAssetPayment(this.defaultResult) - this.buyPrice;
+        return this._getAssetPayment(this.defaultResult) - cost - this.buyPrice;
     }
 }
 

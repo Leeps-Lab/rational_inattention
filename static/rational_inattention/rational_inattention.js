@@ -25,7 +25,7 @@ class RationalInattention extends PolymerElement {
             q: {
                 type: Number,
             },
-            initialCredits: {
+            endowment: {
                 type: Number,
             },
             precision: {
@@ -45,6 +45,12 @@ class RationalInattention extends PolymerElement {
                 type: String,
                 value: 'Next',
             },
+            finish: {
+                type: Boolean,
+                computed: '_isFinish()',
+                notify: true,
+                reflectToAttribute: true,  
+            }
         }
     }
     static get template() {
@@ -78,7 +84,7 @@ class RationalInattention extends PolymerElement {
             <div class="first">
             <public-info
                 g="[[ g ]]"
-                credits="[[ initialCredits ]]"
+                credits="[[ endowment ]]"
             ></public-info>
             </div>
             <div hidden$="{{ _hideStep(step, 1) }}">
@@ -137,6 +143,13 @@ class RationalInattention extends PolymerElement {
             this.buttonLabel = 'Submit';
         else
             this.buttonLabel = 'Next';
+    }
+
+    _isFinish() {
+        if(this.step >= 3)
+            return true;
+        else
+            return false;
     }
 
 }
