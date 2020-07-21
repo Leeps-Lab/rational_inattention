@@ -37,6 +37,25 @@ class Results extends PolymerElement {
     static get template() {
         return html`
             <style>
+                :host {
+                    animation: 5s ease-in 0s normal forwards 1 fadein;
+                }
+                @keyframes fadein {
+                    0% {
+                        opacity: 0;
+                    }
+                    66% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+                .row {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-around;
+                }
                 .def {
                     color: #DF5353;
                 }
@@ -50,24 +69,39 @@ class Results extends PolymerElement {
                 .buy-val {
                     color: #007bff;
                     font-weight: bold;
+                }
+                .price-val {
+                    color: #F06292;
+                    font-weight: bold;
                 }    
             </style>
             <h2>Results:</h2>
-            <h4>You [[ isBought ]]</h4>
-            <div>Your buying price: <span class="buy-val">[[ buyPrice ]]</span></div>
-            <h4>You [[ isSold ]]</h4>
-            <div>Your selling price: <span class="sell-val">[[ sellPrice ]]</span></div>
-            <h4>Asset price: [[ q ]]<br/>
-            Default? [[ defaultResult ]]<br/>
-            Actual m: [[ _getPercent(m) ]]</br>
-            Expected Asset value:
-            </h4>
-            <p class="values"><span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + <span class="def">[[ g ]]%</span>
-            * [[ _getPercent(m) ]] * 100 = [[ _expectedAssetVal(m) ]]</p>      
-            <div>
-                Actual asset payment: [[ _getAssetPayment(y, g, m) ]]<br/>
-                Your private info cost: [[ cost ]]<br/>
-                Your payoff: {{ payoff }}<br/>
+            <div class="row">
+                <div>
+                    <h4>You [[ isBought ]]</h4>
+                    <p>Your buying price: <span class="buy-val">[[ buyPrice ]]</span></p>
+                </div>
+                <div>
+                    <h4>You [[ isSold ]]</h4>
+                    <p>Your selling price: <span class="sell-val">[[ sellPrice ]]</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <h4>Asset price: <span class="price-val">[[ q ]]</span><br/>
+                    Default? [[ defaultResult ]]<br/>
+                    Actual m: [[ _getPercent(m) ]]</br>
+                    Expected Asset value:</h4>
+                    <p class="values"><span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + 
+                    <span class="def">[[ g ]]%</span>
+                    * [[ _getPercent(m) ]] * 100 = <strong>[[ _expectedAssetVal(m) ]]</strong></p>      
+                </div>
+                <div>
+                    <h4>Actual asset payment: [[ _getAssetPayment(y, g, m) ]]<br/>
+                    Your private info cost: [[ cost ]]<br/>
+                    Your payoff: {{ payoff }}<br/>
+                    </h4>
+                </div>
             </div>
         `;
     }

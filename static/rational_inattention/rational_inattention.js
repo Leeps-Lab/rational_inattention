@@ -45,6 +45,12 @@ class RationalInattention extends PolymerElement {
                 type: String,
                 value: 'Next',
             },
+            submitPrices: {
+                type: Boolean,
+                value: false,
+                notify: true,
+                reflectToAttribute: true,
+            },
             finish: {
                 type: Boolean,
                 computed: '_isFinish()',
@@ -103,6 +109,8 @@ class RationalInattention extends PolymerElement {
                 buy-price="{{ buyPrice }}"
                 sell-price="{{ sellPrice }}"
                 disable-select="{{ _disableStep(step, 2) }}"
+                submit-prices="{{ submitPrices }}"
+                q="[[ q ]]"
                 ></asset-price>
             </div>
             <div class="step" hidden$="{{ _hideStep(step, 3) }}">
@@ -123,6 +131,9 @@ class RationalInattention extends PolymerElement {
     }
 
     _nextStep() {
+        if(this.step === 2) {
+            this.submitPrices = true;
+        }
         this.step++;
         // auto scroll down to next step/screen
         if (this.step !== 3)

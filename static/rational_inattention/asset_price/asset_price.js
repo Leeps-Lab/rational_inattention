@@ -80,7 +80,9 @@ class AssetPrice extends PolymerElement {
                 low-value="[[ lowValue ]]"
                 buy-price="{{ buyPrice }}"
                 sell-price="{{ sellPrice }}"
+                is-submitted="{{ submitPrices }}"
                 disable-select="[[ disableSelect ]]"
+                q="[[ q ]]"
             ></asset-slider>
         </div>
         `;

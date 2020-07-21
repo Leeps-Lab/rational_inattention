@@ -4,45 +4,45 @@ import '../polymer-elements/paper-range-slider.js';
 
 class AssetSlider extends PolymerElement {
 
-    static get properties() {
-        return {
-            m: {
-              type: Number,
-            },
-            precision: {
-              type: Number,
-            },
-            // Value in which the two points overlap
-            highValue: {
-                type: Number,
-            },
-            lowValue: {
-                type: Number,
-            },
-            buyPrice: {
-              type: Number,
-              notify: true,
-              reflectToAttribute: true,
-            },
-            sellPrice: {
-              type: Number,
-              notify: true,
-              reflectToAttribute: true,
-            },
-            disableSelect: {
-              type: Boolean,
-              value: false,
-          },
-          markers: {
-            type: Array,
-            value: [0, 20, 40, 60, 80, 100],
-          }
-        }
+  static get properties() {
+    return {
+      m: {
+        type: Number,
+      },
+      precision: {
+        type: Number,
+      },
+      // Value in which the two points overlap
+      highValue: {
+        type: Number,
+      },
+      lowValue: {
+        type: Number,
+      },
+      buyPrice: {
+        type: Number,
+        notify: true,
+        reflectToAttribute: true,
+      },
+      sellPrice: {
+        type: Number,
+        notify: true,
+        reflectToAttribute: true,
+      },
+      disableSelect: {
+        type: Boolean,
+        value: false,
+      },
+      markers: {
+        type: Array,
+        value: [0, 20, 40, 60, 80, 100],
+      },
     }
+  }
 
-    static get template() {
-        // paper-slider seems to be incompatible with ::input
-        return html`
+  static get template() {
+    // paper-slider seems to be incompatible with ::input
+    return html`
         <style>
           .slider1 {
             --paper-range-slider-higher-knob-color: #007bff;
@@ -78,6 +78,7 @@ class AssetSlider extends PolymerElement {
           height: 10px;
           line-height: 40px;
           z-index: 1;
+          animation: 2s ease-in 0s normal forwards 1 fadein;
         }
         .high {
           background-color: #007bff;
@@ -91,11 +92,68 @@ class AssetSlider extends PolymerElement {
           padding: 5px;
           border-radius: 5px;
         }
+        .price {
+          background-color: #F06292;
+          animation: 3s ease-in 0s normal forwards 1 fadein;
+        }
+        @keyframes fadein {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        .path {
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+          height: 20px;
+          margin: auto;
+        }
+        .shape {
+          position: absolute;
+          left: 0;
+          background-color: purple;
+          width: 8px;
+          height: 8px;
+          display: block;
+          top: 0;
+          
+          x-transition: all 1s ease-in-out;
+          animation: ani 1.7s 3;
+          animation-delay: 2s;
+          animation-play-state: running;
+        }
+        .static {
+          position: absolute;
+          left: 0;
+          background-color: red;
+          width: 8px;
+          height: 8px;
+          display: none;
+          top: 0;
+          animation-play-state: paused;
+        }
+        @keyframes ani {
+          0% {
+            left: 0;
+          }
+          50% {
+            left: 100%;
+          }
+          100% {
+            left: 0;
+          }
         </style>
         <br/>        
         <div class="valticks">
-          <p class="mark" style$="margin: 85px 0 20px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
-          <p class="mark" style$="margin: 85px 0 20px {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
+          <p class="mark" style$="margin: 120px 0 12px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
+          <p class="mark" style$="margin: 120px 0 12px  {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
+          </div>
+          <p class="mark" style$="margin: 50px 0 12px {{ _getPriceMark(q)}}%;" hidden$="[[ _hidePrice(isSubmitted) ]]"><span class="price">[[ q ]]</span></p>
+        <div class="path">
+          <span id="elem" class$="[[ revealPrice(isSubmitted) ]]"></span> 
         </div>
         <paper-range-slider
           class="slider1"
@@ -114,15 +172,36 @@ class AssetSlider extends PolymerElement {
             </template>
         </div>
         `;
-      }
+  }
 
-      _getHighMark(highVal) {
-        return 37 - ((100 - highVal) * 0.36);
-      }
+  _stop() {
+    this.isSubmitted = !this.isSubmitted;
+  }
 
-      _getLowMark(lowVal) {
-        return (lowVal * 0.373);
-      }
+  _hidePrice(isSubmitted) {
+    return !isSubmitted;
+  }
+
+  revealPrice(isSubmitted) {
+    // if (isSubmitted) {
+    //   return 'shape';
+    // }
+    // else
+    //   return 'static';
+    return 'static';
+  }
+
+  _getHighMark(highVal) {
+    return 37 - ((100 - highVal) * 0.36);
+  }
+
+  _getLowMark(lowVal) {
+    return (lowVal * 0.373);
+  }
+
+  _getPriceMark(q)  {
+    return q * 0.37;
+  }
 }
 
 window.customElements.define('asset-slider', AssetSlider);
