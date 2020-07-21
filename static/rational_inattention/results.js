@@ -67,26 +67,24 @@ class Results extends PolymerElement {
             </style>
             <div id="results" hidden$="[[ _hideResults(isHidden) ]]">
             <h2>Results</h2>
-                <div class="row">
-                    <div>
-                        <h4>You [[ isBought ]]</h4>
-                        <p>Your buying price: <span class="buy-val">[[ buyPrice ]]</span></p>
-                    </div>
-                    <div>
-                        <h4>You [[ isSold ]]</h4>
-                        <p>Your selling price: <span class="sell-val">[[ sellPrice ]]</span></p>
-                    </div>
-                </div>
-                <h4>Asset price: <span class="price-val">[[ q ]]</span><br/></h4>
-                <div class="row">
-                    <div>
-                        <h4>
-                        Default? [[ defaultResult ]]<br/>
-                        Actual m: [[ _getPercent(m) ]]</br>
-                        Expected Asset value:</h4>
+            <h4>Actual m: [[ _getPercent(m) ]]<br/>
+                Expected Asset value:</h4>
                         <p class="values"><span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + 
                         <span class="def">[[ g ]]%</span>
                         * [[ _getPercent(m) ]] * 100 = <strong>[[ _expectedAssetVal(m) ]]</strong></p>      
+                <div class="row">
+                    <div>
+                        <p>Your bid: <span class="buy-val">[[ buyPrice ]]</span></p>
+                    </div>
+                    <div>
+                        <p>Your ask: <span class="sell-val">[[ sellPrice ]]</span></p>
+                    </div>
+                </div>
+                <h3>Asset price: <span class="price-val">[[ q ]]</span></h3>
+                <h4>You [[ isBought ]] and [[ isSold ]].</h4>
+                <div class="row">
+                    <div>
+                        <h4>Default? [[ defaultResult ]]</h4>
                     </div>
                     <div>
                         <h4>Actual asset payment: [[ _getAssetPayment(y, g, m) ]]<br/>
@@ -126,17 +124,17 @@ class Results extends PolymerElement {
 
     _getBuy(q, buyPrice) {
         if (q < buyPrice)
-            return 'bought!';
+            return 'bought';
         else {
-            return 'didn\'t buy.';
+            return 'didn\'t buy';
         }
     }
 
     _getSell(q, sellPrice) {
         if (q > sellPrice)
-            return 'sold!';
+            return 'sold';
         else
-            return 'didn\'t sell.';
+            return 'didn\'t sell';
     }
 
     _expectedAssetVal(m) {
@@ -153,9 +151,9 @@ class Results extends PolymerElement {
 
     _getPayoff(buyPrice, sellPrice, cost) {
         let val = this.assetPayment - cost;
-        if(!this.isBought.localeCompare('bought!'))
-            val = 2 * this.assetPayment - cost - buyPrice;
-        else if (!this.isSold.localeCompare('sold!'))
+        if(!this.isBought.localeCompare('bought'))
+            val = 2 * this.assetPayment - cost;
+        else if (!this.isSold.localeCompare('sold'))
             val = this.assetPayment - this.cost;
         return val.toFixed(2);
     }

@@ -46,7 +46,8 @@ class PrecisionSelector extends PolymerElement {
                     margin-left: 2%;
                 }
                 .display {
-                    width: 20%;
+                    width: 7%;
+                    margin-top: 10%;
                 }
                 .sliderticks {
                     display: flex;
@@ -120,10 +121,6 @@ class PrecisionSelector extends PolymerElement {
                     width: '500px',
                     fontSize: '16px'
                 }
-                // crosshairs: {
-                //     color: 'green',
-                //     dashStyle: 'solid'
-                // },
             },
             title: {
                 text: ''

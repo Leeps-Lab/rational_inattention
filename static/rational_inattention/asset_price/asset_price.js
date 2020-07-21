@@ -66,12 +66,12 @@ class AssetPrice extends PolymerElement {
             }
         </style>
         <div>
-            <h3>Your private information about m: [[ mLow ]] < m < [[ mHigh ]]</h3>
+            <h2>Your private information about m: [[ mLow ]] < m < [[ mHigh ]]</h2>
             <p>Select the price for which you'd like to <span class="low-val">buy</span> the asset and the price for which you'd like to <span class="high-val">sell</span> the asset.</p>
             <p>Assuming you don't care about uncertainty, you would expect:</p>
-            <p class="values">The lowest asset value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
+            <p class="values">Lowest expected asset value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
             * [[ mLow ]] * 100 = <span class="low-val">[[ lowValue ]]</span></p>
-            <p class="values">The highest asset value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
+            <p class="values">Highest expected asset value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
             * [[ mHigh ]] *  100 = <span class="high-val">[[ highValue ]]</span></p>
             <asset-slider
                 m="[[ m ]]"
