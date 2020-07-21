@@ -1,4 +1,4 @@
-{% extends "otree_redwood/Page.html" %}
+{% extends "global/Page.html" %}
 {% load otree static %}
 
 {% block title %}
@@ -13,13 +13,30 @@
 
 {% block content %}
     <h4>Round #{{ round_num }}</h4>
-    <p><strong>Your total wealth:</strong> {{ endowment }}</p>
+    <p><strong>Total endowment:</strong> {{ endowment }} credits and {{ initial_bonds }} bond(s)</p>
     <rational-inattention
-            default-prob="{{ default_probability }}"
-            initial-credits="{{ endowment }}"
+            g="{{ g }}"
+            endowment="{{ endowment }}"
+            m="{{ m }}"
+            y="{{ y }}"
+            q="{{ q }}"
+            finish="{{ finish }}"
     ></rational-inattention>
 
+{% if finish %}
+    <button>Next Round</button>
+{% endif %}
 
-    <!-- {% next_button %} -->
+{% endblock %}
 
+{% block styles %}
+<style>
+    .container {
+            margin: 20px;
+            padding: 0 !important;
+        }
+    .otree-body {
+        max-width: none;    
+    }
+</style>   
 {% endblock %}

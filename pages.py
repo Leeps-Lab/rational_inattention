@@ -8,8 +8,14 @@ class MainPage(Page):
     def vars_for_template(self):
         return {
             'round_num': self.round_number,
-            'default_probability': self.player.default_probability,
             'endowment': Constants.endowment,
+            'initial_bonds' : Constants.initial_bonds,
+            'g': self.subsession.g,
+            'm': self.subsession.m,
+            'y': self.subsession.y,
+            'q': self.subsession.q,
+            'finish': self.subsession.finish,
+
         }
     def get_round_number(self):
         return self.round_number

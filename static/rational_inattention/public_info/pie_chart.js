@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
+import '../pattern-fill-v2.js';
 
 class PieChart extends PolymerElement {
     static get properties() {
@@ -33,7 +34,7 @@ class PieChart extends PolymerElement {
 
     _initHighchart() {
         Highcharts.setOptions({
-            colors:  ['#DF5353', '#55BF3B'],
+            colors: ['#DF5353', '#55BF3B'],
         });
         this.graphObj = Highcharts.chart({
             chart: {
@@ -41,7 +42,7 @@ class PieChart extends PolymerElement {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: 'pie'
+                type: 'pie',
             },
             title: {
                 text: 'Default Probability'
@@ -68,14 +69,27 @@ class PieChart extends PolymerElement {
             series: [{
                 name: 'Default Probability',
                 colorByPoint: true,
-                data: [{
-                    name: 'Default Probability',
-                    y: this.defaultProb,
-                }, {
-                    name: 'Non-default Probability',
-                    y: this._getNondefault(this.defaultProb)
+                borderColor: 'gray',
+                data: [
+                    {
+                        name: 'Non-default Probability',
+                        y: this._getNondefault(this.defaultProb),
+                        color: 'url(#highcharts-default-pattern-1)',
+                    },
+                    {
+                        name: 'Default Probability',
+                        y: this.defaultProb,
+                        color: 'url(#highcharts-default-pattern-0)',
+
+                    },]
+            },],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 800
+                    },
                 }]
-            }]
+            }
         });
     }
 }

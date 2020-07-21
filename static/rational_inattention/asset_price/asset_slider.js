@@ -1,205 +1,128 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
-
+import '../polymer-elements/paper-range-slider.js';
+// import '../polymer-elements/paper-single-range-slider.js';
 
 class AssetSlider extends PolymerElement {
 
     static get properties() {
         return {
-            // Value in which the two points overlap
-            highvalue: {
-                type: Number,
-                value: 50,
+            m: {
+              type: Number,
             },
-            lowvalue: {
+            precision: {
+              type: Number,
+            },
+            // Value in which the two points overlap
+            highValue: {
                 type: Number,
-                value: 25,
-            }
+            },
+            lowValue: {
+                type: Number,
+            },
+            buyPrice: {
+              type: Number,
+              notify: true,
+              reflectToAttribute: true,
+            },
+            sellPrice: {
+              type: Number,
+              notify: true,
+              reflectToAttribute: true,
+            },
+            disableSelect: {
+              type: Boolean,
+              value: false,
+          },
+          markers: {
+            type: Array,
+            value: [0, 20, 40, 60, 80, 100],
+          }
         }
     }
 
     static get template() {
-
+        // paper-slider seems to be incompatible with ::input
         return html`
         <style>
-
-        [slider] {
-          width: 700px;
-          position: relative;
-          height: 5px;
-          margin: 45px 0 10px 0;
+          .slider1 {
+            --paper-range-slider-higher-knob-color: #007bff;
+            --paper-range-slider-higher-pin-color: #007bff;
+            --paper-range-slider-lower-knob-color: #2F3238;
+            --paper-range-slider-lower-pin-color: #2F3238;
+            --paper-range-slider-active-color: #F06292;
+          }
+          .sliderticks {
+            display: flex;
+            justify-content: space-between;
+          }
+        .sliderticks p {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            width: 1px;
+            background: #D3D3D3;
+            height: 10px;
+            line-height: 40px;
+            margin: 0 15px;
         }
-
-        [slider] > div {
+        .valticks {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+        p.mark {
           position: absolute;
-          left: 13px;
-          right: 15px;
-          height: 5px;
+          width: 2px;
+          background: #F06292;
+          height: 10px;
+          line-height: 40px;
+          z-index: 1;
         }
-        [slider] > div > [inverse-left] {
-          position: absolute;
-          left: 0;
-          height: 5px;
-          border-radius: 10px;
-          background-color: #CCC;
-          margin: 0 7px;
+        .high {
+          background-color: #007bff;
         }
-
-        [slider] > div > [inverse-right] {
-          position: absolute;
-          right: 0;
-          height: 5px;
-          border-radius: 10px;
-          background-color: #CCC;
-          margin: 0 7px;
+        .low {
+          background-color: #2F3238;
         }
-
-
-        [slider] > div > [range] {
-          position: absolute;
-          left: 0;
-          height: 5px;
-          border-radius: 14px;
-          background-color: #d02128;
-        }
-
-        [slider] > div > [thumb] {
-          position: absolute;
-          top: -7px;
-          z-index: 2;
-          height: 20px;
-          width: 20px;
-          text-align: left;
-          margin-left: -11px;
-          cursor: pointer;
-          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-          background-color: #FFF;
-          border-radius: 50%;
-          outline: none;
-        }
-
-        [slider] > input[type=range] {
-          position: absolute;
-          pointer-events: none;
-          -webkit-appearance: none;
-          z-index: 3;
-          height: 14px;
-          top: -2px;
-          width: 100%;
-          opacity: 0;
-        }
-
-        div[slider] > input[type=range]:focus::-webkit-slider-runnable-track {
-          background: transparent;
-          border: transparent;
-        }
-
-        div[slider] > input[type=range]:focus {
-          outline: none;
-        }
-
-        div[slider] > input[type=range]::-webkit-slider-thumb {
-          pointer-events: all;
-          width: 28px;
-          height: 28px;
-          border-radius: 0px;
-          border: 0 none;
-          background: red;
-          -webkit-appearance: none;
-        }
-
-        div[slider] > input[type=range]::-ms-fill-lower {
-          background: transparent;
-          border: 0 none;
-        }
-
-        div[slider] > input[type=range]::-ms-fill-upper {
-          background: transparent;
-          border: 0 none;
-        }
-
-        div[slider] > input[type=range]::-ms-tooltip {
-          display: none;
-        }
-
-        [slider] > div > [sign] {
-          opacity: 0;
-          position: absolute;
-          margin-left: -11px;
-          top: -39px;
-          z-index:3;
-          background-color: #d02128;
-          color: #fff;
-          width: 28px;
-          height: 28px;
-          border-radius: 28px;
-          -webkit-border-radius: 28px;
-          align-items: center;
-          -webkit-justify-content: center;
-          justify-content: center;
-          text-align: center;
-        }
-
-        [slider] > div > [sign]:after {
-          position: absolute;
-          content: '';
-          left: 0;
-          border-radius: 16px;
-          top: 19px;
-          border-left: 14px solid transparent;
-          border-right: 14px solid transparent;
-          border-top-width: 16px;
-          border-top-style: solid;
-          border-top-color: #d02128;
-        }
-
-        [slider] > div > [sign] > span {
-          font-size: 12px;
-          font-weight: 700;
-          line-height: 28px;
-        }
-
-        [slider]:hover > div > [sign] {
-          opacity: 1;
+        span {
+          color: white;
+          margin-top: 5px;
+          padding: 5px;
+          border-radius: 5px;
         }
         </style>
-        <div slider id="slider-distance">
-          <div>
-            <div inverse-left style="width:70%;"></div>
-            <div inverse-right style="width:70%;"></div>
-            <div range style="left:0%;right:0%;"></div>
-            <span thumb style="left:0%;"></span>
-            <span thumb style="left:100%;"></span>
-            <div sign style="left:0%;">
-              <span id="value">0</span>
-            </div>
-            <div sign style="left:100%;">
-              <span id="value">100</span>
-            </div>
-          </div>
-          <input type="range" value="0" max="100" min="0" step="1" oninput="
-          this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);
-          let value = (this.value/parseInt(this.max))*100
-          var children = this.parentNode.childNodes[1].childNodes;
-          children[1].style.width=value+'%';
-          children[5].style.left=value+'%';
-          children[7].style.left=value+'%';children[11].style.left=value+'%';
-          children[11].childNodes[1].innerHTML=this.value;" />
-
-          <input type="range" value="100" max="100" min="0" step="1" oninput="
-          this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));
-          let value = (this.value/parseInt(this.max))*100
-          var children = this.parentNode.childNodes[1].childNodes;
-          children[3].style.width=(100-value)+'%';
-          children[5].style.right=(100-value)+'%';
-          children[9].style.left=value+'%';children[13].style.left=value+'%';
-          children[13].childNodes[1].innerHTML=this.value;" />
-          </div>
+        <br/>        
+        <div class="valticks">
+          <p class="mark" style$="margin: 85px 0 20px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
+          <p class="mark" style$="margin: 85px 0 20px {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
         </div>
-        <div>
-
+        <paper-range-slider
+          class="slider1"
+          slider-width="100%"
+          always-show-pin
+          min="0"
+          max="100"
+          step="0.1"
+          value-min="{{ buyPrice::change }}"
+          value-max="{{ sellPrice::change }}"
+          disabled="[[ disableSelect ]]"
+        ></paper-range-slider>
+        <div class="sliderticks">
+        <template is="dom-repeat" items="[[ markers ]]">
+            <p>[[ item ]]</p>
+            </template>
+        </div>
         `;
       }
 
+      _getHighMark(highVal) {
+        return 37 - ((100 - highVal) * 0.36);
+      }
+
+      _getLowMark(lowVal) {
+        return (lowVal * 0.373);
+      }
 }
 
 window.customElements.define('asset-slider', AssetSlider);
