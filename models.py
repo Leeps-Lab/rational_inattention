@@ -56,7 +56,7 @@ class Constants(BaseConstants):
                     ('q', int(random.uniform(0, 100))),
                     ]))
 # reads from data.csv into lists
-    with open('rational_inattention/data.csv') as csvfile:
+    with open('rational_inattention/configs/data.csv') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             g.append(
