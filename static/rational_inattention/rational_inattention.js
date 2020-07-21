@@ -122,6 +122,7 @@ class RationalInattention extends PolymerElement {
                     sell-price="[[ sellPrice ]]"
                     cost="[[ cost ]]"
                     q="[[ q ]]"
+                    is-hidden="[[ _hideStep(step, 3) ]]"
                 ></results-page>
             </div>
            </div>
@@ -145,8 +146,8 @@ class RationalInattention extends PolymerElement {
     }
 
     _disableStep(step, num) {
-        // return step != num;
-        return false;
+        return step != num;
+        // return false;
     }
 
     _updateButtonLabel() {

@@ -74,7 +74,6 @@ class AssetSlider extends PolymerElement {
         p.mark {
           position: absolute;
           width: 2px;
-          background: #F06292;
           height: 10px;
           line-height: 40px;
           z-index: 1;
@@ -92,17 +91,9 @@ class AssetSlider extends PolymerElement {
           padding: 5px;
           border-radius: 5px;
         }
-        .price {
+        #price {
           background-color: #F06292;
-          animation: 3s ease-in 0s normal forwards 1 fadein;
-        }
-        @keyframes fadein {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
+          opacity: 0;
         }
         .path {
           position: relative;
@@ -111,49 +102,24 @@ class AssetSlider extends PolymerElement {
           height: 20px;
           margin: auto;
         }
-        .shape {
-          position: absolute;
-          left: 0;
-          background-color: purple;
-          width: 8px;
-          height: 8px;
-          display: block;
-          top: 0;
-          
-          x-transition: all 1s ease-in-out;
-          animation: ani 1.7s 3;
-          animation-delay: 2s;
-          animation-play-state: running;
-        }
         .static {
           position: absolute;
-          left: 0;
-          background-color: red;
-          width: 8px;
-          height: 8px;
-          display: none;
-          top: 0;
-          animation-play-state: paused;
+          background-color: #F06292;
+          width: 10px;
+          height: 10px;
+          display: block;
+          top: -5px;
+          left: 50%;
+          border-radius: 50%;
         }
-        @keyframes ani {
-          0% {
-            left: 0;
-          }
-          50% {
-            left: 100%;
-          }
-          100% {
-            left: 0;
-          }
         </style>
-        <br/>        
         <div class="valticks">
           <p class="mark" style$="margin: 120px 0 12px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
           <p class="mark" style$="margin: 120px 0 12px  {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
-          </div>
-          <p class="mark" style$="margin: 50px 0 12px {{ _getPriceMark(q)}}%;" hidden$="[[ _hidePrice(isSubmitted) ]]"><span class="price">[[ q ]]</span></p>
-        <div class="path">
-          <span id="elem" class$="[[ revealPrice(isSubmitted) ]]"></span> 
+        </div>
+        <p class="mark" style$="margin: 50px 0 12px {{ _getPriceMark(q) }}%;" hidden$="[[ _hidePrice(isSubmitted) ]]"><span id="price">[[ q ]]</span></p>
+        <div class="path" hidden$="[[ _hidePrice(isSubmitted) ]]">
+          <span id="anim" class$="[[ revealPrice(isSubmitted, q) ]]"></span> 
         </div>
         <paper-range-slider
           class="slider1"
@@ -170,24 +136,51 @@ class AssetSlider extends PolymerElement {
         <template is="dom-repeat" items="[[ markers ]]">
             <p>[[ item ]]</p>
             </template>
-        </div>
-        `;
-  }
-
-  _stop() {
-    this.isSubmitted = !this.isSubmitted;
+        </div>`;
   }
 
   _hidePrice(isSubmitted) {
     return !isSubmitted;
   }
 
-  revealPrice(isSubmitted) {
-    // if (isSubmitted) {
-    //   return 'shape';
-    // }
-    // else
-    //   return 'static';
+  revealPrice(isSubmitted, q) {
+    if (isSubmitted) {
+      // back and forth
+      let anim = this.$.anim.animate([
+        { left: '50%' },
+        { left: '100%' },
+        { left: 0 },
+      ], {
+        duration: 3000, // milliseconds
+        easing: 'ease-in-out', // 'linear', a bezier curve, etc.
+        delay: 1000, // milliseconds
+        direction: 'alternate', // 'normal', 'reverse', etc.
+        fill: 'forwards' // 'backwards', 'both', 'none', 'auto'
+      });
+      // stops at more accurate position above marker
+      let pos = (q - 1).toString() + '%';
+      anim.onfinish = () => {
+        this.$.anim.animate([
+        { left: 0 },
+        { left: pos },
+      ], {
+        duration: 2000,
+        easing: 'ease-in-out',
+        direction: 'alternate',
+        fill: 'forwards'
+      });
+      // reveal price marker below
+      this.$.price.animate([
+        { opacity: 0 },
+        { opacity: 1 },
+      ], {
+        duration: 2000,
+        easing: 'ease-in',
+        delay: 1000,
+        fill: 'forwards'
+      });
+      }
+    }
     return 'static';
   }
 
@@ -199,7 +192,7 @@ class AssetSlider extends PolymerElement {
     return (lowVal * 0.373);
   }
 
-  _getPriceMark(q)  {
+  _getPriceMark(q) {
     return q * 0.37;
   }
 }
