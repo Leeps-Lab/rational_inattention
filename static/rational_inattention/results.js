@@ -21,7 +21,7 @@ class Results extends PolymerElement {
                 notify: true,
                 reflectToAttribute: true,
             },
-            assetPayment: {
+            bondPayment: {
                 type: Number,
                 computed: '_getAssetPayment(y, g, m)',
             },
@@ -53,11 +53,11 @@ class Results extends PolymerElement {
                     color: #55BF3B;
                 }
                 .sell-val {
-                    color: #2F3238;
+                    color: #007bff;
                     font-weight: bold;
                 }
                 .buy-val {
-                    color: #007bff;
+                    color: #2F3238;
                     font-weight: bold;
                 }
                 .price-val {
@@ -66,12 +66,13 @@ class Results extends PolymerElement {
                 }    
             </style>
             <div id="results" hidden$="[[ _hideResults(isHidden) ]]">
-            <h2>Results</h2>
-            <h4>Actual m: [[ _getPercent(m) ]]<br/>
-                Expected Asset value:</h4>
-                        <p class="values"><span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + 
+                <h2>Results</h2>
+                <h4>Actual m: [[ _getPercent(m) ]]<br/>
+                    Expected Bond value:</h4>
+                    <p class="values"><span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + 
                         <span class="def">[[ g ]]%</span>
-                        * [[ _getPercent(m) ]] * 100 = <strong>[[ _expectedAssetVal(m) ]]</strong></p>      
+                        * [[ _getPercent(m) ]] * 100 = <strong>[[ _expectedAssetVal(m) ]]</strong>
+                    </p>      
                 <div class="row">
                     <div>
                         <p>Your bid: <span class="buy-val">[[ buyPrice ]]</span></p>
@@ -80,18 +81,18 @@ class Results extends PolymerElement {
                         <p>Your ask: <span class="sell-val">[[ sellPrice ]]</span></p>
                     </div>
                 </div>
-                <h3>Asset price: <span class="price-val">[[ q ]]</span></h3>
+                <h3>Bond price: <span class="price-val">[[ q ]]</span></h3>
                 <h4>You [[ isBought ]] and [[ isSold ]].</h4>
                 <div class="row">
                     <div>
-                        <h4>Default? [[ defaultResult ]]</h4>
+                        <h3>Default? [[ defaultResult ]]</h3>
                     </div>
                     <div>
-                        <h4>Actual asset payment: [[ _getAssetPayment(y, g, m) ]]<br/>
+                        <h4>Actual bond payment: [[ _getAssetPayment(y, g, m) ]]<br/>
                         Your private info cost: [[ cost ]]</h4>
-                        <h3>Your payoff: {{ payoff }}</h3>
                     </div>
                 </div>
+                <h3>Your payoff: {{ payoff }}</h3>
             </div>
         `;
     }
@@ -150,11 +151,11 @@ class Results extends PolymerElement {
     }
 
     _getPayoff(buyPrice, sellPrice, cost) {
-        let val = this.assetPayment - cost;
+        let val = this.bondPayment - cost;
         if(!this.isBought.localeCompare('bought'))
-            val = 2 * this.assetPayment - cost;
+            val = 2 * this.bondPayment - cost;
         else if (!this.isSold.localeCompare('sold'))
-            val = this.assetPayment - this.cost;
+            val = this.bondPayment - this.cost;
         return val.toFixed(2);
     }
 }

@@ -34,7 +34,7 @@ class PieChart extends PolymerElement {
 
     _initHighchart() {
         Highcharts.setOptions({
-            colors: ['#DF5353', '#55BF3B'],
+            colors: ['#55BF3B', '#DF5353'],
         });
         this.graphObj = Highcharts.chart({
             chart: {
@@ -69,17 +69,17 @@ class PieChart extends PolymerElement {
             series: [{
                 name: 'Default Probability',
                 colorByPoint: true,
-                borderColor: 'gray',
+                // borderColor: 'gray',
                 data: [
                     {
                         name: 'Non-default Probability',
                         y: this._getNondefault(this.defaultProb),
-                        color: 'url(#highcharts-default-pattern-1)',
+                        // color: 'url(#highcharts-default-pattern-1)',
                     },
                     {
                         name: 'Default Probability',
                         y: this.defaultProb,
-                        color: 'url(#highcharts-default-pattern-0)',
+                        // color: 'url(#highcharts-default-pattern-0)',
 
                     },]
             },],

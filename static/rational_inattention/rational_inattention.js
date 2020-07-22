@@ -1,7 +1,7 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
 import './public_info/public_info.js';
 import './info_precision/info_precision.js';
-import './asset_price/asset_price.js';
+import './bond_price/bond_price.js';
 import './polymer-elements/paper-button.js';
 import './results.js';
 class RationalInattention extends PolymerElement {
@@ -30,6 +30,9 @@ class RationalInattention extends PolymerElement {
             },
             precision: {
                 type: Number,
+                value: 100,
+                notify: true,
+                reflectToAttribute: true,
             },
             cost: {
                 type: Number,
@@ -103,7 +106,7 @@ class RationalInattention extends PolymerElement {
             </div>
             <div class="row">
                 <div class="step" hidden$="{{ _hideStep(step, 2) }}">
-                    <asset-price
+                    <bond-price
                     m="[[ m ]]"
                     precision="[[ precision ]]"
                     default-prob="[[ g ]]"
@@ -112,7 +115,7 @@ class RationalInattention extends PolymerElement {
                     disable-select="{{ _disableStep(step, 2) }}"
                     submit-prices="{{ submitPrices }}"
                     q="[[ q ]]"
-                    ></asset-price>
+                    ></bond-price>
                 </div>
                 <div class="step" hidden$="{{ _hideStep(step, 3) }}">
                     <results-page
@@ -148,8 +151,8 @@ class RationalInattention extends PolymerElement {
     }
 
     _disableStep(step, num) {
-        return step != num;
-        // return false;
+        // return step != num;
+        return false;
     }
 
     _updateButtonLabel() {

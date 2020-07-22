@@ -6,8 +6,7 @@ class InfoPrecision extends PolymerElement {
     static get properties() {
         return {
             precision: {
-                type: Object,
-                value: 1,
+                type: Number,
                 notify: true,
                 reflectToAttribute: true,
             },

@@ -12,7 +12,6 @@ class AssetSlider extends PolymerElement {
       precision: {
         type: Number,
       },
-      // Value in which the two points overlap
       highValue: {
         type: Number,
       },
@@ -35,7 +34,7 @@ class AssetSlider extends PolymerElement {
       },
       markers: {
         type: Array,
-        value: [0, 20, 40, 60, 80, 100],
+        value: [0, , , , , 100],
       },
     }
   }
@@ -69,15 +68,11 @@ class AssetSlider extends PolymerElement {
         .valticks {
           display: flex;
           flex-direction: column;
-          justify-content: space-around;
+          justify-content: center;
         }
         p.mark {
           position: absolute;
-          width: 2px;
-          height: 10px;
-          line-height: 40px;
           z-index: 1;
-          animation: 2s ease-in 0s normal forwards 1 fadein;
         }
         .high {
           background-color: #007bff;
@@ -87,9 +82,9 @@ class AssetSlider extends PolymerElement {
         }
         span {
           color: white;
-          margin-top: 5px;
           padding: 5px;
           border-radius: 5px;
+          margin-right: 150px;
         }
         #price {
           background-color: #F06292;
@@ -108,15 +103,12 @@ class AssetSlider extends PolymerElement {
           width: 10px;
           height: 10px;
           display: block;
-          top: -5px;
           left: 50%;
           border-radius: 50%;
         }
         </style>
-        <div class="valticks">
-          <p class="mark" style$="margin: 120px 0 12px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
-          <p class="mark" style$="margin: 120px 0 12px  {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
-        </div>
+        <p class="mark" style$="margin: 50px 0 12px {{ _getHighMark(highValue) }}%;"><span class="high">[[ highValue ]]</span></p>
+        <p class="mark" style$="margin: 50px 0 12px  {{ _getLowMark(lowValue) }}%;"><span class="low">[[ lowValue ]]</span></p>
         <p class="mark" style$="margin: 50px 0 12px {{ _getPriceMark(q) }}%;" hidden$="[[ _hidePrice(isSubmitted) ]]"><span id="price">[[ q ]]</span></p>
         <div class="path" hidden$="[[ _hidePrice(isSubmitted) ]]">
           <span id="anim" class$="[[ revealPrice(isSubmitted, q) ]]"></span> 
@@ -158,7 +150,7 @@ class AssetSlider extends PolymerElement {
         fill: 'forwards' // 'backwards', 'both', 'none', 'auto'
       });
       // stops at more accurate position above marker
-      let pos = (q - 1).toString() + '%';
+      let pos = (q - 2).toString() + '%';
       anim.onfinish = () => {
         this.$.anim.animate([
         { left: 0 },
@@ -185,7 +177,7 @@ class AssetSlider extends PolymerElement {
   }
 
   _getHighMark(highVal) {
-    return 37 - ((100 - highVal) * 0.36);
+    return (37 - ((100 - highVal) * 0.36)) - 1;
   }
 
   _getLowMark(lowVal) {
@@ -193,7 +185,7 @@ class AssetSlider extends PolymerElement {
   }
 
   _getPriceMark(q) {
-    return q * 0.37;
+    return (q * 0.37) - 1;
   }
 }
 

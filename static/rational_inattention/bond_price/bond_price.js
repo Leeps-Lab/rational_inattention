@@ -1,7 +1,7 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
 import './asset_slider.js';
 
-class AssetPrice extends PolymerElement {
+class BondPrice extends PolymerElement {
 
     static get properties() {
         return {
@@ -11,19 +11,21 @@ class AssetPrice extends PolymerElement {
             },
             mLow: {
                 type: Number,
-                computed: '_getMLow(m, precision, r)'
+                computed: '_getMLow(m, precision)',
+                observer: '_getLowValue',
             },
             mHigh: {
                 type: Number,
-                computed: '_getMHigh(m, precision, r)'
+                computed: '_getMHigh(m, precision)',
+                observer: '_getHighValue',
             },
             highValue: {
                 type: Number,
-                computed: '_getHighValue(m, defaultProb, precision)',
+                computed: '_getHighValue(defaultProb, mHigh)',
             },
             lowValue: {
                 type: Number,
-                computed: '_getLowValue(m, defaultProb, precision)',
+                computed: '_getLowValue(defaultProb, mLow)',
             },
             buyPrice: {
                 type: Number,
@@ -41,6 +43,10 @@ class AssetPrice extends PolymerElement {
                 type: Boolean,
                 value: false,
             },
+            scale: {
+                type: Number,
+                value: 100,
+            }
         }
     }
 
@@ -66,13 +72,13 @@ class AssetPrice extends PolymerElement {
             }
         </style>
         <div>
-            <h2>Your private information about m: [[ mLow ]] < m < [[ mHigh ]]</h2>
-            <p>Select the price for which you'd like to <span class="low-val">buy</span> the asset and the price for which you'd like to <span class="high-val">sell</span> the asset.</p>
+            <h3>Your private information about m: [[ mLow ]] < m < [[ mHigh ]]</h3>
+            <p>Select the price for which you'd like to <span class="low-val">buy</span> the bond and the price for which you'd like to <span class="high-val">sell</span> the bond.</p>
             <p>Assuming you don't care about uncertainty, you would expect:</p>
-            <p class="values">Lowest expected asset value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
-            * [[ mLow ]] * 100 = <span class="low-val">[[ lowValue ]]</span></p>
-            <p class="values">Highest expected asset value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
-            * [[ mHigh ]] *  100 = <span class="high-val">[[ highValue ]]</span></p>
+            <p class="values">Lowest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
+            * [[ mLow ]] = <span class="low-val">[[ lowValue ]]</span></p>
+            <p class="values">Highest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
+            * [[ mHigh ]] = <span class="high-val">[[ highValue ]]</span></p>
             <asset-slider
                 m="[[ m ]]"
                 precision="[[ precision ]]"
@@ -88,15 +94,12 @@ class AssetPrice extends PolymerElement {
         `;
     }
 
-    _getRandomRange(precision) {
-        let r = Math.random();
-        // between 0 and precision
-        let random = +((r * (precision - 0.01)).toFixed(2));
-        return random;
+    _getRandomRange() {
+        return Math.random();
     }
 
-    _getMLowOverflow(m) {
-        let mLow = m / 100 - (this.precision - this.r);
+    _getMLowOverflow(m, precision) {
+        let mLow = m - (precision * this.r);
         if (mLow < 0) {
             let overflow = 0 - mLow;
             return overflow;
@@ -104,37 +107,37 @@ class AssetPrice extends PolymerElement {
         return 0;
     }
 
-    _getMHighOverflow(m) {
-        let mHigh = m / 100 + this.r;
-        if (mHigh > 1) {
-            let overflow = mHigh - 1;
+    _getMHighOverflow(m, precision) {
+        let mHigh = m + (precision * (1 - this.r));
+        if (mHigh > this.scale) {
+            let overflow = mHigh - this.scale;
             return overflow;
         }
         return 0;
     }
 
-    _getMHigh(m, precision, r) {
-        let mHigh = Math.min(1, m / 100 + this.r + this._getMLowOverflow(m));
-        return +((mHigh).toFixed(2));
+    _getMHigh(m, precision) {
+        let mHigh = Math.min(this.scale, m + (precision * (1 - this.r)) + this._getMLowOverflow(m, precision));
+        return parseFloat(mHigh.toFixed(2));
     }
 
-    _getMLow(m, precision, r) {
-        let mLow = Math.max(0, m / 100 - (precision - this.r) - this._getMHighOverflow(m));
-        return +((mLow).toFixed(2));
+    _getMLow(m, precision) {
+        let mLow = Math.max(0, m - (precision * this.r) - this._getMHighOverflow(m, precision));
+        return parseFloat(mLow.toFixed(2));
     }
 
-    _getHighValue(defaultProb) {
-        return +((this._getNondefault(defaultProb) + defaultProb * this.mHigh).toFixed(2));
+    _getHighValue(defaultProb, mHigh) {
+        return parseFloat((this._getNondefault(defaultProb) + defaultProb * mHigh / this.scale).toFixed(2));
 
     }
 
-    _getLowValue(defaultProb) {
-        return +((this._getNondefault(defaultProb) + defaultProb * this.mLow).toFixed(2));
+    _getLowValue(defaultProb, mLow) {
+        return parseFloat((this._getNondefault(defaultProb) + defaultProb * mLow / this.scale).toFixed(2));
     }
 
     _getNondefault(def) {
-        return 100 - def;
+        return parseInt(this.scale - def);
     }
 }
 
-window.customElements.define('asset-price', AssetPrice);
+window.customElements.define('bond-price', BondPrice);

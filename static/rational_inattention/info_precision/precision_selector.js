@@ -20,9 +20,9 @@ class PrecisionSelector extends PolymerElement {
                 type: Array,
                 value: [],
             },
-            step: {
+            scale: {
                 type: Number,
-                value: 0.1,
+                value: 100,
             },
             disableSelect: {
                 type: Boolean,
@@ -65,7 +65,7 @@ class PrecisionSelector extends PolymerElement {
             <div class="container">
                 <figure class="highcharts-figure">
                 <div id="chart"></div>
-                <input type="range" min="0" max="1" step="[[ step ]]" value="{{ precision::input }}" disabled$="[[ disableSelect ]]">
+                <input type="range" min="1" max=[[ scale ]] step="1" value="{{ precision::input }}" disabled$="[[ disableSelect ]]">
                 <div class="sliderticks">
                     <p>precise</p>
                     <p></p>
@@ -84,8 +84,8 @@ class PrecisionSelector extends PolymerElement {
 
     ready() {
         super.ready();
-        for(let x = 0; x < 1; x += this.step) {
-            this.data.push([+((x).toFixed(1)), this._getCosts(x)])
+        for(let x = 1; x <= this.scale; x++) {
+            this.data.push([x, this._getCosts(x)])
         }
         this._initHighchart();
     }
@@ -93,19 +93,17 @@ class PrecisionSelector extends PolymerElement {
     _getCosts(x) {
         // Cost Function: -c * ln(width)
         let c = -10;
-        return +((c * Math.log(x)).toFixed(2));
+        return parseFloat((c * Math.log(x) + 46.05).toFixed(2));
 
     }
 
     _updateSelected() {
         if (!this.graphObj)
             return;
-
-        const point = this.graphObj.series[0].data[this.precision * 10];
+        const point = this.graphObj.series[0].data[this.precision - 1];
         point.select();
         this.graphObj.tooltip.refresh(point);
         this.cost = point.y;
-        // console.log(point.x, point.y);
     }
 
     _initHighchart() {
@@ -134,8 +132,8 @@ class PrecisionSelector extends PolymerElement {
                 }
             },
             xAxis: {
-                min: 0,
-                max: 1,
+                min: 1,
+                max: 100,
                 accessibility: {
                     // rangeDescription: 'Range: 0 to 1'
                 }
