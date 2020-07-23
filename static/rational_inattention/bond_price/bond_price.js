@@ -1,6 +1,5 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
-import './asset_slider.js';
-
+import '../shared/buysell_slider.js';
 class BondPrice extends PolymerElement {
 
     static get properties() {
@@ -22,10 +21,14 @@ class BondPrice extends PolymerElement {
             highValue: {
                 type: Number,
                 computed: '_getHighValue(defaultProb, mHigh)',
+                notify: true,
+                reflectToAttribute: true,
             },
             lowValue: {
                 type: Number,
                 computed: '_getLowValue(defaultProb, mLow)',
+                notify: true,
+                reflectToAttribute: true,
             },
             buyPrice: {
                 type: Number,
@@ -38,10 +41,6 @@ class BondPrice extends PolymerElement {
                 notify: true,
                 value: 100,
                 reflectToAttribute: true,
-            },
-            disableSelect: {
-                type: Boolean,
-                value: false,
             },
             scale: {
                 type: Number,
@@ -62,36 +61,66 @@ class BondPrice extends PolymerElement {
             .values {
                 text-align: center;
             }
-            .low-val {
-                color: #2F3238;
+            .val {
                 font-weight: bold;
             }
-            .high-val {
+            .low {
+                color: #7A70CC;
+            }
+            .high {
+                color: #CCCC00;
+            }
+            .buy {
+                color: #2F3238;
+            }
+            .sell {
                 color: #007bff;
-                font-weight: bold;
+            }
+            .slider {
+                --price-color: #F06292;   
             }
         </style>
         <div>
             <h3>Your private information about m: [[ mLow ]] < m < [[ mHigh ]]</h3>
-            <p>Select the price for which you'd like to <span class="low-val">buy</span> the bond and the price for which you'd like to <span class="high-val">sell</span> the bond.</p>
+
+            <p>Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding __ 
+            <span class="buy val">(bid)</span>, and the price for which you'd like to <span class="sell val">sell</span> 
+            the bond by sliding __ <span class="sell val">(ask)</span>.</p>
+            
             <p>Assuming you don't care about uncertainty, you would expect:</p>
             <p class="values">Lowest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
-            * [[ mLow ]] = <span class="low-val">[[ lowValue ]]</span></p>
+            * [[ mLow ]] = <span class="low val">[[ lowValue ]]</span></p>
             <p class="values">Highest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
-            * [[ mHigh ]] = <span class="high-val">[[ highValue ]]</span></p>
-            <asset-slider
+            * [[ mHigh ]] = <span class="high val">[[ highValue ]]</span></p>
+            <buysell-slider
+                class="slider"
                 m="[[ m ]]"
-                precision="[[ precision ]]"
-                high-value="[[ highValue ]]"
                 low-value="[[ lowValue ]]"
+                high-value="[[ highValue ]]"
                 buy-price="{{ buyPrice }}"
                 sell-price="{{ sellPrice }}"
-                is-submitted="{{ submitPrices }}"
+                hide-before-submit="{{ hideBeforeSubmit }}"
+                price-to-show="[[ _expectedAssetVal(g, m) ]]"
                 disable-select="[[ disableSelect ]]"
-                q="[[ q ]]"
-            ></asset-slider>
+                animate-price="[[ animatePrice ]]"
+            ></buysell-slider>
+            <div hidden$="[[ hideBeforeSubmit ]]">
+                <h4>Actual m: [[ m ]]<br/>
+                Expected bond value:
+                <span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + <span class="def">[[ g ]]%</span>
+                    * [[ m ]] = [[ _expectedAssetVal(g, m) ]]
+                </h4>    
+            </div>  
         </div>
         `;
+    }
+
+    _getNondefault(def) {
+        return 100 - def;
+    }
+
+    _expectedAssetVal(g, m) {
+        return +((this._getNondefault(this.g) + this.g * m / 100).toFixed(2));
     }
 
     _getRandomRange() {

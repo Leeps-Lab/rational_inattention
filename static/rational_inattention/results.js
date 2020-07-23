@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
+import './shared/buysell_slider.js';
 
 class Results extends PolymerElement {
     static get properties() {
@@ -38,8 +39,19 @@ class Results extends PolymerElement {
         return html`
             <style>
                 #results {
-                    opacity: 0;
                     text-align: center;
+                }
+                #buy-sell {
+                    opacity: 0;
+                    animation: 3s ease 4s normal forwards 1 fadein;
+                }
+                @keyframes fadein{
+                    0% { opacity:0; }
+                    66% { opacity:0; }
+                    100% { opacity:1; }
+                }
+                #substep {
+                    opacity: 0;
                 }
                 .row {
                     display: flex;
@@ -61,55 +73,60 @@ class Results extends PolymerElement {
                     font-weight: bold;
                 }
                 .price-val {
-                    color: #F06292;
+                    color: orange;
                     font-weight: bold;
                 }    
+                .slider {
+                    --price-color: orange;   
+                }    
             </style>
-            <div id="results" hidden$="[[ _hideResults(isHidden) ]]">
+            <div id="results">
                 <h2>Results</h2>
-                <h4>Actual m: [[ _getPercent(m) ]]<br/>
-                    Expected Bond value:</h4>
-                    <p class="values"><span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + 
-                        <span class="def">[[ g ]]%</span>
-                        * [[ _getPercent(m) ]] * 100 = <strong>[[ _expectedAssetVal(m) ]]</strong>
-                    </p>      
-                <div class="row">
-                    <div>
-                        <p>Your bid: <span class="buy-val">[[ buyPrice ]]</span></p>
+                <buysell-slider
+                    class="slider"
+                    low-value="[[ lowValue ]]"
+                    high-value="[[ highValue ]]"
+                    buy-price="[[ buyPrice ]]"
+                    sell-price="[[ sellPrice ]]"
+                    price-to-show="[[ q ]]"
+                    disable-select="[[ disableSelect ]]"
+                    animate-price="[[ animatePrice ]]"
+                ></buysell-slider>
+                <div id="buy-sell">
+                    <div class="row">
+                        <div>
+                            <p>Your bid: <span class="buy-val">[[ buyPrice ]]</span></p>
+                        </div>
+                        <div>
+                            <p>Your ask: <span class="sell-val">[[ sellPrice ]]</span></p>
+                        </div>
                     </div>
-                    <div>
-                        <p>Your ask: <span class="sell-val">[[ sellPrice ]]</span></p>
-                    </div>
+                    <h3>Bond price: <span class="price-val">[[ q ]]</span></h3>
+                    <h4>You [[ isBought ]] and [[ isSold ]].</h4>
                 </div>
-                <h3>Bond price: <span class="price-val">[[ q ]]</span></h3>
-                <h4>You [[ isBought ]] and [[ isSold ]].</h4>
-                <div class="row">
-                    <div>
-                        <h3>Default? [[ defaultResult ]]</h3>
-                    </div>
-                    <div>
+                <div id="substep" $hidden="[[ _hideResults(hideBeforeSubmit) ]]">
+                    <h3>Default? [[ defaultResult ]]</h3>
                         <h4>Actual bond payment: [[ _getAssetPayment(y, g, m) ]]<br/>
                         Your private info cost: [[ cost ]]</h4>
-                    </div>
+                    <h3>Your payoff: {{ payoff }}</h3>
                 </div>
-                <h3>Your payoff: {{ payoff }}</h3>
             </div>
         `;
     }
 
-    _hideResults(isHidden) {
-        if(!isHidden) {
-            this.$.results.animate([
+    _hideResults(hideBeforeSubmit) {
+        if(!hideBeforeSubmit) {
+            this.$.substep.animate([
                 { opacity: 0 },
                 { opacity: 1 },
             ], {
                 duration: 1000, //milliseconds
                 easing: 'ease-in',
                 fill: 'forwards',
-                delay: 7200, // wait until price reveal animation finish
-            })
+                // delay: 1000, // wait until show price animation finish
+            });
         }
-        return isHidden;
+        return hideBeforeSubmit;
     }
 
     _getNondefault(def) {
@@ -138,16 +155,8 @@ class Results extends PolymerElement {
             return 'didn\'t sell';
     }
 
-    _expectedAssetVal(m) {
-        return +((this._getNondefault(this.g) + this.g * this._getPercent(m)).toFixed(2));
-    }
-
     _getAssetPayment(y, g, m) {
         return (y < g) ? m : 100; // 0 if match
-    }
-
-    _getPercent(val) {
-        return (val / 100).toFixed(2);
     }
 
     _getPayoff(buyPrice, sellPrice, cost) {

@@ -12,22 +12,14 @@ class RationalInattention extends PolymerElement {
                 type: Number,
                 value: 0,
                 observer: '_updateButtonLabel',
+                notify: true,
+                reflectToAttribute: true,
             },
-            g: {
-                type: Number,
-            },
-            m: {
-                type: Number,
-            },
-            y: {
-                type: Number,
-            },
-            q: {
-                type: Number,
-            },
-            endowment: {
-                type: Number,
-            },
+            g: Number,
+            m: Number,
+            y: Number,
+            q: Number,
+            endowment: Number,
             precision: {
                 type: Number,
                 value: 100,
@@ -38,28 +30,22 @@ class RationalInattention extends PolymerElement {
                 type: Number,
                 value: 0,
             },
-            buyPrice: {
+            lowValue: {
                 type: Number,
+                notify: true,
+                reflectToAttribute: true,
             },
-            sellPrice: {
+            highValue: {
                 type: Number,
+                notify: true,
+                reflectToAttribute: true,
             },
+            buyPrice: Number,
+            sellPrice: Number,
             buttonLabel: {
                 type: String,
                 value: 'Next',
             },
-            submitPrices: {
-                type: Boolean,
-                value: false,
-                notify: true,
-                reflectToAttribute: true,
-            },
-            finish: {
-                type: Boolean,
-                computed: '_isFinish()',
-                notify: true,
-                reflectToAttribute: true,  
-            }
         }
     }
     static get template() {
@@ -107,26 +93,35 @@ class RationalInattention extends PolymerElement {
             <div class="row">
                 <div class="step" hidden$="{{ _hideStep(step, 2) }}">
                     <bond-price
-                    m="[[ m ]]"
-                    precision="[[ precision ]]"
-                    default-prob="[[ g ]]"
-                    buy-price="{{ buyPrice }}"
-                    sell-price="{{ sellPrice }}"
-                    disable-select="{{ _disableStep(step, 2) }}"
-                    submit-prices="{{ submitPrices }}"
-                    q="[[ q ]]"
+                        g="[[ g ]]"
+                        m="[[ m ]]"
+                        q="[[ q ]]"
+                        precision="[[ precision ]]"
+                        default-prob="[[ g ]]"
+                        low-value="{{ lowValue }}"
+                        high-value="{{ highValue }}"              
+                        buy-price="{{ buyPrice }}"
+                        sell-price="{{ sellPrice }}"
+                        disable-select="[[ _disableStep(step, 2) ]]"
+                        hide-before-submit="{{ _hideStep(step, 3) }}"
+                        animate-price="[[ _animatePrice(2) ]]"
                     ></bond-price>
                 </div>
-                <div class="step" hidden$="{{ _hideStep(step, 3) }}">
+                <div class="step" hidden$="{{ _hideStep(step, 4) }}">
                     <results-page
                         g="[[ g ]]"
                         m="[[ m ]]"
                         y="[[ y ]]"
+                        q="[[ q ]]"
                         buy-price="[[ buyPrice ]]"
                         sell-price="[[ sellPrice ]]"
+                        low-value="[[ lowValue ]]"
+                        high-value="[[ highValue ]]"              
                         cost="[[ cost ]]"
-                        q="[[ q ]]"
-                        is-hidden="[[ _hideStep(step, 3) ]]"
+                        step="[[ step ]]"
+                        disable-select="[[ _disableStep(step, 2) ]]"
+                        hide-before-submit="[[ _hideStep(step, 5) ]]"
+                        animate-price="[[ _animatePrice(step) ]]"
                     ></results-page>
                 </div>
            </div>
@@ -159,20 +154,16 @@ class RationalInattention extends PolymerElement {
         if (this.step == 1 || this.step == 2)
             this.buttonLabel = 'Submit';
 
-        else if (this.step >= 3) {
-            this.buttonLabel = 'Done';
+        else if (this.step == 3 || this.step == 4) {
+            this.buttonLabel = 'Continue';
         }
         else
             this.buttonLabel = 'Next';
     }
 
-    _isFinish() {
-        if(this.step >= 3)
-            return true;
-        else
-            return false;
+    _animatePrice(step) {
+        return step == 4;
     }
-
 }
 
 window.customElements.define('rational-inattention', RationalInattention);

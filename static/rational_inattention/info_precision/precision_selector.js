@@ -37,16 +37,13 @@ class PrecisionSelector extends PolymerElement {
                 .container {
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-around;
-                }
-                #chart {
+                    justify-content: center;
                 }
                 input {
-                    width: 98%;
-                    margin-left: 2%;
+                    width: 96%;
+                    margin-left: 4%;
                 }
                 .display {
-                    width: 7%;
                     margin-top: 10%;
                 }
                 .sliderticks {
@@ -54,12 +51,12 @@ class PrecisionSelector extends PolymerElement {
                     justify-content: space-between;
                     width: 98%;
                 }
-
                 .sliderticks p {
                     position: relative;
                     display: flex;
                     justify-content: center;
                     text-align: center;
+                    margin: 0;
                 }
             </style>
             <div class="container">
@@ -175,8 +172,8 @@ class PrecisionSelector extends PolymerElement {
             responsive: {
                 rules: [{
                     condition: {
-                        maxWidth: 800
-                    },
+                        maxWidth: 1000
+                    },  
                     chartOptions: {
                         legend: {
                             layout: 'horizontal',
