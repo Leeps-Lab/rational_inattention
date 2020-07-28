@@ -6,6 +6,7 @@ class PrecisionSelector extends PolymerElement {
         return {
             precision: {
                 type: Number,
+                value: 100,
                 observer: '_updateSelected',
                 notify: true,
                 reflectToAttribute: true,

@@ -141,18 +141,20 @@ class BuysellSlider extends PolymerElement {
         let pos = (this._getMark(priceToShow)).toString() + '%';
         if (animatePrice) {
             // back and forth
-            console.log('animating ball');
+            // console.log('animating ball');
             let anim = this.$.anim.animate([
                 { left: '50%' },
                 { left: '100%' },
                 { left: 0 },
+
             ], {
-                duration: 3000, // milliseconds
+                duration: 4000,
                 easing: 'ease-in-out', // 'linear', a bezier curve, etc.
-                delay: 1000, // milliseconds
+                delay: 1500, // milliseconds
                 direction: 'alternate', // 'normal', 'reverse', etc.
-                fill: 'forwards' // 'backwards', 'both', 'none', 'auto'
-            });
+                fill: 'forwards'
+        });
+            
             // stops at more accurate position above marker
             anim.onfinish = () => {
                 this.$.anim.animate([

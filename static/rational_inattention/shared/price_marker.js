@@ -3,9 +3,7 @@ import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polyme
 class PriceMarker extends PolymerElement {
     static get properties() {
         return {
-            value: {
-                type: Number,
-            }
+            value: Number,
         }
     }
 

@@ -105,8 +105,8 @@ class BondPrice extends PolymerElement {
                 animate-price="[[ animatePrice ]]"
             ></buysell-slider>
             <div hidden$="[[ hideBeforeSubmit ]]">
-                <h4>Actual m: [[ m ]]<br/>
-                Expected bond value:
+                <h3>Actual m: [[ m ]]<h3/>
+                <h4>Expected bond value:
                 <span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + <span class="def">[[ g ]]%</span>
                     * [[ m ]] = [[ _expectedAssetVal(g, m) ]]
                 </h4>    

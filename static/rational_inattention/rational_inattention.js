@@ -20,26 +20,10 @@ class RationalInattention extends PolymerElement {
             y: Number,
             q: Number,
             endowment: Number,
-            precision: {
-                type: Number,
-                value: 100,
-                notify: true,
-                reflectToAttribute: true,
-            },
-            cost: {
-                type: Number,
-                value: 0,
-            },
-            lowValue: {
-                type: Number,
-                notify: true,
-                reflectToAttribute: true,
-            },
-            highValue: {
-                type: Number,
-                notify: true,
-                reflectToAttribute: true,
-            },
+            precision: Number,
+            cost: Number,
+            lowValue: Number,
+            highValue: Number,
             buyPrice: Number,
             sellPrice: Number,
             buttonLabel: {
@@ -109,6 +93,7 @@ class RationalInattention extends PolymerElement {
                 </div>
                 <div class="step" hidden$="{{ _hideStep(step, 4) }}">
                     <results-page
+                        endowment="[[ endowment ]]"
                         g="[[ g ]]"
                         m="[[ m ]]"
                         y="[[ y ]]"
@@ -118,7 +103,6 @@ class RationalInattention extends PolymerElement {
                         low-value="[[ lowValue ]]"
                         high-value="[[ highValue ]]"              
                         cost="[[ cost ]]"
-                        step="[[ step ]]"
                         disable-select="[[ _disableStep(step, 2) ]]"
                         hide-before-submit="[[ _hideStep(step, 5) ]]"
                         animate-price="[[ _animatePrice(step) ]]"
@@ -126,7 +110,7 @@ class RationalInattention extends PolymerElement {
                 </div>
            </div>
            <paper-button class="btn" on-click="_nextStep">[[ buttonLabel ]]</paper-button>
-           <h3>DEBUG m: [[ m ]], y: [[ y ]], q: [[ q ]]</h3>
+           <h3>DEBUG g: [[ g ]], m: [[ m ]], y: [[ y ]], q: [[ q ]]</h3>
         `;
     }
 
