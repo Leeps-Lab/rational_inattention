@@ -79,6 +79,12 @@ class BondPrice extends PolymerElement {
             .slider {
                 --price-color: #F06292;   
             }
+            .exp-val {
+                color: #F06292;
+            }
+            #substep {
+                opacity: 0;
+            }
         </style>
         <div>
             <h3>Your private information about m: [[ mLow ]] < m < [[ mHigh ]]</h3>
@@ -92,6 +98,7 @@ class BondPrice extends PolymerElement {
             * [[ mLow ]] = <span class="low val">[[ lowValue ]]</span></p>
             <p class="values">Highest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
             * [[ mHigh ]] = <span class="high val">[[ highValue ]]</span></p>
+
             <buysell-slider
                 class="slider"
                 m="[[ m ]]"
@@ -104,16 +111,33 @@ class BondPrice extends PolymerElement {
                 disable-select="[[ disableSelect ]]"
                 animate-price="[[ animatePrice ]]"
             ></buysell-slider>
-            <div hidden$="[[ hideBeforeSubmit ]]">
-                <h3>Actual m: [[ m ]]<h3/>
-                <h4>Expected bond value:
+            
+            <div id="substep" hidden$="[[ _hideM(hideBeforeSubmit) ]]">
+                <h3>Actual m: [[ m ]]<br/>
+                Expected bond value:
                 <span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + <span class="def">[[ g ]]%</span>
-                    * [[ m ]] = [[ _expectedAssetVal(g, m) ]]
-                </h4>    
+                    * [[ m ]] = <span class="exp-val">[[ _expectedAssetVal(g, m) ]]</span>
+                </h3>    
             </div>  
         </div>
         `;
     }
+
+    _hideM(hideBeforeSubmit) {
+        if(!hideBeforeSubmit) {
+            this.$.substep.animate([
+                { opacity: 0 },
+                { opacity: 1 },
+            ], {
+                duration: 1000, //milliseconds
+                easing: 'ease-in',
+                fill: 'forwards',
+                // delay: 1000, // wait until show price animation finish
+            });
+        }
+        return hideBeforeSubmit;
+    }
+
 
     _getNondefault(def) {
         return 100 - def;

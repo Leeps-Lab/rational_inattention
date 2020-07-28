@@ -18,10 +18,6 @@ class BuysellSlider extends PolymerElement {
                 notify: true,
                 reflectToAttribute: true,
             },
-            disableSelect: {
-                type: Boolean,
-                value: false,
-            },
             markers: {
                 type: Array,
                 value: [0, , , , , 100],
@@ -56,6 +52,9 @@ class BuysellSlider extends PolymerElement {
                     border-radius: 50%;
                     bottom: -35px;
                     z-index: 1;
+                }
+                .hid {
+                    opacity: 0;
                 }
                 .markers {
                     position: relative;
@@ -109,7 +108,7 @@ class BuysellSlider extends PolymerElement {
             ></price-marker>
             </div>
             <div class="markers">
-                <span id="anim" class$="[[ _showActualPrice(animatePrice, priceToShow) ]]" hidden$="[[ _hidePrice(hideBeforeSubmit, animatePrice) ]]"></span> 
+                <span id="anim" class$="[[ _showActualPrice(animatePrice, priceToShow, hideBeforeSubmit) ]]" hidden$="[[ _hidePrice(hideBeforeSubmit, animatePrice) ]]"></span> 
             </div>
             <div class="sliderticks">
                 <template is="dom-repeat" items="[[ markers ]]">
@@ -137,24 +136,22 @@ class BuysellSlider extends PolymerElement {
             return hideBeforeSubmit;
     }
 
-    _showActualPrice(animatePrice, priceToShow) {
+    _showActualPrice(animatePrice, priceToShow, hideBeforeSubmit) {
         let pos = (this._getMark(priceToShow)).toString() + '%';
         if (animatePrice) {
             // back and forth
-            // console.log('animating ball');
             let anim = this.$.anim.animate([
                 { left: '50%' },
                 { left: '100%' },
                 { left: 0 },
-
             ], {
                 duration: 4000,
                 easing: 'ease-in-out', // 'linear', a bezier curve, etc.
-                delay: 1500, // milliseconds
+                delay: 1000, // milliseconds
                 direction: 'alternate', // 'normal', 'reverse', etc.
                 fill: 'forwards'
-        });
-            
+            });
+
             // stops at more accurate position above marker
             anim.onfinish = () => {
                 this.$.anim.animate([
@@ -177,8 +174,31 @@ class BuysellSlider extends PolymerElement {
                     fill: 'forwards'
                 });
             }
-        } 
-        return 'ball';
+            return 'ball';
+        }
+        else if (!hideBeforeSubmit) {
+            this.$.anim.animate([
+                { opacity: 0 },
+                { opacity: 1 },
+                { left: pos },
+            ], {
+                duration: 2000,
+                easing: 'ease-in',
+                fill: 'forwards'
+            });
+            // show price marker right after
+            this.$.price.animate([
+                { left: pos },
+                { opacity: 0 },
+                { opacity: 1 },
+            ], {
+                duration: 2000,
+                easing: 'ease-in',
+                fill: 'forwards'
+            });
+            return 'ball';
+        }
+        return 'ball hid';
     }
 
     _getMark(val) {
