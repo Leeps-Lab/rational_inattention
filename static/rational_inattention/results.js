@@ -4,31 +4,32 @@ import './shared/buysell_slider.js';
 class Results extends PolymerElement {
     static get properties() {
         return {
+            isDefault: {
+                type: Boolean,
+                computed: '_getDefaultResult(y, g)',
+            },
             defaultResult: {
                 type: String,
-                computed: '_getDefaultResult(y, g)',
             },
             isBought: {
                 type: String,
                 computed: '_getBuy(q, buyPrice)',
-                value: 'didn\'t buy.',
                 notify: true,
                 reflectToAttribute: true,
             },
             isSold: {
                 type: String,
                 computed: '_getSell(q, sellPrice)',
-                value: 'didn\'t sell.',
                 notify: true,
                 reflectToAttribute: true,
             },
             bondPayment: {
                 type: Number,
-                computed: '_getAssetPayment(y, g, m)',
+                computed: '_getBondPayment(m)',
             },
             payoff: {
                 type: Number,
-                computed: '_getPayoff(buyPrice, sellPrice, cost)',
+                computed: '_getPayoff(isBought, isSold, endowment, q, cost)',
                 notify: true,
                 reflectToAttribute: true,
             },
@@ -43,7 +44,7 @@ class Results extends PolymerElement {
                 }
                 #buy-sell {
                     opacity: 0;
-                    animation: 3s ease 4s normal forwards 1 fadein;
+                    animation: 3s ease 6s normal forwards 1 fadein;
                 }
                 @keyframes fadein{
                     0% { opacity:0; }
@@ -105,10 +106,10 @@ class Results extends PolymerElement {
                     <h4>You [[ isBought ]] and [[ isSold ]].</h4>
                 </div>
                 <div id="substep" $hidden="[[ _hideResults(hideBeforeSubmit) ]]">
-                    <h3>Default? [[ defaultResult ]]</h3>
-                        <h4>Actual bond payment: [[ _getAssetPayment(y, g, m) ]]<br/>
+                    <h3>Default? <span class$="[[ _getDefaultColor(defaultResult) ]]">[[ defaultResult ]]</span></h3>
+                        <h4>Actual bond payment: [[ bondPayment ]]<br/>
                         Your private info cost: [[ cost ]]</h4>
-                    <h3>Your payoff: {{ payoff }}</h3>
+                    <h3>Your payoff: [[ _getPayoffFormula(isBought, isSold, endowment, q, cost) ]] = [[ payoff ]]</h3>
                 </div>
             </div>
         `;
@@ -134,38 +135,60 @@ class Results extends PolymerElement {
     }
 
     _getDefaultResult(y, g) {
-        if (y < g)
-            return 'Yes';
-        else
-            return 'No';
-    }
-
-    _getBuy(q, buyPrice) {
-        if (q < buyPrice)
-            return 'bought';
-        else {
-            return 'didn\'t buy';
+        if (y < g) {
+            this.defaultResult = 'Yes';
+            return true;
+        } else {
+            this.defaultResult = 'No';
+            return false;
         }
     }
 
+    _getDefaultColor() {
+        return this.isDefault ? 'def' : 'non-def';
+    }
+
+    _getBuy(q, buyPrice) {
+        return (q < buyPrice) ? 'bought' : 'didn\'t buy';
+    }
+
     _getSell(q, sellPrice) {
-        if (q > sellPrice)
-            return 'sold';
+        return (q > sellPrice) ? 'sold' : 'didn\'t sell';
+    }
+
+    _getBondPayment(m) {
+        return this.isDefault ? m : 100; // 0 if match
+    }
+
+    _getPayoff(isBought, isSold, endowment, q, cost) {
+        // neither bought nor sold
+        let val = endowment + this.bondPayment - cost;
+        // bought
+        if(isBought && !isBought.localeCompare('bought')) {
+            val = endowment + (2 * this.bondPayment) - cost - q;
+        }
+        // sold
+        if (isSold && !isSold.localeCompare('sold')) {
+            val = endowment + q - cost;
+        }
+        return parseFloat(val.toFixed(2));
+    }
+
+    _getPayoffFormula(isBought, isSold, endowment, q, cost) {
+        let f = `${endowment}`;
+        // bought
+        if (!isBought.localeCompare('bought'))
+            f += ` + (2 * ${this.bondPayment}) - ${q}`;
+        // sold
+        else if (!isSold.localeCompare('sold'))
+            f += ` + ${q}`;
+        // neither
         else
-            return 'didn\'t sell';
-    }
-
-    _getAssetPayment(y, g, m) {
-        return (y < g) ? m : 100; // 0 if match
-    }
-
-    _getPayoff(buyPrice, sellPrice, cost) {
-        let val = this.bondPayment - cost;
-        if(!this.isBought.localeCompare('bought'))
-            val = 2 * this.bondPayment - cost;
-        else if (!this.isSold.localeCompare('sold'))
-            val = this.bondPayment - this.cost;
-        return val.toFixed(2);
+            f += ` + ${this.bondPayment}`;
+        // cost if non-zero
+        if (cost)
+            f += ` - ${cost}`;
+        return f;
     }
 }
 
