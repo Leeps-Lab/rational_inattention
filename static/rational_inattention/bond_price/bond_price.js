@@ -87,7 +87,7 @@ class BondPrice extends PolymerElement {
             }
         </style>
         <div>
-            <h3>Your private information about m: [[ mLow ]] < m < [[ mHigh ]]</h3>
+            <h3>Your private information about m: [[ mLow ]] <span>&#8804;</span> m <span>&#8804;</span> [[ mHigh ]]</h3>
 
             <p>Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding __ 
             <span class="buy val">(bid)</span>, and the price for which you'd like to <span class="sell val">sell</span> 
@@ -107,7 +107,7 @@ class BondPrice extends PolymerElement {
                 buy-price="{{ buyPrice }}"
                 sell-price="{{ sellPrice }}"
                 hide-before-submit="{{ hideBeforeSubmit }}"
-                price-to-show="[[ _expectedAssetVal(g, m) ]]"
+                price-to-show="[[ _expectedBondVal(g, m) ]]"
                 disable-select="[[ disableSelect ]]"
                 animate-price="[[ animatePrice ]]"
             ></buysell-slider>
@@ -116,7 +116,7 @@ class BondPrice extends PolymerElement {
                 <h3>Actual m: [[ m ]]<br/>
                 Expected bond value:
                 <span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + <span class="def">[[ g ]]%</span>
-                    * [[ m ]] = <span class="exp-val">[[ _expectedAssetVal(g, m) ]]</span>
+                    * [[ m ]] = <span class="exp-val">[[ _expectedBondVal(g, m) ]]</span>
                 </h3>    
             </div>  
         </div>
@@ -129,10 +129,9 @@ class BondPrice extends PolymerElement {
                 { opacity: 0 },
                 { opacity: 1 },
             ], {
-                duration: 1000, //milliseconds
+                duration: 1000, // milliseconds
                 easing: 'ease-in',
                 fill: 'forwards',
-                // delay: 1000, // wait until show price animation finish
             });
         }
         return hideBeforeSubmit;
@@ -143,7 +142,7 @@ class BondPrice extends PolymerElement {
         return 100 - def;
     }
 
-    _expectedAssetVal(g, m) {
+    _expectedBondVal(m) {
         return +((this._getNondefault(this.g) + this.g * m / 100).toFixed(2));
     }
 
