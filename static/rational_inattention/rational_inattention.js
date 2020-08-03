@@ -20,6 +20,7 @@ class RationalInattention extends PolymerElement {
             y: Number,
             q: Number,
             endowment: Number,
+            bonds: Number,
             precision: Number,
             cost: Number,
             lowValue: Number,
@@ -94,6 +95,7 @@ class RationalInattention extends PolymerElement {
                 <div class="step" hidden$="{{ _hideStep(step, 4) }}">
                     <results-page
                         endowment="[[ endowment ]]"
+                        bonds="[[ bonds ]]"
                         g="[[ g ]]"
                         m="[[ m ]]"
                         y="[[ y ]]"

@@ -27,6 +27,13 @@ class Results extends PolymerElement {
                 type: Number,
                 computed: '_getBondPayment(m)',
             },
+            numBonds: {
+                type: Number,
+                computed: '_getNumBonds(bonds, isBought, isSold)',
+                observer: '_isSingleBond',
+                notify: true,
+                reflectToAttribute: true,
+            },
             payoff: {
                 type: Number,
                 computed: '_getPayoff(isBought, isSold, endowment, q, cost)',
@@ -103,7 +110,8 @@ class Results extends PolymerElement {
                         </div>
                     </div>
                     <h3>Bond price: <span class="price-val">[[ q ]]</span></h3>
-                    <h4>You [[ isBought ]] and [[ isSold ]].</h4>
+                    <h4>You [[ isBought ]] and [[ isSold ]].<br/>
+                    You now have [[ numBonds ]] bonds</h4>
                 </div>
                 <div id="substep" $hidden="[[ _hideResults(hideBeforeSubmit) ]]">
                     <h3>Default? <span class$="[[ _getDefaultColor(defaultResult) ]]">[[ defaultResult ]]</span></h3>
@@ -172,6 +180,18 @@ class Results extends PolymerElement {
             val = endowment + q - cost;
         }
         return parseFloat(val.toFixed(2));
+    }
+
+    _getNumBonds(bonds, isBought, isSold) {
+        // bought
+        if(isBought && !isBought.localeCompare('bought')) {
+            return ++bonds;
+        }
+        // sold
+        if (isSold && !isSold.localeCompare('sold')) {
+            return --bonds;
+        }
+        return bonds;
     }
 
     _getPayoffFormula(isBought, isSold, endowment, q, cost) {
