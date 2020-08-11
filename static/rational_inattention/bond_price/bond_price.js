@@ -87,6 +87,7 @@ class BondPrice extends PolymerElement {
             }
         </style>
         <div>
+            <img src="../shared/buy_marker.png" alt="not working">
             <h3>Your private information about m: [[ mLow ]] <span>&#8804;</span> m <span>&#8804;</span> [[ mHigh ]]</h3>
 
             <p>Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding __ 

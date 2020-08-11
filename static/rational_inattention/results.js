@@ -30,9 +30,6 @@ class Results extends PolymerElement {
             numBonds: {
                 type: Number,
                 computed: '_getNumBonds(bonds, isBought, isSold)',
-                observer: '_isSingleBond',
-                notify: true,
-                reflectToAttribute: true,
             },
             payoff: {
                 type: Number,
@@ -111,7 +108,7 @@ class Results extends PolymerElement {
                     </div>
                     <h3>Bond price: <span class="price-val">[[ q ]]</span></h3>
                     <h4>You [[ isBought ]] and [[ isSold ]].<br/>
-                    You now have [[ numBonds ]] bonds</h4>
+                    You now have [[ numBonds ]] bonds.</h4>
                 </div>
                 <div id="substep" $hidden="[[ _hideResults(hideBeforeSubmit) ]]">
                     <h3>Default? <span class$="[[ _getDefaultColor(defaultResult) ]]">[[ defaultResult ]]</span></h3>
