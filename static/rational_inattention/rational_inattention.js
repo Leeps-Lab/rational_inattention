@@ -133,7 +133,7 @@ class RationalInattention extends PolymerElement {
             composed:true,
             detail: {
                 this:this, 
-                value: {
+                value: { // values to dispatch to oTree
                     'step': this.step,
                     'precision': this.precision,
                     'cost': this.cost,
