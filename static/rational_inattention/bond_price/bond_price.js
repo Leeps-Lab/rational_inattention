@@ -85,14 +85,20 @@ class BondPrice extends PolymerElement {
             #substep {
                 opacity: 0;
             }
+            img {
+                height: 2em;
+            }
         </style>
         <div>
-            <img src="../shared/buy_marker.png" alt="not working">
-            <h3>Your private information about m: [[ mLow ]] <span>&#8804;</span> m <span>&#8804;</span> [[ mHigh ]]</h3>
-
-            <p>Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding __ 
-            <span class="buy val">(bid)</span>, and the price for which you'd like to <span class="sell val">sell</span> 
-            the bond by sliding __ <span class="sell val">(ask)</span>.</p>
+        
+        <h3>Your private information about m: [[ mLow ]] <span>&#8804;</span> m <span>&#8804;</span> [[ mHigh ]]</h3>
+        
+        <p>Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding
+        <img src="../../../../../static/rational_inattention/shared/buy_marker.png" alt="buy marker failed to load :(">
+        <span class="buy val">(bid)</span>, and the price for which you'd like to <span class="sell val">sell</span> 
+        the bond by sliding
+        <img src="../../../../../static/rational_inattention/shared/sell_marker.png" alt="buy marker failed to load :(">
+        <span class="sell val">(ask)</span>.</p>
             
             <p>Assuming you don't care about uncertainty, you would expect:</p>
             <p class="values">Lowest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
