@@ -10,11 +10,11 @@ class MainPage(Page):
             'round_num': self.round_number,
             'endowment': Constants.endowment,
             'initial_bonds' : Constants.initial_bonds,
-            'g': self.subsession.g,
-            'm': self.subsession.m,
-            'y': self.subsession.y,
-            'q': self.subsession.q,
-            'finish': self.subsession.finish,
+            'g': self.player.g,
+            'm': self.player.m,
+            'y': self.player.y,
+            'q': self.player.q,
+            'finish': self.player.finish,
 
         }
     def get_round_number(self):

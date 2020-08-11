@@ -23,13 +23,11 @@ Your app description
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
     players_per_group = None
+    test = 10
     g = []
     m = []
     y = []
     q = []
-
-# Couldn't figure out how to retrieve current round number into subsession
-    temporary_round_number = 0
 
 #reads straight from the config file constants
     with open('rational_inattention/configs/config_file.csv', newline='') as csvfile:
@@ -75,13 +73,14 @@ class Constants(BaseConstants):
         return self.round_number
 
 class Subsession(BaseSubsession):
-    # initial values of fields for players for each subsession
 
-    g = models.IntegerField(initial = Constants.g[ Constants.temporary_round_number ])
-    m = models.IntegerField(initial = Constants.m[ Constants.temporary_round_number ])
-    y = models.IntegerField(initial = Constants.y[ Constants.temporary_round_number ])
-    q = models.IntegerField(initial = Constants.q[ Constants.temporary_round_number ])
-    finish = models.BooleanField(initial=False)
+# initial values of fields for players for each subsession
+    def creating_session(self):
+        for p in self.get_players():
+            p.g = Constants.g[ self.round_number - 1]
+            p.m = Constants.m[ self.round_number - 1]
+            p.y = Constants.y[ self.round_number - 1]
+            p.q = Constants.q[ self.round_number - 1]
 
 
 class Group(DecisionGroup):
@@ -94,3 +93,8 @@ class Player(BasePlayer):
         min=0,
         max=Constants.endowment
     )
+    g = models.IntegerField()
+    m = models.IntegerField()
+    y = models.IntegerField()
+    q = models.IntegerField()
+    finish = models.BooleanField(initial=False)
