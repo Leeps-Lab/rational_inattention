@@ -1,4 +1,6 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
+import '/static/otree-redwood/src/redwood-decision/redwood-decision.js';
+import '/static/otree-redwood/src/redwood-period/redwood-period.js';
 import './public_info/public_info.js';
 import './info_precision/info_precision.js';
 import './bond_price/bond_price.js';
@@ -11,7 +13,16 @@ class RationalInattention extends PolymerElement {
             step: {
                 type: Number,
                 value: 0,
-                observer: '_updateButtonLabel',
+                observer: function(step) {
+                    this._updateButtonLabel();
+                    setTimeout(function() {
+                        if(step === 3) {
+                            this.submitPrices = true;
+                        } else if (step && step < 4) {  // auto scroll down to next step/screen
+                            window.scrollBy({ top: 550, behavior: 'smooth' });
+                        }
+                    }, 500);
+                },
                 notify: true,
                 reflectToAttribute: true,
             },
@@ -62,18 +73,17 @@ class RationalInattention extends PolymerElement {
                 }
             </style>
             <div class="first">
-                <public-info
+            <public-info
                     g="[[ g ]]"
                     credits="[[ endowment ]]"
                 ></public-info>
             </div>
             <div hidden$="{{ _hideStep(step, 1) }}">
                 <info-precision
-                        precision="{{ precision }}"
-                        cost="{{ cost }}"
-                        disable-select="{{ _disableStep(step, 1) }}"
-                        >
-                </info-precision>
+                    precision="{{ precision }}"
+                    cost="{{ cost }}"
+                    disable-select="{{ _disableStep(step, 1) }}"
+                ></info-precision>
             </div>
             <div class="row">
                 <div class="step" hidden$="{{ _hideStep(step, 2) }}">
@@ -111,20 +121,28 @@ class RationalInattention extends PolymerElement {
                     ></results-page>
                 </div>
            </div>
-           <paper-button class="btn" on-click="_nextStep">[[ buttonLabel ]]</paper-button>
+           <paper-button class="btn" on-click="nextStep">[[ buttonLabel ]]</paper-button>
            <h3>DEBUG g: [[ g ]], m: [[ m ]], y: [[ y ]], q: [[ q ]]</h3>
         `;
     }
 
-    _nextStep() {
-        if(this.step === 2) {
-            this.submitPrices = true;
-        }
-        // auto scroll down to next step/screen
-        else if (this.step < 3) {
-            window.scrollBy({ top: 550, behavior: 'smooth' });
-        }
+    nextStep() {
         this.step++;
+        this.dispatchEvent(new CustomEvent('getPolymerData', {
+            bubbles:true,
+            composed:true,
+            detail: {
+                this:this, 
+                value: {
+                    'step': this.step,
+                    'precision': this.precision,
+                    'cost': this.cost,
+                    'buyPrice': this.buyPrice,
+                    'sellPrice': this.sellPrice,
+                }, 
+                eventName:'getPolymerData'}
+            }));
+        return this.step;
     }
 
     _hideStep(step, num) {
@@ -149,6 +167,10 @@ class RationalInattention extends PolymerElement {
 
     _animatePrice(step) {
         return step == 4;
+    }
+
+    ready() {
+        super.ready();
     }
 }
 

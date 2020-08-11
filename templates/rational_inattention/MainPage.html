@@ -8,25 +8,38 @@
 {% block scripts %}
     <script src="{% static 'rational_inattention/highcharts.js' %}"></script>
     <script type="module" src="{% static 'rational_inattention/rational_inattention.js' %}"></script>
+    <script>
+        const current_val = document.getElementById('step');
+        document.querySelector("#rationalInattentionId").addEventListener('getPolymerData', function (customEvent) {
+            // console.log('precision?', this.precision);
+            console.log('step', this.step, this.precision);
+            step.innerText = "step: " + this.step;
+        });
+    </script>
 
 {% endblock %}
 
 {% block content %}
-    <h4>Round #{{ round_num }}</h4>
-    <p><strong>Total endowment:</strong> {{ endowment }} credits and {{ initial_bonds }} bond</p>
-    <rational-inattention
-            g="{{ g }}"
-            endowment="{{ endowment }}"
-            bonds="{{ initial_bonds }}"
-            m="{{ m }}"
-            y="{{ y }}"
-            q="{{ q }}"
-            finish="{{ finish }}"
-    ></rational-inattention>
+    
+    {% with config=subsession.config %}
 
-{% if finish %}
-    <button>Next Round</button>
-{% endif %}
+        <h4>Round #{{ round_num }}</h4>
+        <p><strong>Total endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p>
+        <rational-inattention
+                id='rationalInattentionId'
+                g="{{ g }}"
+                endowment="{{ config.endowment }}"
+                bonds="{{ config.initial_bonds }}"
+                m="{{ m }}"
+                y="{{ y }}"
+                q="{{ q }}"
+                step="{{ step }}"
+                finish="{{ finish }}"
+        ></rational-inattention>
+        <h2 id="step">step: {{ step }}</h2>
+        {% next_button %}
+    
+    {% endwith %}
 
 {% endblock %}
 
