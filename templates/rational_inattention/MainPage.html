@@ -9,11 +9,15 @@
     <script src="{% static 'rational_inattention/highcharts.js' %}"></script>
     <script type="module" src="{% static 'rational_inattention/rational_inattention.js' %}"></script>
     <script>
-        const current_val = document.getElementById('step');
         document.querySelector("#rationalInattentionId").addEventListener('getPolymerData', function (customEvent) {
             // console.log('precision?', this.precision);
             console.log('step', this.step, this.precision);
             step.innerText = "step: " + this.step;
+            if (this.step >= 5) {
+                precision.value = this.precision;
+                buy_price.value = this.buyPrice;
+                sell_price.value = this.sellPrice;
+            }
         });
     </script>
 
@@ -25,6 +29,9 @@
 
         <h4>Round #{{ round_num }}</h4>
         <p><strong>Total endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p>
+        <input type="hidden" name="precision"/>
+        <input type="hidden" name="buy_price"/>
+        <input type="hidden" name="sell_price"/>
         <rational-inattention
                 id='rationalInattentionId'
                 g="{{ g }}"
