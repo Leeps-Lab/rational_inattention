@@ -1,6 +1,4 @@
-import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
-import '/static/otree-redwood/src/redwood-decision/redwood-decision.js';
-import '/static/otree-redwood/src/redwood-period/redwood-period.js';
+import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js'; // // /static/otree-redwood/node_modules/@polymer/
 import './public_info/public_info.js';
 import './info_precision/info_precision.js';
 import './bond_price/bond_price.js';
@@ -13,10 +11,10 @@ class RationalInattention extends PolymerElement {
             step: {
                 type: Number,
                 value: 0,
-                observer: function(step) {
+                observer: function (step) {
                     this._updateButtonLabel();
-                    setTimeout(function() {
-                        if(step === 3) {
+                    setTimeout(function () {
+                        if (step === 3) {
                             this.submitPrices = true;
                         } else if (step && step < 4) {  // auto scroll down to next step/screen
                             window.scrollBy({ top: 550, behavior: 'smooth' });
@@ -38,6 +36,22 @@ class RationalInattention extends PolymerElement {
             highValue: Number,
             buyPrice: Number,
             sellPrice: Number,
+            default: Boolean,
+            bought: {
+                type: Boolean,
+                // computed: function(isBought) {
+                //     return isBought === 'bought';
+                // } 
+            },
+            sold: {
+                type: Boolean,
+                // computed: function(isSold) {
+                //     return isSold === 'sold';
+                // }
+            },
+            bondPayment: Number,
+            numBonds: Number,
+            payoff: Number,
             buttonLabel: {
                 type: String,
                 value: 'Next',
@@ -115,6 +129,12 @@ class RationalInattention extends PolymerElement {
                         low-value="[[ lowValue ]]"
                         high-value="[[ highValue ]]"              
                         cost="[[ cost ]]"
+                        is-default="{{ default }}"
+                        isBought="{{ bought }}"
+                        isSold ="{{ sold }}"
+                        bond-payment="{{ bondPayment }}"
+                        num-bonds="{{ numBonds }}"
+                        payoff="{{ payoff }}"
                         disable-select="[[ _disableStep(step, 2) ]]"
                         hide-before-submit="[[ _hideStep(step, 5) ]]"
                         animate-price="[[ _animatePrice(step) ]]"
@@ -129,19 +149,26 @@ class RationalInattention extends PolymerElement {
     nextStep() {
         this.step++;
         this.dispatchEvent(new CustomEvent('getPolymerData', {
-            bubbles:true,
-            composed:true,
+            bubbles: true,
+            composed: true,
             detail: {
-                this:this, 
+                this: this,
                 value: { // values to dispatch to oTree
                     'step': this.step,
                     'precision': this.precision,
                     'cost': this.cost,
                     'buyPrice': this.buyPrice,
                     'sellPrice': this.sellPrice,
-                }, 
-                eventName:'getPolymerData'}
-            }));
+                    'isDefault': this.default,
+                    'bought': this.bought,
+                    'sold': this.sold,
+                    'bondPayment': this.bondPayment,
+                    'numBonds': this.numBonds,
+                    'payoff': this.payoff,
+                },
+                eventName: 'getPolymerData'
+            }
+        }));
         return this.step;
     }
 

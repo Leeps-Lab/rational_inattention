@@ -7,29 +7,35 @@ class Results extends PolymerElement {
             isDefault: {
                 type: Boolean,
                 computed: '_getDefaultResult(y, g)',
+                notify: true,
+                reflectToAttribute: true,
             },
-            defaultResult: {
-                type: String,
-            },
+            defaultResult: String,
             isBought: {
                 type: String,
                 computed: '_getBuy(q, buyPrice)',
                 notify: true,
+                value: 'didn\'t buy',
                 reflectToAttribute: true,
             },
             isSold: {
                 type: String,
                 computed: '_getSell(q, sellPrice)',
                 notify: true,
+                value: 'didn\'t sell',
                 reflectToAttribute: true,
             },
             bondPayment: {
                 type: Number,
                 computed: '_getBondPayment(m)',
+                notify: true,
+                reflectToAttribute: true,
             },
             numBonds: {
                 type: Number,
                 computed: '_getNumBonds(bonds, isBought, isSold)',
+                notify: true,
+                reflectToAttribute: true,
             },
             payoff: {
                 type: Number,

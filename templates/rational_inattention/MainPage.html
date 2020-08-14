@@ -10,13 +10,25 @@
     <script type="module" src="{% static 'rational_inattention/rational_inattention.js' %}"></script>
     <script>
         document.querySelector("#rationalInattentionId").addEventListener('getPolymerData', function (customEvent) {
-            // console.log('precision?', this.precision);
-            console.log('step', this.step, this.precision);
+            console.log('step', this.step);
+            console.log('precision', this.precision);
+            console.log('buy price', this.buyPrice);
+            console.log('sell price', this.sellPrice);
+            console.log('default?', this.default);
+            console.log('bond payment', this.bondPayment);
+            console.log('bonds', this.numBonds);
+            console.log('payoff', this.payoff);
             step.innerText = "step: " + this.step;
             if (this.step >= 5) {
                 precision.value = this.precision;
                 buy_price.value = this.buyPrice;
                 sell_price.value = this.sellPrice;
+                is_default.value = this.default;
+                bought.value = this.bought;
+                sold.value = this.sold;
+                bond_payment.value = this.bondPayment;
+                num_bonds.value = this.numBonds;
+                payoff.value = this.payoff;
             }
         });
     </script>
@@ -29,9 +41,41 @@
 
         <h4>Round #{{ round_num }}</h4>
         <p><strong>Total endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p>
-        <input type="hidden" name="precision"/>
-        <input type="hidden" name="buy_price"/>
-        <input type="hidden" name="sell_price"/>
+
+        <input type="hidden" name="precision" value=100 id="precision"/>
+        <input type="hidden" name="buy_price" id="buy_price"/>
+        <input type="hidden" name="sell_price" id="sell_price"/>
+        <input type="hidden" name="is_default" id="is_default"/>
+        <input type="hidden" name="bought" value=False id="bought"/>
+        <input type="hidden" name="sold" value=True id="sold"/>
+        <input type="hidden" name="bond_payment" id="bond_payment"/>
+        <input type="hidden" name="num_bonds" id="num_bonds"/>
+        <input type="hidden" name="payoff" id="payoff"/>
+
+
+        {% if form.precision.errors %}
+            <h5>Select width/precision of your private information</h5>
+            {{ form.precision.errors }}
+        {% endif %}
+        {% if form.buy_price.errors %}
+            <h5>Select the price for which you'd like to buy the bond</h5>
+            {{ form.buy_price.errors }}
+        {% endif %}
+        {% if form.sell_price.errors %}
+            <h5>Select the price for which you'd like to sell the bond</h5>
+            {{ form.sell_price.errors }}
+        {% endif %}
+
+        {% if form.bought.errors %}
+            <h5>Error in getting buy result</h5>
+            {{ form.bought.errors }}
+        {% endif %}
+        {% if form.sold.errors %}
+            <h5>Error in getting sell result</h5>
+            {{ form.sold.errors }}
+        {% endif %}
+    
+        <!-- <h5 id="step">step: {{ step }}</h5> -->
         <rational-inattention
                 id='rationalInattentionId'
                 g="{{ g }}"
@@ -41,9 +85,8 @@
                 y="{{ y }}"
                 q="{{ q }}"
                 step="{{ step }}"
-                finish="{{ finish }}"
         ></rational-inattention>
-        <h2 id="step">step: {{ step }}</h2>
+
         {% next_button %}
     
     {% endwith %}

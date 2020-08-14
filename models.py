@@ -11,7 +11,6 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
-from otree_redwood.models import DecisionGroup
 
 author = 'Your name here'
 
@@ -41,13 +40,12 @@ def parse_config(config):
             #     })
             # print('rounds', rounds)
             return rounds
-            """
     # script to create a csv document with uniformly generated values for each variable
         if(generate_random_vars):
             with open('rational_inattention/configs/session_config.csv', 'w', newline='') as csvfile:
                 fieldnames = ['round', 'g' , 'm', 'y', 'q']
                 writer = csv.writer(csvfile)
-                # writer.writeheader()
+                writer.writeheader()
                 for i in range(1 , num_rounds + 1):
                         writer.writerow(dict([
                         ('round', i),
@@ -56,21 +54,20 @@ def parse_config(config):
                         ('y', int(random.uniform(0, 100))),
                         ('q', int(random.uniform(0, 100))),
                         ]))
-    # reads from data.csv into lists
-        with open('rational_inattention/configs/data.csv') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                g.append(int(row['g']))
-                m.append(int(row['m']))
-                y.append(int(row['y']))
-                q.append(int(row['q']))
-                """
+        # reads from data.csv into lists
+            with open('rational_inattention/configs/data.csv') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    g.append(int(row['g']))
+                    m.append(int(row['m']))
+                    y.append(int(row['y']))
+                    q.append(int(row['q']))
 
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
     players_per_group = None
     # actual number from config file (TODO)
-    num_rounds=1
+    num_rounds=2
 
     def get_round_number(self):
         return self.round_number
@@ -82,7 +79,7 @@ class Subsession(BaseSubsession):
     y = models.IntegerField(initial=int(random.uniform(0, 100)))
     q = models.IntegerField(initial=int(random.uniform(0, 100)))
     step = models.IntegerField(initial=0)
-    finish = models.BooleanField(initial=False)
+    is_default = models.BooleanField(initial=False)
 
     def creating_session(self):
         config = self.config
@@ -101,28 +98,21 @@ class Subsession(BaseSubsession):
         print('groups', groups)
         for group in groups:
             group.set_payoffs()
-class Group(DecisionGroup):
-    def set_payoffs(self):
-        period_start = self.get_start_time()
-        period_end = self.get_end_time()
-        print('start and end', period_start, period_end)
-        groups = self.subsession.get_groups()
-        print('subsession groups', groups)
-        for group in groups:
-            decisions = group.get_group_decisions_events()
-
-class Player(BasePlayer):
-    precision = models.IntegerField()
-    buy_price = models.IntegerField()
-    sell_price = models.IntegerField()
-    # amount of money player starts with
-    # spend = models.FloatField(
-    #     min=0,
-    #     max=Constants.endowment
-    # )
-    # g = models.IntegerField()
-    # m = models.IntegerField()
-    # y = models.IntegerField()
-    # q = models.IntegerField()
-    # finish = models.BooleanField(initial=False)
+class Group(BaseGroup):
     pass
+class Player(BasePlayer):
+    precision = models.IntegerField(initial=100)
+    buy_price = models.FloatField(initial=0)
+    sell_price = models.FloatField(initial=100)
+    bought = models.BooleanField(initial=False)
+    sold = models.BooleanField(initial=False)
+    bond_payment = models.IntegerField(initial=100)
+    num_bonds = models.IntegerField(initial=1)
+    payoff = models.FloatField(initial=100)
+
+
+def custom_export(players):
+    # header row
+    yield ['precision', 'buy_price', 'sell_price']
+    for p in players:
+        yield [p.precision, p.buy_price, p.sell_price]

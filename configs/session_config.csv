@@ -1,0 +1,7 @@
+round,endowment,initial_bonds,buy_option,sell_option,generate_random_vars
+1,1,1,True,True,True
+2,10,10,True,True,True
+3,100,1,True,True,True
+4,1000,10,True,True,True
+5,10000,1,True,True,True
+6,100000,10,True,True,True
