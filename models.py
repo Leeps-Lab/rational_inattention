@@ -133,7 +133,7 @@ class Subsession(BaseSubsession):
         try:
             return parse_config(self.session.config['config_file'])[self.round_number-1]
         except IndexError:
-            print('index error')
+            # print('index error')
             return None
     
     # def set_payoffs(self):
