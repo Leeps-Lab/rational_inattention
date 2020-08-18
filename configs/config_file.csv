@@ -1,2 +1,2 @@
-num_rounds,endowment,initial_bonds,buy_option,sell_option,randomize_data
-2,100,100,True,True,False
+num_rounds,endowment,initial_bonds,buy_option,sell_option,generate_random_vars
+4,100,1,True,True,True
