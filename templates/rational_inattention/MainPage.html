@@ -2,7 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-    Rational Inattention
+    RI-IC
 {% endblock %}
 
 {% block scripts %}
@@ -10,26 +10,20 @@
     <script type="module" src="{% static 'rational_inattention/rational_inattention.js' %}"></script>
     <script>
         document.querySelector("#rationalInattentionId").addEventListener('getPolymerData', function (customEvent) {
-            console.log('step', this.step);
-            console.log('precision', this.precision);
-            console.log('buy price', this.buyPrice);
-            console.log('sell price', this.sellPrice);
-            console.log('default?', this.default);
-            console.log('bond payment', this.bondPayment);
-            console.log('bonds', this.numBonds);
-            console.log('payoff', this.payoff);
-            step.innerText = "step: " + this.step;
-            if (this.step >= 5) {
-                precision.value = this.precision;
-                buy_price.value = this.buyPrice;
-                sell_price.value = this.sellPrice;
-                is_default.value = this.default;
-                bought.value = this.bought;
-                sold.value = this.sold;
-                bond_payment.value = this.bondPayment;
-                num_bonds.value = this.numBonds;
-                payoff.value = this.payoff;
-            }
+            // console.log('step', this.step);
+            // console.log('precision', this.precision);
+            // console.log('expected value', this.expectedVal);
+            precision.value = this.precision;
+            cost.value = this.cost;
+            bid_price.value = this.bidPrice;
+            ask_price.value = this.askPrice;
+            m_low.value = this.mLow;
+            m_high.value = this.mHigh;
+            low_val.value = this.lowValue;
+            high_val.value = this.highValue;
+            bought.value = this.bought ? 'True' : 'False';
+            sold.value = this.sold ? 'True' : 'False';
+            round_payoff.value = this.payoff;
         });
     </script>
 
@@ -40,31 +34,53 @@
     {% with config=subsession.config %}
 
         <h4>Round #{{ round_num }}</h4>
-        <p><strong>Total endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p>
+        <!-- <p><strong>Total endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p> -->
 
-        <input type="hidden" name="precision" value=100 id="precision"/>
-        <input type="hidden" name="buy_price" id="buy_price"/>
-        <input type="hidden" name="sell_price" id="sell_price"/>
-        <input type="hidden" name="is_default" id="is_default"/>
+        <input type="hidden" name="precision" id="precision"/>
+        <input type="hidden" name="cost" id="cost"/>
+        <input type="hidden" name="bid_price" id="bid_price"/>
+        <input type="hidden" name="ask_price" id="ask_price"/>
+        <input type="hidden" name="m_low" id="m_low"/>
+        <input type="hidden" name="m_high" id="m_high"/>
+        <input type="hidden" name="low_val" id="low_val"/>
+        <input type="hidden" name="high_val" id="high_val"/>
         <input type="hidden" name="bought" value=False id="bought"/>
         <input type="hidden" name="sold" value=True id="sold"/>
-        <input type="hidden" name="bond_payment" id="bond_payment"/>
-        <input type="hidden" name="num_bonds" id="num_bonds"/>
-        <input type="hidden" name="payoff" id="payoff"/>
-
+        <input type="hidden" name="round_payoff" id="round_payoff"/>
 
         {% if form.precision.errors %}
             <h5>Select width/precision of your private information</h5>
             {{ form.precision.errors }}
         {% endif %}
-        {% if form.buy_price.errors %}
-            <h5>Select the price for which you'd like to buy the bond</h5>
-            {{ form.buy_price.errors }}
+        {% if form.bid_price.errors %}
+            <h5>Select the bid price for the bond</h5>
+            {{ form.bid_price.errors }}
         {% endif %}
-        {% if form.sell_price.errors %}
-            <h5>Select the price for which you'd like to sell the bond</h5>
-            {{ form.sell_price.errors }}
+        {% if form.ask_price.errors %}
+            <h5>Select the ask price for the bond</h5>
+            {{ form.ask_price.errors }}
         {% endif %}
+
+        {% if form.cost.errors %}
+            <h5>Error in getting cost of private info</h5>
+            {{ form.cost.errors }}
+        {% endif %}
+        {% if form.m_low.errors %}
+            <h5>Error in getting m low</h5>
+            {{ form.m_low.errors }}
+        {% endif %}
+        {% if form.m_high.errors %}
+            <h5>Error in getting m high</h5>
+            {{ form.m_high.errors }}
+        {% endif %}
+        {% if form.low_val.errors %}
+        <h5>Error in getting lowest expected value</h5>
+        {{ form.low_val.errors }}
+    {% endif %}
+    {% if form.high_val.errors %}
+        <h5>Error in getting highest expected value</h5>
+        {{ form.high_val.errors }}
+    {% endif %}
 
         {% if form.bought.errors %}
             <h5>Error in getting buy result</h5>
@@ -74,8 +90,11 @@
             <h5>Error in getting sell result</h5>
             {{ form.sold.errors }}
         {% endif %}
-    
-        <!-- <h5 id="step">step: {{ step }}</h5> -->
+        {% if form.round_payoff.errors %}
+            <h5>Error in getting payoff for this round</h5>
+            {{ form.round_payoff.errors }}
+        {% endif %}
+        
         <rational-inattention
                 id='rationalInattentionId'
                 g="{{ g }}"
@@ -84,7 +103,6 @@
                 m="{{ m }}"
                 y="{{ y }}"
                 q="{{ q }}"
-                step="{{ step }}"
         ></rational-inattention>
 
         {% next_button %}
