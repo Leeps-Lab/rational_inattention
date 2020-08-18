@@ -17,7 +17,7 @@ class RationalInattention extends PolymerElement {
                         if (step === 3) {
                             this.submitPrices = true;
                         } else if (step && step < 4) {  // auto scroll down to next step/screen
-                            window.scrollBy({ top: 550, behavior: 'smooth' });
+                            window.scrollBy({ top: 540, behavior: 'smooth' });
                         }
                     }, 500);
                 },
@@ -32,23 +32,16 @@ class RationalInattention extends PolymerElement {
             bonds: Number,
             precision: Number,
             cost: Number,
+            mLow: Number,
+            mHigh: Number,
             lowValue: Number,
             highValue: Number,
-            buyPrice: Number,
-            sellPrice: Number,
+            bidPrice: Number,
+            askPrice: Number,
+            expectedVal: Number,
             default: Boolean,
-            bought: {
-                type: Boolean,
-                // computed: function(isBought) {
-                //     return isBought === 'bought';
-                // } 
-            },
-            sold: {
-                type: Boolean,
-                // computed: function(isSold) {
-                //     return isSold === 'sold';
-                // }
-            },
+            bought: Boolean,
+            sold: Boolean,
             bondPayment: Number,
             numBonds: Number,
             payoff: Number,
@@ -107,10 +100,13 @@ class RationalInattention extends PolymerElement {
                         q="[[ q ]]"
                         precision="[[ precision ]]"
                         default-prob="[[ g ]]"
+                        m-low="{{ mLow }}"
+                        m-high="{{ mHigh }}"
                         low-value="{{ lowValue }}"
                         high-value="{{ highValue }}"              
-                        buy-price="{{ buyPrice }}"
-                        sell-price="{{ sellPrice }}"
+                        buy-price="{{ bidPrice }}"
+                        sell-price="{{ askPrice }}"
+                        expected-value="{{ expectedVal }}"
                         disable-select="[[ _disableStep(step, 2) ]]"
                         hide-before-submit="{{ _hideStep(step, 3) }}"
                         animate-price="[[ _animatePrice(2) ]]"
@@ -130,8 +126,8 @@ class RationalInattention extends PolymerElement {
                         high-value="[[ highValue ]]"              
                         cost="[[ cost ]]"
                         is-default="{{ default }}"
-                        isBought="{{ bought }}"
-                        isSold ="{{ sold }}"
+                        bought="{{ bought }}"
+                        sold="{{ sold }}"
                         bond-payment="{{ bondPayment }}"
                         num-bonds="{{ numBonds }}"
                         payoff="{{ payoff }}"
@@ -157,13 +153,14 @@ class RationalInattention extends PolymerElement {
                     'step': this.step,
                     'precision': this.precision,
                     'cost': this.cost,
-                    'buyPrice': this.buyPrice,
-                    'sellPrice': this.sellPrice,
-                    'isDefault': this.default,
+                    'bidPrice': this.bidPrice,
+                    'askPrice': this.askPrice,
+                    'mLow': this.mLow,
+                    'mHigh': this.mHigh,
+                    'lowValue': this.lowValue,
+                    'highValue': this.highValue,
                     'bought': this.bought,
                     'sold': this.sold,
-                    'bondPayment': this.bondPayment,
-                    'numBonds': this.numBonds,
                     'payoff': this.payoff,
                 },
                 eventName: 'getPolymerData'
@@ -172,13 +169,21 @@ class RationalInattention extends PolymerElement {
         return this.step;
     }
 
+    _getBought(isBought) {
+        return isBought === 'bought';
+    }
+
+    _getSold(isSold) {
+        return isSold === 'sold';
+    }
+
     _hideStep(step, num) {
         return step < num;
     }
 
     _disableStep(step, num) {
-        // return step != num;
-        return false;
+        return step != num;
+        // return false;
     }
 
     _updateButtonLabel() {
