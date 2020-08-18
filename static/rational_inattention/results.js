@@ -11,6 +11,20 @@ class Results extends PolymerElement {
                 reflectToAttribute: true,
             },
             defaultResult: String,
+            bought: {
+                type: Boolean,
+                computed: '_getBuySell(isBought)',
+                value: false,
+                notify: true,
+                reflectToAttribute: true,
+            },
+            sold: {
+                type: Boolean,
+                computed: '_getBuySell(isSold)',
+                value: false,
+                notify: true,
+                reflectToAttribute: true,
+            },
             isBought: {
                 type: String,
                 computed: '_getBuy(q, buyPrice)',
@@ -112,9 +126,11 @@ class Results extends PolymerElement {
                             <p>Your ask: <span class="sell-val">[[ sellPrice ]]</span></p>
                         </div>
                     </div>
-                    <h3>Bond price: <span class="price-val">[[ q ]]</span></h3>
-                    <h4>You [[ isBought ]] and [[ isSold ]].<br/>
-                    You now have [[ numBonds ]] bonds.</h4>
+                    <h4>
+                        Bond price: <span class="price-val">[[ q ]]</span>.
+                        You [[ isBought ]] and [[ isSold ]].
+                        You now have [[ numBonds ]] bonds.
+                    </h4>
                 </div>
                 <div id="substep" $hidden="[[ _hideResults(hideBeforeSubmit) ]]">
                     <h3>Default? <span class$="[[ _getDefaultColor(defaultResult) ]]">[[ defaultResult ]]</span></h3>
@@ -167,6 +183,12 @@ class Results extends PolymerElement {
         return (q > sellPrice) ? 'sold' : 'didn\'t sell';
     }
 
+    _getBuySell(buySell) {
+        if (buySell === 'bought') return true;
+        if (buySell === 'sold') return true;
+        return false;
+    }
+    
     _getBondPayment(m) {
         return this.isDefault ? m : 100; // 0 if match
     }

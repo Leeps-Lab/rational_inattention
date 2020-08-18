@@ -45,7 +45,7 @@ class PieChart extends PolymerElement {
                 type: 'pie',
             },
             title: {
-                text: 'Default Probability'
+                text: ''
             },
             tooltip: {
                 pointFormat: '<b>{point.percentage:.1f}%</b>'
@@ -60,26 +60,27 @@ class PieChart extends PolymerElement {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        enabled: true,
+                        formatter: function() {
+                            if (this.point.name === 'Default Probability')
+                                return 'pays m < 100';
+                            else
+                                return 'pays 100';
+                        }
                     },
                     showInLegend: true
                 }
             },
             series: [{
-                name: 'Default Probability',
                 colorByPoint: true,
-                // borderColor: 'gray',
                 data: [
                     {
                         name: 'Non-default Probability',
                         y: this._getNondefault(this.defaultProb),
-                        // color: 'url(#highcharts-default-pattern-1)',
                     },
                     {
                         name: 'Default Probability',
                         y: this.defaultProb,
-                        // color: 'url(#highcharts-default-pattern-0)',
 
                     },]
             },],

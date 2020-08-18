@@ -28,14 +28,14 @@ class PublicInfo extends PolymerElement {
                     color: #55BF3B;
                 }
             </style>
-            <h3>Public information:</h3>
+            <!-- <h3>Public information:</h3> -->
             <h4>This bond has <span class="def">[[ g ]]%</span> default probability
             and <span class="non-def">[[ _getNondefault(g) ]]%</span> non-default probability.</h4>
             <pie-chart
             default-prob="[[ g ]]"
             ></pie-chart>
-            <h4 class="non-def">If non-default, the bond repays [[ credits ]] game credits.</h4>
-            <h4 class="def">If default, the bond repays in m ratio of [[ credits ]] game credits (0 < m < 100).</h4>        
+            <!-- <h4 class="non-def">If non-default, the bond repays [[ credits ]] game credits.</h4>
+            <h4 class="def">If default, the bond repays in m ratio of [[ credits ]] game credits (0 < m < 100).</h4>         -->
             `;
     }
 

@@ -12,11 +12,15 @@ class BondPrice extends PolymerElement {
                 type: Number,
                 computed: '_getMLow(m, precision)',
                 observer: '_getLowValue',
+                notify: true,
+                reflectToAttribute: true,
             },
             mHigh: {
                 type: Number,
                 computed: '_getMHigh(m, precision)',
                 observer: '_getHighValue',
+                notify: true,
+                reflectToAttribute: true,
             },
             highValue: {
                 type: Number,
@@ -40,6 +44,12 @@ class BondPrice extends PolymerElement {
                 type: Number,
                 notify: true,
                 value: 100,
+                reflectToAttribute: true,
+            },
+            expectedValue: {
+                type: Number,
+                computed: '_expectedBondVal(m)',
+                notify: true,
                 reflectToAttribute: true,
             },
             scale: {
@@ -93,14 +103,14 @@ class BondPrice extends PolymerElement {
         
         <h3>Your private information about m: [[ mLow ]] <span>&#8804;</span> m <span>&#8804;</span> [[ mHigh ]]</h3>
         
-        <p>Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding
+        <!-- <p>Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding
         <img src="../../../../../static/rational_inattention/shared/buy_marker.png" alt="buy marker failed to load :(">
         <span class="buy val">(bid)</span>, and the price for which you'd like to <span class="sell val">sell</span> 
         the bond by sliding
         <img src="../../../../../static/rational_inattention/shared/sell_marker.png" alt="buy marker failed to load :(">
         <span class="sell val">(ask)</span>.</p>
             
-            <p>Assuming you don't care about uncertainty, you would expect:</p>
+            <p>Assuming you don't care about uncertainty, you would expect:</p> -->
             <p class="values">Lowest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
             * [[ mLow ]] = <span class="low val">[[ lowValue ]]</span></p>
             <p class="values">Highest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
@@ -114,7 +124,7 @@ class BondPrice extends PolymerElement {
                 buy-price="{{ buyPrice }}"
                 sell-price="{{ sellPrice }}"
                 hide-before-submit="{{ hideBeforeSubmit }}"
-                price-to-show="[[ _expectedBondVal(g, m) ]]"
+                price-to-show="[[ expectedValue ]]"
                 disable-select="[[ disableSelect ]]"
                 animate-price="[[ animatePrice ]]"
             ></buysell-slider>
@@ -123,7 +133,7 @@ class BondPrice extends PolymerElement {
                 <h3>Actual m: [[ m ]]<br/>
                 Expected bond value:
                 <span class="non-def">[[ _getNondefault(g) ]]%</span> * 100 + <span class="def">[[ g ]]%</span>
-                    * [[ m ]] = <span class="exp-val">[[ _expectedBondVal(g, m) ]]</span>
+                    * [[ m ]] = <span class="exp-val">[[ expectedValue ]]</span>
                 </h3>    
             </div>  
         </div>
@@ -150,7 +160,7 @@ class BondPrice extends PolymerElement {
     }
 
     _expectedBondVal(m) {
-        return +((this._getNondefault(this.g) + this.g * m / 100).toFixed(2));
+        return parseFloat((this._getNondefault(this.g) + this.g * m / 100).toFixed(2));
     }
 
     _getRandomRange() {

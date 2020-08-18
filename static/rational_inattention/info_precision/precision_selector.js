@@ -111,7 +111,10 @@ class PrecisionSelector extends PolymerElement {
             },
             tooltip: {
                 crosshairs: true,
-                pointFormat: '{series.name}: <b>{point.y}</><br/>',
+                // pointFormat: 'Cost: <b>{point.y}</><br/>',
+                formatter: function() {
+                    return 'Width: ' + this.point.x + '<br/>Cost: ' + this.point.y;
+                },
                 valueSuffix: ' credits',
                 style: {
                     width: '500px',
@@ -126,7 +129,10 @@ class PrecisionSelector extends PolymerElement {
             },
             yAxis: {
                 title: {
-                    text: 'Cost'
+                    text: 'Cost',
+                    style: {
+                        fontSize: '20px'
+                    },
                 }
             },
             xAxis: {
@@ -166,7 +172,7 @@ class PrecisionSelector extends PolymerElement {
                 },
             },
             series: [{
-                name: 'Precision Cost',
+                name: 'Width',
                 data: this.data,//[[0, 16], [0.1, 12], [0.2, 8], [0.3, 6], [0.4, 4], [0.5, 3], [0.6, 2], [0.7, 1.5], [0.8, 1], [0.9, 0.5], [1, 0]],
                 pointStart: 0
             },],

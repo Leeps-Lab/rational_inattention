@@ -26,7 +26,7 @@ class InfoPrecision extends PolymerElement {
     static get template() {
         return html`
          <div>
-            <h3>Select the precision of your private information about m (slide and submit).</h3>
+            <!-- <h3>Select the precision of your private information about m (slide and submit).</h3> -->
             <precision-selector
                 precision="{{ precision }}"
                 cost="{{ cost }}"
