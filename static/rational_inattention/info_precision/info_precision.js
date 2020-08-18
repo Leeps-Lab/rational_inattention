@@ -28,6 +28,7 @@ class InfoPrecision extends PolymerElement {
          <div>
             <!-- <h3>Select the precision of your private information about m (slide and submit).</h3> -->
             <precision-selector
+                k="[[ k ]]"
                 precision="{{ precision }}"
                 cost="{{ cost }}"
                 disable-select="[[ disableSelect ]]"

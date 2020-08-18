@@ -12,7 +12,6 @@ class RationalInattention extends PolymerElement {
                 type: Number,
                 value: 0,
                 observer: function (step) {
-                    this._updateButtonLabel();
                     setTimeout(function () {
                         if (step === 3) {
                             this.submitPrices = true;
@@ -25,6 +24,7 @@ class RationalInattention extends PolymerElement {
                 reflectToAttribute: true,
             },
             g: Number,
+            k: Number,
             m: Number,
             y: Number,
             q: Number,
@@ -87,6 +87,7 @@ class RationalInattention extends PolymerElement {
             </div>
             <div hidden$="{{ _hideStep(step, 1) }}">
                 <info-precision
+                    k="[[ k ]]"
                     precision="{{ precision }}"
                     cost="{{ cost }}"
                     disable-select="{{ _disableStep(step, 1) }}"
@@ -137,9 +138,8 @@ class RationalInattention extends PolymerElement {
                     ></results-page>
                 </div>
            </div>
-           <paper-button class="btn" on-click="nextStep">[[ buttonLabel ]]</paper-button>
-           <h3>DEBUG g: [[ g ]], m: [[ m ]], y: [[ y ]], q: [[ q ]]</h3>
-        `;
+        <paper-button class="btn" on-click="nextStep" hidden$="[[ _updateButtonLabel(step)]]">[[ buttonLabel ]]</paper-button>
+       `;
     }
 
     nextStep() {
@@ -183,26 +183,24 @@ class RationalInattention extends PolymerElement {
 
     _disableStep(step, num) {
         return step != num;
-        // return false;
+        // return false; // allow changes to previous steps for debugging
     }
 
-    _updateButtonLabel() {
-        if (this.step == 1 || this.step == 2)
+    _updateButtonLabel(step) {
+        if (step == 1 || step == 2)
             this.buttonLabel = 'Submit';
 
-        else if (this.step == 3 || this.step == 4) {
+        else if (step == 3 || step == 4) {
             this.buttonLabel = 'Continue';
         }
         else
             this.buttonLabel = 'Next';
+        console.log('update button', step, step >= 5);
+        return step >= 5;
     }
 
     _animatePrice(step) {
         return step == 4;
-    }
-
-    ready() {
-        super.ready();
     }
 }
 

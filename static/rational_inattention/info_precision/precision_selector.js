@@ -20,6 +20,7 @@ class PrecisionSelector extends PolymerElement {
             data: {
                 type: Array,
                 value: [],
+                computed: '_getCosts(k)'
             },
             scale: {
                 type: Number,
@@ -82,16 +83,18 @@ class PrecisionSelector extends PolymerElement {
 
     ready() {
         super.ready();
-        for(let x = 1; x <= this.scale; x++) {
-            this.data.push([x, this._getCosts(x)])
-        }
         this._initHighchart();
     }
 
-    _getCosts(x) {
-        // Cost Function: -c * ln(width)
-        let c = -10;
-        return parseFloat((c * Math.log(x) + 46.05).toFixed(2));
+    _getCosts(k) {
+        // Cost Function: -k ln w , where k (or kappa) > 0 is read from config
+        let data = [];
+        for(let x = 0.01; parseInt(x*100) <= this.scale; x+=0.01) {
+            let val = parseFloat((-k * Math.log(x)).toFixed(2));
+            data.push([parseInt(x*100), val])
+        }
+        console.log('data', data);
+        return data; //parseFloat((c * Math.log(x) + 46.05).toFixed(2));
 
     }
 
@@ -111,7 +114,6 @@ class PrecisionSelector extends PolymerElement {
             },
             tooltip: {
                 crosshairs: true,
-                // pointFormat: 'Cost: <b>{point.y}</><br/>',
                 formatter: function() {
                     return 'Width: ' + this.point.x + '<br/>Cost: ' + this.point.y;
                 },
@@ -120,12 +122,6 @@ class PrecisionSelector extends PolymerElement {
                     width: '500px',
                     fontSize: '16px'
                 }
-            },
-            title: {
-                text: ''
-            },
-
-            subtitle: {
             },
             yAxis: {
                 title: {
@@ -138,9 +134,6 @@ class PrecisionSelector extends PolymerElement {
             xAxis: {
                 min: 1,
                 max: 100,
-                accessibility: {
-                    // rangeDescription: 'Range: 0 to 1'
-                }
             },
             legend: {
                 layout: 'vertical',
@@ -151,14 +144,6 @@ class PrecisionSelector extends PolymerElement {
                 line: { marker: { enabled: false } },
                 series: {
                     allowPointSelect: true,
-                    marker: {
-                        states: {
-                            select: {
-                                // fillColor: 'green',
-                                // lineWidth: 0
-                            }
-                        }
-                    },
                     cursor: 'pointer',
                     events: {
                         click: function (event) {
