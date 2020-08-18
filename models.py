@@ -136,11 +136,11 @@ class Subsession(BaseSubsession):
             print('index error')
             return None
     
-    def set_payoffs(self):
-        groups = self.get_groups()
-        print('groups', groups)
-        for group in groups:
-            group.set_payoffs()
+    # def set_payoffs(self):
+    #     groups = self.get_groups()
+    #     print('groups', groups)
+    #     for group in groups:
+    #         group.set_payoffs()
 
 class Group(BaseGroup):
     pass
@@ -160,7 +160,6 @@ class Player(BasePlayer):
 def custom_export(self, players):
     # header row    
     print(players.values_list())
-    yield ['g', 'precision', 'cost', 'm_low', 'm_high', 'low_val', 'high_val', 'bid_price', 'ask_price', 'bought', 'sold', 'round_payoff']
-    yield [self.subsession.g]
+    yield ['precision', 'cost', 'm_low', 'm_high', 'low_val', 'high_val', 'bid_price', 'ask_price', 'bought', 'sold', 'round_payoff']
     for p in players:
-        yield [self.subsession.g, p.precision, p.bid_price, p.ask_price, p.bought, p.sold, p.round_payoff]
+        yield [p.precision, p.bid_price, p.ask_price, p.bought, p.sold, p.round_payoff]
