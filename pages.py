@@ -14,7 +14,7 @@ class MainPage(Page):
 
     def vars_for_template(self):
         return {
-            'round_num': Constants.round_number(self),
+            'round_num': self.subsession.config.get('round'),
             'g': self.subsession.get_g(),
             'k': self.subsession.get_k(),
             'm': self.subsession.get_m(),
