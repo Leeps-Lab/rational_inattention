@@ -7,31 +7,21 @@ from .models import parse_config
 
 class MainPage(Page):
     form_model = 'player'
-    form_fields = ['precision', 'buy_price', 'sell_price', 'bought', 'sold', 'bond_payment', 'num_bonds', 'payoff']
+    form_fields = ['precision', 'cost', 'm_low', 'm_high', 'low_val', 'high_val', 'bid_price', 'ask_price', 'bought', 'sold', 'round_payoff']
 
     def is_displayed(self):
         return self.subsession.config is not None
 
     def vars_for_template(self):
-        """
-        groups = self.subsession.get_groups()
-        for group in groups:
-            decisions = group.get_group_decisions_events()
-            print("DECISIONS", decisions)
-        """
-        print('vars', self.subsession.config)
-        p = self.player
-        print('decisions', p.precision, p.buy_price, p.sell_price)
-        # print(p.in_all_rounds())
         return {
-            'round_num': self.round_number,
-            # 'endowment': 100,
-            'g': self.subsession.g,
-            'm': self.subsession.m,
-            'y': self.subsession.y,
-            'q': self.subsession.q,
-            'step': self.subsession.step,
-            'precision': self.player.precision,
+            'round_num': Constants.round_number(self),
+            'g': self.subsession.get_g(),
+            'k': self.subsession.get_k(),
+            'm': self.subsession.get_m(),
+            'y': self.subsession.get_y(),
+            'q': self.subsession.get_q(),
+            'expected_value': self.subsession.get_expected_value(),
+            'default': self.subsession.get_default(),
         }
 
 class ResultsWaitPage(WaitPage):
@@ -41,8 +31,5 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     def vars_for_template(self):
         pass
-            # for group in groups:
-            #     decisions = group.get_group_decisions_events()
-            #     print("DECISIONS", decisions)
 
 page_sequence = [MainPage]

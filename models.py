@@ -19,78 +19,121 @@ Your app description
 """
 
 def parse_config(config):
-    #reads straight from the config file constants
-        with open('rational_inattention/configs/' + config, newline='') as config_file:
+    # reads straight from the config file constants
+        # with open('rational_inattention/configs/' + config, newline='') as config_file:
+        #     reader = csv.DictReader(config_file)
+        #     for row in reader:
+        #         num_rounds = int(row['num_rounds'])
+        #         endowment = int(row['endowment'])
+        #         initial_bonds = int(row['initial_bonds'])
+        #         buy_option = True if row['buy_option'] == 'True' else False
+        #         sell_option = True if row['sell_option'] == 'True' else False
+        #         randomize_data = True if row['generate_random_vars'] == 'True' else False
+        
+        with open('rational_inattention/configs/session_config.csv', newline='') as config_file:
             rows = list(csv.DictReader(config_file))
             rounds = []
+            generate_random_vars = False
             for row in rows:
+                if not row.get('g'):
+                    print('no g, probably need to generate random vars')
+                    generate_random_vars = True
                 rounds.append({
                     'round': int(row['round']) if row['round'] else 0,
-                    'endowment': int(row['endowment']),
-                    'initial_bonds': int(row['initial_bonds']),
-                    'buy_option': True if row['buy_option'] == 'True' else False,
-                    'sell_option': True if row['sell_option'] == 'True' else False,
+                    'endowment': int(row['endowment']) if row.get('endowment') else 100,
+                    'initial_bonds': int(row['initial_bonds']) if row.get('initial_bonds') else 1,
+                    'buy_option': False if row.get('buy_option') == 'False' else True,
+                    'sell_option': False if row.get('sell_option') == 'False' else True,
+                    'g': int(row['g']) if row.get('g') else int(random.uniform(0, 100)),
+                    'k': int(row['k']) if row.get('k') else int(random.uniform(0, 100)),
+                    'm': int(row['m']) if row.get('m') else int(random.uniform(0, 100)),
+                    'y': int(row['y']) if row.get('y') else int(random.uniform(0, 100)),
+                    'q': int(row['q']) if row.get('q') else int(random.uniform(0, 100)),
                 })
-            # for i in range(1, num_rounds + 1):
-            #     rounds.append({
-            #         'g': int(random.uniform(0, 100)),
-            #         'm': int(random.uniform(0, 100)),
-            #         'y': int(random.uniform(0, 100)),
-            #         'q': int(random.uniform(0, 100)),
-            #     })
-            # print('rounds', rounds)
-            return rounds
-    # script to create a csv document with uniformly generated values for each variable
-        if(generate_random_vars):
-            with open('rational_inattention/configs/session_config.csv', 'w', newline='') as csvfile:
-                fieldnames = ['round', 'g' , 'm', 'y', 'q']
-                writer = csv.writer(csvfile)
-                writer.writeheader()
-                for i in range(1 , num_rounds + 1):
-                        writer.writerow(dict([
-                        ('round', i),
-                        ('g', int(random.uniform(0, 100))),
-                        ('m', int(random.uniform(0, 100))),
-                        ('y', int(random.uniform(0, 100))),
-                        ('q', int(random.uniform(0, 100))),
-                        ]))
-        # reads from data.csv into lists
-            with open('rational_inattention/configs/data.csv') as csvfile:
-                reader = csv.DictReader(csvfile)
-                for row in reader:
-                    g.append(int(row['g']))
-                    m.append(int(row['m']))
-                    y.append(int(row['y']))
-                    q.append(int(row['q']))
+        return rounds
 
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
     players_per_group = None
-    # actual number from config file (TODO)
-    num_rounds=2
+    num_rounds=10
 
-    def get_round_number(self):
-        return self.round_number
+    def round_number(self):
+        return len(parse_config(self.session.config['config_file']))
+    
+    def get_expected_value(self):
+        return 
+    
+    def get_default_result(self):
+        return
 
 class Subsession(BaseSubsession):
     # initial values of fields for players for each subsession
-    g = models.IntegerField(initial=int(random.uniform(0, 100)))
-    m = models.IntegerField(initial=int(random.uniform(0, 100)))
-    y = models.IntegerField(initial=int(random.uniform(0, 100)))
-    q = models.IntegerField(initial=int(random.uniform(0, 100)))
-    step = models.IntegerField(initial=0)
-    is_default = models.BooleanField(initial=False)
+    g = models.IntegerField()
+    k = models.IntegerField()
+    m = models.IntegerField()
+    y = models.IntegerField()
+    q = models.IntegerField()
+    expected_value = models.FloatField()
+    default = models.BooleanField()
 
     def creating_session(self):
+        # print('in creating_session', self.round_number)
         config = self.config
-        if not config:
+        if not self.config or self.round_number > len(config):
             return
+
+    def get_g(self):
+        if self.g is None:
+            self.g = self.config.get('g')
+            self.save()
+        return self.g
+
+    def get_k(self):
+        if self.k is None:
+            self.k = self.config.get('k')
+            self.save()
+        return self.k
+    
+    def get_m(self):
+        if self.m is None:
+            self.m = self.config.get('m')
+            self.save()
+        return self.m
+    
+    def get_y(self):
+        if self.y is None:
+            self.y = self.config.get('y')
+            self.save()
+        return self.y
+    
+    def get_q(self):
+        if self.q is None:
+            self.q = self.config.get('q')
+            self.save()
+        return self.q        
+    
+    def get_expected_value(self):
+        if self.expected_value is None:
+            self.expected_value = (100 - self.g) + (self.g * self.m * 0.01)
+            self.save()
+        return self.expected_value
+    
+    def get_default(self):
+        if self.default is None:
+            self.default = self.y < self.g
+            self.save()
+        return self.default
+
+    def num_rounds(self):
+        return len(parse_config(self.session.config['config_file']))
+
 
     @property
     def config(self):
         try:
             return parse_config(self.session.config['config_file'])[self.round_number-1]
         except IndexError:
+            print('index error')
             return None
     
     def set_payoffs(self):
@@ -98,21 +141,26 @@ class Subsession(BaseSubsession):
         print('groups', groups)
         for group in groups:
             group.set_payoffs()
+
 class Group(BaseGroup):
     pass
 class Player(BasePlayer):
     precision = models.IntegerField(initial=100)
-    buy_price = models.FloatField(initial=0)
-    sell_price = models.FloatField(initial=100)
+    cost = models.FloatField(initial=0)
+    m_low = models.FloatField(initial=0)
+    m_high = models.FloatField(initial=100)
+    low_val = models.FloatField(initial=0)
+    high_val = models.FloatField(initial=100)
+    bid_price = models.FloatField(initial=0)
+    ask_price = models.FloatField(initial=100)
     bought = models.BooleanField(initial=False)
     sold = models.BooleanField(initial=False)
-    bond_payment = models.IntegerField(initial=100)
-    num_bonds = models.IntegerField(initial=1)
-    payoff = models.FloatField(initial=100)
+    round_payoff = models.FloatField(initial=100)
 
-
-def custom_export(players):
-    # header row
-    yield ['precision', 'buy_price', 'sell_price']
+def custom_export(self, players):
+    # header row    
+    print(players.values_list())
+    yield ['g', 'precision', 'cost', 'm_low', 'm_high', 'low_val', 'high_val', 'bid_price', 'ask_price', 'bought', 'sold', 'round_payoff']
+    yield [self.subsession.g]
     for p in players:
-        yield [p.precision, p.buy_price, p.sell_price]
+        yield [self.subsession.g, p.precision, p.bid_price, p.ask_price, p.bought, p.sold, p.round_payoff]
