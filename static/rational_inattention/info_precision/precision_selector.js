@@ -77,8 +77,7 @@ class PrecisionSelector extends PolymerElement {
                 <div class="display">
                     <h2>width: [[ precision ]]<br/>cost: [[ cost ]]</h2>
                 </div>
-            </div>
-        `;
+            </div>`;
     }
 
     ready() {
@@ -160,7 +159,7 @@ class PrecisionSelector extends PolymerElement {
             },
             series: [{
                 name: 'Width',
-                data: this.data,//[[0, 16], [0.1, 12], [0.2, 8], [0.3, 6], [0.4, 4], [0.5, 3], [0.6, 2], [0.7, 1.5], [0.8, 1], [0.9, 0.5], [1, 0]],
+                data: this.data,
                 pointStart: 0
             },],
             responsive: {

@@ -16,7 +16,7 @@ class RationalInattention extends PolymerElement {
                         if (step === 3) {
                             this.submitPrices = true;
                         } else if (step && step < 4) {  // auto scroll down to next step/screen
-                            window.scrollBy({ top: 540, behavior: 'smooth' });
+                            window.scrollBy({ top: 480, behavior: 'smooth' });
                         }
                     }, 500);
                 },
