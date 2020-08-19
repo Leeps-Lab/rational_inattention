@@ -90,11 +90,10 @@ class PrecisionSelector extends PolymerElement {
         // Cost Function: -k ln w , where k (or kappa) > 0 is read from config
         let data = [];
         for(let x = 0.01; parseInt(x*100) <= this.scale; x+=0.01) {
-            let val = parseFloat((-k * Math.log(x)).toFixed(2));
+            let val = parseFloat((-k * Math.log(x)).toFixed(4)); 
             data.push([parseInt(x*100), val])
         }
-        console.log('data', data);
-        return data; //parseFloat((c * Math.log(x) + 46.05).toFixed(2));
+        return data;
 
     }
 

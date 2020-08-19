@@ -1,5 +1,4 @@
 import { html, PolymerElement } from '/static/otree-redwood/node_modules/@polymer/polymer/polymer-element.js';
-import '../pattern-fill-v2.js';
 
 class PieChart extends PolymerElement {
     static get properties() {
