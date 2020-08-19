@@ -18,39 +18,39 @@ doc = """
 Your app description
 """
 
-def parse_config(config):
+def parse_config(config):        
+    with open('rational_inattention/configs/session_config.csv', newline='') as config_file:
+        rows = list(csv.DictReader(config_file))
+        rounds = []
+        generate_random_vars = False
+        for row in rows:
+            if not row.get('g'):
+                print('no g, probably need to generate random vars')
+                generate_random_vars = True
+            rounds.append({
+                'round': int(row['round']) if row['round'] else 0,
+                'endowment': int(row['endowment']) if row.get('endowment') else 100,
+                'initial_bonds': int(row['initial_bonds']) if row.get('initial_bonds') else 1,
+                'buy_option': False if row.get('buy_option') == 'False' else True,
+                'sell_option': False if row.get('sell_option') == 'False' else True,
+                'g': int(row['g']) if row.get('g') else int(random.uniform(0, 100)),
+                'k': int(row['k']) if row.get('k') else int(random.uniform(0, 100)),
+                'm': int(row['m']) if row.get('m') else int(random.uniform(0, 100)),
+                'y': int(row['y']) if row.get('y') else int(random.uniform(0, 100)),
+                'q': int(row['q']) if row.get('q') else int(random.uniform(1, 100)), # actual price should be positive
+            })
+    return rounds
     # reads straight from the config file constants
-        # with open('rational_inattention/configs/' + config, newline='') as config_file:
-        #     reader = csv.DictReader(config_file)
-        #     for row in reader:
-        #         num_rounds = int(row['num_rounds'])
-        #         endowment = int(row['endowment'])
-        #         initial_bonds = int(row['initial_bonds'])
-        #         buy_option = True if row['buy_option'] == 'True' else False
-        #         sell_option = True if row['sell_option'] == 'True' else False
-        #         randomize_data = True if row['generate_random_vars'] == 'True' else False
-        
-        with open('rational_inattention/configs/session_config.csv', newline='') as config_file:
-            rows = list(csv.DictReader(config_file))
-            rounds = []
-            generate_random_vars = False
-            for row in rows:
-                if not row.get('g'):
-                    print('no g, probably need to generate random vars')
-                    generate_random_vars = True
-                rounds.append({
-                    'round': int(row['round']) if row['round'] else 0,
-                    'endowment': int(row['endowment']) if row.get('endowment') else 100,
-                    'initial_bonds': int(row['initial_bonds']) if row.get('initial_bonds') else 1,
-                    'buy_option': False if row.get('buy_option') == 'False' else True,
-                    'sell_option': False if row.get('sell_option') == 'False' else True,
-                    'g': int(row['g']) if row.get('g') else int(random.uniform(0, 100)),
-                    'k': int(row['k']) if row.get('k') else int(random.uniform(0, 100)),
-                    'm': int(row['m']) if row.get('m') else int(random.uniform(0, 100)),
-                    'y': int(row['y']) if row.get('y') else int(random.uniform(0, 100)),
-                    'q': int(row['q']) if row.get('q') else int(random.uniform(0, 100)),
-                })
-        return rounds
+    # with open('rational_inattention/configs/' + config, newline='') as config_file:
+    #     reader = csv.DictReader(config_file)
+    #     for row in reader:
+    #         num_rounds = int(row['num_rounds'])
+    #         endowment = int(row['endowment'])
+    #         initial_bonds = int(row['initial_bonds'])
+    #         buy_option = True if row['buy_option'] == 'True' else False
+    #         sell_option = True if row['sell_option'] == 'True' else False
+    #         randomize_data = True if row['generate_random_vars'] == 'True' else False
+
 
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
@@ -145,7 +145,7 @@ class Subsession(BaseSubsession):
 class Group(BaseGroup):
     pass
 class Player(BasePlayer):
-    precision = models.IntegerField(initial=100)
+    width = models.IntegerField(initial=100)
     cost = models.FloatField(initial=0)
     m_low = models.FloatField(initial=0)
     m_high = models.FloatField(initial=100)
@@ -160,6 +160,6 @@ class Player(BasePlayer):
 def custom_export(self, players):
     # header row    
     print(players.values_list())
-    yield ['precision', 'cost', 'm_low', 'm_high', 'low_val', 'high_val', 'bid_price', 'ask_price', 'bought', 'sold', 'round_payoff']
+    yield ['width', 'cost', 'm_low', 'm_high', 'low_val', 'high_val', 'bid_price', 'ask_price', 'bought', 'sold', 'round_payoff']
     for p in players:
-        yield [p.precision, p.bid_price, p.ask_price, p.bought, p.sold, p.round_payoff]
+        yield [p.width, p.bid_price, p.ask_price, p.bought, p.sold, p.round_payoff]

@@ -10,7 +10,9 @@
     <script type="module" src="{% static 'rational_inattention/rational_inattention.js' %}"></script>
     <script>
         document.querySelector("#rationalInattentionId").addEventListener('getPolymerData', function (customEvent) {
-            precision.value = this.precision;
+            if (this.step >=5)
+                next_btn.style.display = 'block';
+            width.value = this.precision;
             cost.value = this.cost;
             bid_price.value = this.bidPrice;
             ask_price.value = this.askPrice;
@@ -45,12 +47,11 @@
         ></rational-inattention>
 
         <!-- {% next_button %} -->
-        <button class="otree-btn-next btn btn-primary">Go To Next Round</button>
+        <button id="next_btn" class="otree-btn-next btn btn-primary">Go To Next Round</button>
     
     {% endwith %}
 
-    
-    <input type="hidden" name="precision" id="precision"/>
+    <input type="hidden" name="width" id="width"/>
     <input type="hidden" name="cost" id="cost"/>
     <input type="hidden" name="bid_price" id="bid_price"/>
     <input type="hidden" name="ask_price" id="ask_price"/>
@@ -62,9 +63,9 @@
     <input type="hidden" name="sold" value=True id="sold"/>
     <input type="hidden" name="round_payoff" id="round_payoff"/>
 
-    {% if form.precision.errors %}
-        <h5>Select width/precision of your private information</h5>
-        {{ form.precision.errors }}
+    {% if form.width.errors %}
+        <h5>Select width of your private information</h5>
+        {{ form.width.errors }}
     {% endif %}
     {% if form.bid_price.errors %}
         <h5>Select the bid price for the bond</h5>
@@ -119,6 +120,9 @@
         }
     .otree-body {
         max-width: none;    
+    }
+    #next_btn {
+        display: none;
     }
 </style>   
 {% endblock %}

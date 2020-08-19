@@ -195,7 +195,7 @@ class RationalInattention extends PolymerElement {
         }
         else
             this.buttonLabel = 'Next';
-        console.log('update button', step, step >= 5);
+        // determines when all steps completed to hide button
         return step >= 5;
     }
 
