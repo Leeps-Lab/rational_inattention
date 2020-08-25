@@ -111,6 +111,8 @@ class Results extends PolymerElement {
                     class="slider"
                     low-value="[[ lowValue ]]"
                     high-value="[[ highValue ]]"
+                    buy-option="[[ buyOption ]]"
+                    sell-option="[[ sellOption ]]"
                     buy-price="[[ buyPrice ]]"
                     sell-price="[[ sellPrice ]]"
                     price-to-show="[[ q ]]"
@@ -119,16 +121,18 @@ class Results extends PolymerElement {
                 ></buysell-slider>
                 <div id="buy-sell">
                     <div class="row">
-                        <div>
+                        <template if="dom-if" if="[[ buyOption ]]">
                             <p>Your bid: <span class="buy-val">[[ buyPrice ]]</span></p>
-                        </div>
-                        <div>
+                        </template>
+                        <template if="dom-if" if="[[ sellOption ]]">
                             <p>Your ask: <span class="sell-val">[[ sellPrice ]]</span></p>
-                        </div>
+                        </template>
                     </div>
                     <h4>
                         Bond price: <span class="price-val">[[ q ]]</span>.
-                        You [[ isBought ]] and [[ isSold ]].
+                        <span hidden$="[[ sellOption ]]">You [[ isBought ]].</span>
+                        <span hidden$="[[ buyOption ]]">You [[ isSold ]].</span>
+                        <span hidden$="[[ _hideOption(buyOption, sellOption) ]]">You [[ isBought ]] and [[ isSold ]].</span>
                         You now have [[ numBonds ]] bonds.
                     </h4>
                 </div>
@@ -234,6 +238,14 @@ class Results extends PolymerElement {
         if (cost)
             f += ` - ${cost}`;
         return f;
+    }
+
+    _hideOption(buyOption, sellOption) {
+        // buy = 0, sell = 1
+        if (buyOption && sellOption)
+            return false;
+        else
+            return true;
     }
 }
 

@@ -30,6 +30,8 @@ class RationalInattention extends PolymerElement {
             q: Number,
             endowment: Number,
             bonds: Number,
+            buyOption: Boolean,
+            sellOption: Boolean,
             precision: Number,
             cost: Number,
             mLow: Number,
@@ -99,6 +101,8 @@ class RationalInattention extends PolymerElement {
                         g="[[ g ]]"
                         m="[[ m ]]"
                         q="[[ q ]]"
+                        buy-option="[[ buyOption ]]"
+                        sell-option="[[ sellOption ]]"
                         precision="[[ precision ]]"
                         default-prob="[[ g ]]"
                         m-low="{{ mLow }}"
@@ -121,6 +125,8 @@ class RationalInattention extends PolymerElement {
                         m="[[ m ]]"
                         y="[[ y ]]"
                         q="[[ q ]]"
+                        buy-option="[[ buyOption ]]"
+                        sell-option="[[ sellOption ]]"
                         buy-price="[[ bidPrice ]]"
                         sell-price="[[ askPrice ]]"
                         low-value="[[ lowValue ]]"

@@ -34,7 +34,6 @@
 
         <h4>Round #{{ round_num }}</h4>
         <!-- <p><strong>Total endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p> -->
-
         <rational-inattention
                 id='rationalInattentionId'
                 g="{{ g }}"
@@ -44,9 +43,13 @@
                 m="{{ m }}"
                 y="{{ y }}"
                 q="{{ q }}"
+                {% if config.buy_option %}
+                buy-option
+                {% endif %}
+                {% if config.sell_option %}
+                sell-option
+                {% endif %}
         ></rational-inattention>
-
-        <!-- {% next_button %} -->
         <button id="next_btn" class="otree-btn-next btn btn-primary">Go To Next Round</button>
     
     {% endwith %}
@@ -89,13 +92,13 @@
         {{ form.m_high.errors }}
     {% endif %}
     {% if form.low_val.errors %}
-    <h5>Error in getting lowest expected value</h5>
-    {{ form.low_val.errors }}
-{% endif %}
-{% if form.high_val.errors %}
-    <h5>Error in getting highest expected value</h5>
-    {{ form.high_val.errors }}
-{% endif %}
+        <h5>Error in getting lowest expected value</h5>
+        {{ form.low_val.errors }}
+    {% endif %}
+    {% if form.high_val.errors %}
+        <h5>Error in getting highest expected value</h5>
+        {{ form.high_val.errors }}
+    {% endif %}
 
     {% if form.bought.errors %}
         <h5>Error in getting buy result</h5>

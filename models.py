@@ -22,11 +22,7 @@ def parse_config(config):
     with open('rational_inattention/configs/session_config.csv', newline='') as config_file:
         rows = list(csv.DictReader(config_file))
         rounds = []
-        generate_random_vars = False
         for row in rows:
-            if not row.get('g'):
-                print('no g, probably need to generate random vars')
-                generate_random_vars = True
             rounds.append({
                 'round': int(row['round']) if row['round'] else 0,
                 'endowment': int(row['endowment']) if row.get('endowment') else 100,

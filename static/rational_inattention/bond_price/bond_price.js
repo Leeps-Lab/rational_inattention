@@ -121,6 +121,8 @@ class BondPrice extends PolymerElement {
                 m="[[ m ]]"
                 low-value="[[ lowValue ]]"
                 high-value="[[ highValue ]]"
+                buy-option="[[ buyOption ]]"
+                sell-option="[[ sellOption ]]"
                 buy-price="{{ buyPrice }}"
                 sell-price="{{ sellPrice }}"
                 hide-before-submit="{{ hideBeforeSubmit }}"

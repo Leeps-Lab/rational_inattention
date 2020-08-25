@@ -87,6 +87,7 @@ class BuysellSlider extends PolymerElement {
                     --paper-range-slider-lower-knob-color: #2F3238;
                     --paper-range-slider-lower-pin-color: #2F3238;
                     --paper-range-slider-active-color: #A9A9A9;
+                    width: 100%;
                 }
             </style>
             <div class="markers">
@@ -115,17 +116,43 @@ class BuysellSlider extends PolymerElement {
                     <p>[[ item ]]</p>
                 </template>
             </div>
-            <paper-range-slider
-                class="slider1"
-                slider-width="100%"
-                always-show-pin
-                min="0"
-                max="100"
-                step="0.1"
-                value-min="{{ buyPrice::change }}"
-                value-max="{{ sellPrice::change }}"
-                disabled="[[ disableSelect ]]"
-            ></paper-range-slider>
+            <div hidden$="[[ sellOption ]]">
+                <paper-single-range-slider
+                    class="slider1"
+                    slider-width="100%"
+                    pin
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    value="{{ buyPrice::change }}"
+                    disabled="[[ disableSelect ]]"
+                ></paper-single-range-slider>
+            </div>
+            <div hidden$="[[ buyOption ]]">
+                <paper-single-range-slider
+                    class="slider1"
+                    slider-width="100%"
+                    pin
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    value="{{ sellPrice::change }}"
+                    disabled="[[ disableSelect ]]"
+                ></paper-single-range-slider>
+            </div>
+            <div hidden$="[[ _hideSlider(buyOption, sellOption) ]]">
+                <paper-range-slider
+                    class="slider1"
+                    slider-width="100%"
+                    always-show-pin
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    value-min="{{ buyPrice::change }}"
+                    value-max="{{ sellPrice::change }}"
+                    disabled="[[ disableSelect ]]"
+                ></paper-range-slider>
+            </div>
         `;
     }
 
@@ -205,16 +232,12 @@ class BuysellSlider extends PolymerElement {
         return val;
     }
 
-    _getHighMark(highVal) {
-        return highVal;
-    }
-
-    _getLowMark(lowVal) {
-        return lowVal;
-    }
-
-    _getPriceMark(price) {
-        return price;
+    _hideSlider(buyOption, sellOption) {
+        // show double slider
+        if (buyOption && sellOption)
+            return false;
+        else
+            return true;
     }
 }
 
