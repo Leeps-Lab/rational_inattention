@@ -13,14 +13,14 @@ class Results extends PolymerElement {
             defaultResult: String,
             bought: {
                 type: Boolean,
-                computed: '_getBuySell(isBought)',
+                computed: '_getBuySell(isBought, buyOption)',
                 value: false,
                 notify: true,
                 reflectToAttribute: true,
             },
             sold: {
                 type: Boolean,
-                computed: '_getBuySell(isSold)',
+                computed: '_getBuySell(isSold, sellOption)',
                 value: false,
                 notify: true,
                 reflectToAttribute: true,
@@ -187,9 +187,9 @@ class Results extends PolymerElement {
         return (q > sellPrice) ? 'sold' : 'didn\'t sell';
     }
 
-    _getBuySell(buySell) {
-        if (buySell === 'bought') return true;
-        if (buySell === 'sold') return true;
+    _getBuySell(result, option) {
+        if (option && result === 'bought') return true;
+        if (option && result === 'sold') return true;
         return false;
     }
     
