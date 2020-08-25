@@ -12,12 +12,12 @@ class MainPage(Page):
 
     # called 2-3 times per round
     def is_displayed(self):
-        print('is_displayed', self.subsession.config)
+        # print('is_displayed', self.subsession.config)
         # Finish -> self.subsession.config is None, 
-        if self.subsession.config is None:
-            print('finished all rounds! calling parser.py:')
-            msg = parser_py.test()
-            print('pages.py: ', msg)
+        # if self.subsession.config is None:
+        #     print('finished all rounds! calling parser.py:')
+        #     msg = parser_py.test()
+        #     print('pages.py: ', msg)
         return self.subsession.config is not None
 
     def vars_for_template(self):
