@@ -18,7 +18,7 @@ doc = """
 Your app description
 """
 
-def parse_config(config):        
+def parse_config(config):
     with open('rational_inattention/configs/session_config.csv', newline='') as config_file:
         rows = list(csv.DictReader(config_file))
         rounds = []
@@ -30,7 +30,7 @@ def parse_config(config):
                 'buy_option': False if row.get('buy_option') == 'False' else True,
                 'sell_option': False if row.get('sell_option') == 'False' else True,
                 'g': int(row['g']) if row.get('g') else int(random.uniform(0, 100)),
-                'k': int(row['k']) if row.get('k') else int(random.uniform(0, 100)),
+                'k': float(row['k']) if row.get('k') else float(random.uniform(0, 100)),
                 'm': int(row['m']) if row.get('m') else int(random.uniform(0, 100)),
                 'y': int(row['y']) if row.get('y') else int(random.uniform(0, 100)),
                 'q': int(row['q']) if row.get('q') else int(random.uniform(1, 100)), # actual price should be positive
@@ -55,17 +55,17 @@ class Constants(BaseConstants):
 
     def round_number(self):
         return len(parse_config(self.session.config['config_file']))
-    
+
     def get_expected_value(self):
-        return 
-    
+        return
+
     def get_default_result(self):
         return
 
 class Subsession(BaseSubsession):
     # initial values of fields for players for each subsession
     g = models.IntegerField()
-    k = models.IntegerField()
+    k = models.FloatField()
     m = models.IntegerField()
     y = models.IntegerField()
     q = models.IntegerField()
@@ -89,31 +89,31 @@ class Subsession(BaseSubsession):
             self.k = self.config.get('k')
             self.save()
         return self.k
-    
+
     def get_m(self):
         if self.m is None:
             self.m = self.config.get('m')
             self.save()
         return self.m
-    
+
     def get_y(self):
         if self.y is None:
             self.y = self.config.get('y')
             self.save()
         return self.y
-    
+
     def get_q(self):
         if self.q is None:
             self.q = self.config.get('q')
             self.save()
-        return self.q        
-    
+        return self.q
+
     def get_expected_value(self):
         if self.expected_value is None:
             self.expected_value = (100 - self.g) + (self.g * self.m * 0.01)
             self.save()
         return self.expected_value
-    
+
     def get_default(self):
         if self.default is None:
             self.default = self.y < self.g
@@ -131,7 +131,7 @@ class Subsession(BaseSubsession):
         except IndexError:
             # print('index error')
             return None
-    
+
     # def set_payoffs(self):
     #     groups = self.get_groups()
     #     print('groups', groups)
@@ -154,7 +154,7 @@ class Player(BasePlayer):
     round_payoff = models.FloatField(initial=100)
 
 def custom_export(self, players):
-    # header row    
+    # header row
     print(players.values_list())
     yield ['width', 'cost', 'm_low', 'm_high', 'low_val', 'high_val', 'bid_price', 'ask_price', 'bought', 'sold', 'round_payoff']
     for p in players:
