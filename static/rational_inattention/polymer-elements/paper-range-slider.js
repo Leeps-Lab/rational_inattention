@@ -1290,6 +1290,12 @@ Polymer({
       notify: true
     },
 
+    alwaysShowPin: {
+      type: Boolean,
+      value: false,
+      notify: true
+  },  
+
     /**
      * The number that represents the current secondary progress.
      */
@@ -1382,6 +1388,7 @@ Polymer({
 
   ready: function() {
     this.isReady = true;
+    if(this.alwaysShowPin) { this.pin = true; }
     return;
   },
 
@@ -1499,7 +1506,8 @@ Polymer({
 
     this.$.sliderKnob.classList.remove('dragging');
     this._setDragging(false);
-    this._resetKnob();
+    if (this.alwaysShowPin) this._expandKnob();
+    else this._resetKnob();
     this.value = this.immediateValue;
 
     s.transform = s.webkitTransform = '';

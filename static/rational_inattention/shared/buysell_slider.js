@@ -121,6 +121,7 @@ class BuysellSlider extends PolymerElement {
                     class="slider1"
                     slider-width="100%"
                     pin
+                    always-show-pin
                     min="0"
                     max="100"
                     step="0.1"
@@ -133,6 +134,7 @@ class BuysellSlider extends PolymerElement {
                     class="slider1"
                     slider-width="100%"
                     pin
+                    always-show-pin
                     min="0"
                     max="100"
                     step="0.1"
