@@ -30,6 +30,8 @@ class MainPage(Page):
             'q': self.subsession.get_q(),
             'expected_value': self.subsession.get_expected_value(),
             'default': self.subsession.get_default(),
+            'buy_option': self.subsession.get_buy_option(),
+            'sell_option': self.subsession.get_sell_option(),
         }
 
 class ResultsWaitPage(WaitPage):

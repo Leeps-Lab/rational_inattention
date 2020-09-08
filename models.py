@@ -71,6 +71,8 @@ class Subsession(BaseSubsession):
     q = models.IntegerField()
     expected_value = models.FloatField()
     default = models.BooleanField()
+    buy_option = models.BooleanField()
+    sell_option = models.BooleanField()
 
     def creating_session(self):
         # print('in creating_session', self.round_number)
@@ -119,6 +121,18 @@ class Subsession(BaseSubsession):
             self.default = self.y < self.g
             self.save()
         return self.default
+    
+    def get_buy_option(self):
+        if self.buy_option is None:
+            self.buy_option = self.config.get('buy_option')
+            self.save()
+        return self.buy_option
+    
+    def get_sell_option(self):
+        if self.sell_option is None:
+            self.sell_option = self.config.get('sell_option')
+            self.save()
+        return self.sell_option
 
     def num_rounds(self):
         return len(parse_config(self.session.config['config_file']))
