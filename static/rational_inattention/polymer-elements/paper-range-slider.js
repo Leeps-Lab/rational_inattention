@@ -1388,7 +1388,10 @@ Polymer({
 
   ready: function() {
     this.isReady = true;
-    if(this.alwaysShowPin) { this.pin = true; }
+    if(this.alwaysShowPin) {
+      this.pin = true;
+      this._expandKnob();
+    }
     return;
   },
 
