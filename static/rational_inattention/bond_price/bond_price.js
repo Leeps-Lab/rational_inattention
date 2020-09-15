@@ -106,8 +106,13 @@ class BondPrice extends PolymerElement {
         
         <h3>Your private information about m: [[ mLow ]] <span>&#8804;</span> m <span>&#8804;</span> [[ mHigh ]]</h3>
 
-        <h4 hidden$="[[ sellOption ]]">Select the price for which you'd like to <span class="buy val">buy</span> the bond.</h4>
-        <h4 hidden$="[[ buyOption ]]">Select the price for which you'd like to <span class="sell val">sell</span> the bond.</h4>
+        <h4 hidden$="[[ sellOption ]]">Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding
+        <img src="../../../../../static/rational_inattention/shared/buy_marker.png" alt="buy marker failed to load :(">
+        <span class="buy val">(bid)</span>.</h4>
+
+        <h4 hidden$="[[ buyOption ]]">Select the price for which you'd like to <span class="sell val">sell</span> the bond by sliding
+        <img src="../../../../../static/rational_inattention/shared/sell_marker.png" alt="buy marker failed to load :(">
+        <span class="sell val">(ask)</span>.</h4>
         
         <p class = "buy-sell-text" hidden$="[[ _hideOption(buyOption, sellOption) ]]">
             Select the price for which you'd like to <span class="buy val">buy</span> the bond by sliding
