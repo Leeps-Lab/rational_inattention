@@ -64,7 +64,7 @@ class PrecisionSelector extends PolymerElement {
             <div class="container">
                 <figure class="highcharts-figure">
                 <div id="chart"></div>
-                <input type="range" min="1" max=[[ scale ]] step="1" value="{{ precision::input }}" disabled$="[[ disableSelect ]]">
+                <input type="range" min="1" max=[[ scale ]] step="1" value="{{ precision::input }}" disabled$="[[ disableSelect ]]" >
                 <div class="sliderticks">
                     <p>precise</p>
                     <p></p>
@@ -89,7 +89,7 @@ class PrecisionSelector extends PolymerElement {
         // Cost Function: -k ln w , where k (or kappa) > 0 is read from config
         let data = [];
         for(let x = 0.01; x <= 1; x = parseFloat((x + 0.01).toFixed(2))) {
-            let val = parseFloat((-k * Math.log(x)).toFixed(4)); 
+            let val = parseFloat((-k * Math.log(x)).toFixed(4));
             data.push([x, val])
         }
         return data;
@@ -109,6 +109,9 @@ class PrecisionSelector extends PolymerElement {
         this.graphObj = Highcharts.chart({
             chart: {
                 renderTo: this.$.chart,
+            marginLeft: 30
+            // Fix visual bug
+
             },
             tooltip: {
                 crosshairs: true,
@@ -166,7 +169,7 @@ class PrecisionSelector extends PolymerElement {
                 rules: [{
                     condition: {
                         maxWidth: 1000
-                    },  
+                    },
                     chartOptions: {
                         legend: {
                             layout: 'horizontal',
