@@ -46,6 +46,11 @@ class BondPrice extends PolymerElement {
                 value: 100,
                 reflectToAttribute: true,
             },
+            isValidBuy: {
+                computed: '_isValidBuy(buyPrice, endowment)',
+                notify: true,
+                reflectToAttribute: true,
+            },
             expectedValue: {
                 type: Number,
                 computed: '_expectedBondVal(m)',
@@ -122,11 +127,10 @@ class BondPrice extends PolymerElement {
         <img src="../../../../../static/rational_inattention/shared/sell_marker.png" alt="buy marker failed to load :(">
         <span class="sell val">(ask)</span>.</p>
             
-           <!-- <p>Assuming you don't care about uncertainty, you would expect:</p> -->
-            <p>Lowest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
-            * [[ mLow ]] = <span class="low val">[[ lowValue ]]</span></p>
-            <p>Highest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
-            * [[ mHigh ]] = <span class="high val">[[ highValue ]]</span></p>
+        <p>Lowest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
+        * [[ mLow ]] = <span class="low val">[[ lowValue ]]</span></p>
+        <p>Highest expected bond value: <span class="non-def">[[ _getNondefault(defaultProb) ]]%</span> * 100 + <span class="def">[[ defaultProb ]]%</span>
+        * [[ mHigh ]] = <span class="high val">[[ highValue ]]</span></p>
 
             <buysell-slider
                 class="slider"
@@ -142,6 +146,8 @@ class BondPrice extends PolymerElement {
                 disable-select="[[ disableSelect ]]"
                 animate-price="[[ animatePrice ]]"
             ></buysell-slider>
+
+            <h4 hidden$="[[ isValidBuy]]" class="def">Bid price cannot exceed initial wealth of [[ endowment ]]!</h4>
             
             <div id="substep" hidden$="[[ _hideM(hideBeforeSubmit) ]]">
                 <h2>Actual m: [[ m ]]</h2>
@@ -227,6 +233,10 @@ class BondPrice extends PolymerElement {
 
     _getNondefault(def) {
         return parseInt(this.scale - def);
+    }
+
+    _isValidBuy(buyPrice, endowment) {
+        return buyPrice <= endowment;
     }
 }
 

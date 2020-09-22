@@ -13,7 +13,7 @@ class RationalInattention extends PolymerElement {
                 value: 0,
                 observer: function (step) {
                     setTimeout(function () {
-                        if (step && step < 4) {  // auto scroll down to next step/screen
+                        if (step && step < 3) {  // auto scroll down to next step/screen
                             window.scrollBy({ top: 480, behavior: 'smooth' });
                         }
                     }, 500);
@@ -99,8 +99,10 @@ class RationalInattention extends PolymerElement {
                         g="[[ g ]]"
                         m="[[ m ]]"
                         q="[[ q ]]"
+                        endowment="[[ endowment ]]"
                         buy-option="[[ buyOption ]]"
                         sell-option="[[ sellOption ]]"
+                        is-valid-buy="{{ isValidBuy }}"
                         precision="[[ precision ]]"
                         default-prob="[[ g ]]"
                         m-low="{{ mLow }}"
@@ -142,7 +144,7 @@ class RationalInattention extends PolymerElement {
                     ></results-page>
                 </div>
            </div>
-        <paper-button class="btn" on-click="nextStep" hidden$="[[ _updateButtonLabel(step)]]">[[ buttonLabel ]]</paper-button>
+        <paper-button disabled$="[[ _disableButton(isValidBuy) ]]" class="btn" on-click="nextStep" hidden$="[[ _updateButtonLabel(step)]]">[[ buttonLabel ]]</paper-button>
        `;
     }
 
@@ -205,6 +207,11 @@ class RationalInattention extends PolymerElement {
 
     _animatePrice(step) {
         return step == 4;
+    }
+
+    // prevents submission if selected invalid bid price
+    _disableButton(isValidBuy) {
+        return !isValidBuy;
     }
 }
 
