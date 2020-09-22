@@ -109,7 +109,7 @@ class PrecisionSelector extends PolymerElement {
         this.graphObj = Highcharts.chart({
             chart: {
                 renderTo: this.$.chart,
-            marginLeft: 30
+            marginLeft: 50
             // Fix visual bug
 
             },
@@ -133,6 +133,7 @@ class PrecisionSelector extends PolymerElement {
                     style: {
                         fontSize: '20px'
                     },
+                    margin: 30
                 }
             },
             xAxis: {
