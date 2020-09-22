@@ -25,7 +25,7 @@ def parse_config(config):
         for row in rows:
             rounds.append({
                 'round': int(row['round']) if row['round'] else 0,
-                'endowment': int(row['endowment']) if row.get('endowment') else 100,
+                'endowment': float(row['endowment']) if row.get('endowment') else 100,
                 'initial_bonds': int(row['initial_bonds']) if row.get('initial_bonds') else 1,
                 'buy_option': False if row.get('buy_option') == 'False' else True,
                 'sell_option': False if row.get('sell_option') == 'False' else True,
@@ -121,13 +121,13 @@ class Subsession(BaseSubsession):
             self.default = self.y < self.g
             self.save()
         return self.default
-    
+
     def get_buy_option(self):
         if self.buy_option is None:
             self.buy_option = self.config.get('buy_option')
             self.save()
         return self.buy_option
-    
+
     def get_sell_option(self):
         if self.sell_option is None:
             self.sell_option = self.config.get('sell_option')
