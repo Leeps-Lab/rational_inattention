@@ -100,10 +100,10 @@ class Results extends PolymerElement {
                 .price-val {
                     color: orange;
                     font-weight: bold;
-                }    
+                }
                 .slider {
-                    --price-color: orange;   
-                }    
+                    --price-color: orange;
+                }
             </style>
             <div id="results">
                 <h2>Results</h2>
@@ -192,17 +192,17 @@ class Results extends PolymerElement {
         if (option && result === 'sold') return true;
         return false;
     }
-    
+
     _getBondPayment(m) {
         return this.isDefault ? m : 100; // 0 if match
     }
 
     _getPayoff(isBought, isSold, endowment, q, cost) {
         // neither bought nor sold
-        let val = endowment + this.bondPayment - cost;
+        let val = endowment + (this.bondPayment * this.numBonds) - cost;
         // bought
         if(isBought && !isBought.localeCompare('bought')) {
-            val = endowment + (2 * this.bondPayment) - cost - q;
+            val = endowment + (this.numBonds * this.bondPayment) - cost - q;
         }
         // sold
         if (isSold && !isSold.localeCompare('sold')) {
@@ -227,13 +227,13 @@ class Results extends PolymerElement {
         let f = `${endowment}`;
         // bought
         if (!isBought.localeCompare('bought'))
-            f += ` + (2 * ${this.bondPayment}) - ${q}`;
+            f += ` + (${this.numBonds} * ${this.bondPayment}) - ${q}`;
         // sold
         else if (!isSold.localeCompare('sold'))
             f += ` + ${q}`;
         // neither
         else
-            f += ` + ${this.bondPayment}`;
+            f += ` + (${this.numBonds} * ${this.bondPayment})`;
         // cost if non-zero
         if (cost)
             f += ` - ${cost}`;
