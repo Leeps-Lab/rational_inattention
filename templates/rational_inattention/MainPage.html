@@ -29,11 +29,11 @@
 {% endblock %}
 
 {% block content %}
-    
+
     {% with config=subsession.config %}
 
         <h4>Round #{{ round_num }}</h4>
-        <!-- <p><strong>Total endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p> -->
+        <p><strong>This Round's Endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p>
         <rational-inattention
                 id='rationalInattentionId'
                 g="{{ g }}"
@@ -51,7 +51,7 @@
                 {% endif %}
         ></rational-inattention>
         <button id="next_btn" class="otree-btn-next btn btn-primary">Go To Next Round</button>
-    
+
     {% endwith %}
 
     <input type="hidden" name="width" id="width"/>
@@ -122,12 +122,10 @@
             padding: 0 !important;
         }
     .otree-body {
-        max-width: none;    
+        max-width: none;
     }
     #next_btn {
         display: none;
-        float: right;
-        margin-right: 5%;
     }
-</style>   
+</style>
 {% endblock %}
