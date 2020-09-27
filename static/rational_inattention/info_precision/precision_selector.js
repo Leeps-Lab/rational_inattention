@@ -88,9 +88,11 @@ class PrecisionSelector extends PolymerElement {
     _getCosts(k) {
         // Cost Function: -k ln w , where k (or kappa) > 0 is read from config
         let data = [];
-        for(let x = 0.01; x <= 1; x = parseFloat((x + 0.01).toFixed(2))) {
-            let val = parseFloat((-k * Math.log(x)).toFixed(4));
-            data.push([x, val])
+        for(let x = 1; x <= this.scale; x++) {
+            // scale back to 0 ~ 1 for calculating costs (y-coordinates)
+            let xs = parseFloat((x/100).toFixed(2));
+            let val = parseFloat((-k * Math.log(xs)).toFixed(4)); 
+            data.push([x, val]);
         }
         return data;
 
@@ -138,7 +140,7 @@ class PrecisionSelector extends PolymerElement {
             },
             xAxis: {
                 min: 0,
-                max: 1,
+                max: this.scale,
             },
             legend: {
                 layout: 'vertical',
