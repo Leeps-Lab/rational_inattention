@@ -199,14 +199,14 @@ class Results extends PolymerElement {
 
     _getPayoff(isBought, isSold, endowment, q, cost) {
         // neither bought nor sold
-        let val = endowment + (this.bondPayment * this.numBonds) - cost;
+        let val = (this.bondPayment * this.numBonds) - cost;
         // bought
         if(isBought && !isBought.localeCompare('bought')) {
-            val = endowment + (this.numBonds * this.bondPayment) - cost - q;
+            val = (this.numBonds * this.bondPayment) - cost - q;
         }
         // sold
         if (isSold && !isSold.localeCompare('sold')) {
-            val = endowment + q - cost;
+            val = q - cost;
         }
         return parseFloat(val.toFixed(2));
     }
@@ -224,16 +224,16 @@ class Results extends PolymerElement {
     }
 
     _getPayoffFormula(isBought, isSold, endowment, q, cost) {
-        let f = `${endowment}`;
+        let f = '';
         // bought
         if (!isBought.localeCompare('bought'))
-            f += ` + (${this.numBonds} * ${this.bondPayment}) - ${q}`;
+            f += ` (${this.numBonds} * ${this.bondPayment}) - ${q}`;
         // sold
         else if (!isSold.localeCompare('sold'))
-            f += ` + ${q}`;
+            f += ` ${q}`;
         // neither
         else
-            f += ` + (${this.numBonds} * ${this.bondPayment})`;
+            f += ` (${this.numBonds} * ${this.bondPayment})`;
         // cost if non-zero
         if (cost)
             f += ` - ${cost}`;
