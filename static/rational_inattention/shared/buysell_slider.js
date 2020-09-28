@@ -109,7 +109,7 @@ class BuysellSlider extends PolymerElement {
             ></price-marker>
             </div>
             <div class="markers">
-                <span id="anim" class$="[[ _showActualPrice(animatePrice, priceToShow, hideBeforeSubmit) ]]" hidden$="[[ _hidePrice(hideBeforeSubmit, animatePrice) ]]"></span> 
+                <span id="anim" class$="[[ _showActualPrice(animatePrice, priceToShow, hideBeforeSubmit) ]]" hidden$="[[ _hidePrice(hideBeforeSubmit, animatePrice) ]]"></span>
             </div>
             <div class="sliderticks">
                 <template is="dom-repeat" items="[[ markers ]]">
@@ -216,14 +216,22 @@ class BuysellSlider extends PolymerElement {
                 fill: 'forwards'
             });
             // show price marker right after
+            // this is what's causing the marker to appear beforehand
             this.$.price.animate([
                 { left: pos },
                 { opacity: 0 },
                 { opacity: 1 },
+                { opacity: 1 },
+                { opacity: 1 },
+                { opacity: 1 },
+                { opacity: 1 },
+                { opacity: 1 },
+                { opacity: 1 },
             ], {
-                duration: 2000,
-                easing: 'ease-in',
-                fill: 'forwards'
+                duration: 4000,
+                easing: 'ease-in-out',
+
+
             });
             return 'ball';
         }
