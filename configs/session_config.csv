@@ -1,5 +1,5 @@
 round,endowment,initial_bonds,buy_option,sell_option,g,k,m,y,q
-1,159.5,0,True,False,20,.1
-2,180.2,0,True,False,80,.1
+1,159.5,0,True,False,20,10
+2,180.2,0,True,False,80,10
 3,0,1,False,True,
 4,100,1,True,True
