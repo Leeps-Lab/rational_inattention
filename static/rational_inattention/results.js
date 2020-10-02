@@ -136,7 +136,7 @@ class Results extends PolymerElement {
                         You now have [[ numBonds ]] bonds.
                     </h4>
                 </div>
-                <div id="substep" $hidden="[[ _hideResults(hideBeforeSubmit) ]]">
+                <div id="substep" hidden$="[[ _hideResults(hideBeforeSubmit) ]]">
                     <h3>Default? <span class$="[[ _getDefaultColor(defaultResult) ]]">[[ defaultResult ]]</span></h3>
                         <h4>Actual bond payment: [[ bondPayment ]]<br/>
                         Your private info cost: [[ cost ]]</h4>
@@ -152,10 +152,10 @@ class Results extends PolymerElement {
                 { opacity: 0 },
                 { opacity: 1 },
             ], {
-                duration: 1000, //milliseconds
+                duration: 5000, //milliseconds
                 easing: 'ease-in',
                 fill: 'forwards',
-                // delay: 1000, // wait until show price animation finish
+              //  delay: 1000, // wait until show price animation finish
             });
         }
         return hideBeforeSubmit;
@@ -224,7 +224,7 @@ class Results extends PolymerElement {
     }
 
     _getPayoffFormula(isBought, isSold, endowment, q, cost) {
-        let f = '';
+        let f = ``;
         // bought
         if (!isBought.localeCompare('bought'))
             f += ` (${this.numBonds} * ${this.bondPayment}) - ${q}`;
