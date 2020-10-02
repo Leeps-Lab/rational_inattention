@@ -152,7 +152,7 @@ class Results extends PolymerElement {
                 { opacity: 0 },
                 { opacity: 1 },
             ], {
-                duration: 5000, //milliseconds
+                duration: 2000, //milliseconds
                 easing: 'ease-in',
                 fill: 'forwards',
               //  delay: 1000, // wait until show price animation finish
