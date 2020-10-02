@@ -25,6 +25,27 @@
             round_payoff.value = this.payoff;
         });
     </script>
+    <style>
+      .otree-timer {
+      display: none;
+      opacity: .7;
+      color: black;
+      font-weight: bold;
+      position: sticky;
+      top: 700px;
+      left: 0;
+      background-color: white;
+  }
+    </style>
+    <script>
+        $(function () {
+            $('.otree-timer__time-left').on('update.countdown', function (event) {
+                if (event.offset.totalSeconds === 270) {
+                    $('.otree-timer').show();
+                }
+            });
+        });
+    </script>
 
 {% endblock %}
 
@@ -33,7 +54,8 @@
     {% with config=subsession.config %}
 
         <h4>Round #{{ round_num }}</h4>
-        <p><strong>This Round's Endowment:</strong> {{ config.endowment }} credits and {{ config.initial_bonds }} bonds</p>
+        <!-- p><strong>This Round's Participation Fee :</strong> {{ config.endowment }} credits. </p -->
+        <p><strong>This Round's Endowment:</strong> {{config.initial_bonds}} bonds.</p>
         <rational-inattention
                 id='rationalInattentionId'
                 g="{{ g }}"

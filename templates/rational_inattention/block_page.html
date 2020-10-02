@@ -1,0 +1,14 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+<strong>Block: </strong> {{block_num}} 
+{% endblock %}
+
+{% block content %}
+<center>Total participation cost for this block is:  <strong> {{Participation_cost}} </strong> <center>
+<p></p>
+<p></p>
+<p></p>
+    {% next_button %}
+{% endblock %}
