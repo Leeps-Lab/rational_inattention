@@ -54,7 +54,7 @@ class Results(Page):
     def vars_for_template(self):
         return{
             'block_num': int(self.subsession.config.get('round')/3 + 1),
-            'Participation_cost': self.subsession.in_round(self.subsession.config.get('round')).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') - 1).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') - 2).config.get('endowment'),
+            'Participation_cost': round(self.subsession.in_round(self.subsession.config.get('round')).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') - 1).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') - 2).config.get('endowment'),2),
             'total_round_payoff': round((self.player.in_round(self.subsession.config.get('round')).round_payoff + self.player.in_round(self.subsession.config.get('round') - 1).round_payoff + self.player.in_round(self.subsession.config.get('round')-2).round_payoff),2),
             'total_payoff': round(round((self.player.in_round(self.subsession.config.get('round')).round_payoff + self.player.in_round(self.subsession.config.get('round') - 1).round_payoff + self.player.in_round(self.subsession.config.get('round')-2).round_payoff),2) - self.subsession.in_round(self.subsession.config.get('round')).config.get('endowment') - self.subsession.in_round(self.subsession.config.get('round')-1).config.get('endowment') - self.subsession.in_round(self.subsession.config.get('round')-2).config.get('endowment'),2),
             'round_1': round((self.player.in_round(self.subsession.config.get('round')).round_payoff), 2),
