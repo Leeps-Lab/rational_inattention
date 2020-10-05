@@ -7,11 +7,13 @@ from . import parser as parser_py
 
 class block_page(Page):
     def is_displayed(self):
-        return int(self.subsession.config.get('round'))%3 == 1
-
+        try:
+            return int(self.subsession.config.get('round'))%3 == 1
+        except:
+            return False
     def vars_for_template(self):
         return{
-            'block_num': int(self.subsession.config.get('round')/3 + 1),
+            'block_num': int(self.subsession.config.get('round')/3),
             'Participation_cost': round(self.subsession.in_round(self.subsession.config.get('round')).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') + 1).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') + 2).config.get('endowment'),2),
             }
 class MainPage(Page):
@@ -49,11 +51,14 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
     def is_displayed(self):
-        return (self.subsession.config.get('round'))%3 == 0
+        try:
+            return (self.subsession.config.get('round'))%3 == 0
+        except:
+            return False
 
     def vars_for_template(self):
         return{
-            'block_num': int(self.subsession.config.get('round')/3 + 1),
+            'block_num': int(self.subsession.config.get('round')/3),
             'Participation_cost': round(self.subsession.in_round(self.subsession.config.get('round')).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') - 1).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') - 2).config.get('endowment'),2),
             'total_round_payoff': round((self.player.in_round(self.subsession.config.get('round')).round_payoff + self.player.in_round(self.subsession.config.get('round') - 1).round_payoff + self.player.in_round(self.subsession.config.get('round')-2).round_payoff),2),
             'total_payoff': round(round((self.player.in_round(self.subsession.config.get('round')).round_payoff + self.player.in_round(self.subsession.config.get('round') - 1).round_payoff + self.player.in_round(self.subsession.config.get('round')-2).round_payoff),2) - self.subsession.in_round(self.subsession.config.get('round')).config.get('endowment') - self.subsession.in_round(self.subsession.config.get('round')-1).config.get('endowment') - self.subsession.in_round(self.subsession.config.get('round')-2).config.get('endowment'),2),
