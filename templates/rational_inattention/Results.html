@@ -13,9 +13,10 @@ Block Results
 
 {% block content %}
 <strong> You have completed block  </strong> {{block_num}}
-<p> The payoff for this block is caculated as: <strong> Round Payoff - Participation Cost </strong> </p>
-<p>
-Payoff = {{total_round_payoff}} - {{Participation_cost}} = {{total_payoff}}
+<p> The payoff for this block is caculated as:
+</p>
+<p>First Round Payoff + Second Round Payoff + Third Round Payoff - Participation Cost </p>
+<p>{{round_1}} + {{round_2}} + {{round_3}} - {{Participation_cost}} = {{total_payoff}}</p>
 
     {% next_button %}
 {% endblock %}
