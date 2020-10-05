@@ -12,7 +12,7 @@ class block_page(Page):
     def vars_for_template(self):
         return{
             'block_num': int(self.subsession.config.get('round')/3 + 1),
-            'Participation_cost': self.subsession.in_round(self.subsession.config.get('round')).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') + 1).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') + 2).config.get('endowment'),
+            'Participation_cost': round(self.subsession.in_round(self.subsession.config.get('round')).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') + 1).config.get('endowment') +self.subsession.in_round(self.subsession.config.get('round') + 2).config.get('endowment'),2),
             }
 class MainPage(Page):
     timeout_seconds = 300
