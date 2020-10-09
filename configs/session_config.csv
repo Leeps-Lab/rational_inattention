@@ -1,2 +1,2 @@
 round,participation_fee,initial_bonds,buy_option,sell_option,g,k,m,y,q
-1,100,0,True,True,40,10
+1,100,1,True,True,40,10
