@@ -170,4 +170,4 @@ class Player(BasePlayer):
     ask_price = models.FloatField(initial=100)
     bought = models.BooleanField(initial=False)
     sold = models.BooleanField(initial=False)
-    round_payoff = models.FloatField(initial=100)
+    round_payoff = models.FloatField(initial=0)
