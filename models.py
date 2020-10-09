@@ -51,7 +51,7 @@ def parse_config(config):
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
     players_per_group = None
-    num_rounds=10
+    num_rounds=27
 
     def round_number(self):
         return len(parse_config(self.session.config['config_file']))
