@@ -53,13 +53,13 @@
     {% with config=subsession.config %}
 
         <h4>Round #{{ round_num }}</h4>
-        <!-- p><strong>This Round's Participation Fee :</strong> {{ config.endowment }} credits. </p -->
+        <!-- p><strong>This Round's Participation Fee :</strong> {{ config.participation_fee }} credits. </p -->
         <p><strong>This Round's Endowment:</strong> {{config.initial_bonds}} bonds.</p>
         <rational-inattention
                 id='rationalInattentionId'
                 g="{{ g }}"
                 k="{{ k }}"
-                endowment="{{ config.endowment }}"
+                participation_fee="{{ config.participation_fee }}"
                 bonds="{{ config.initial_bonds }}"
                 m="{{ m }}"
                 y="{{ y }}"
