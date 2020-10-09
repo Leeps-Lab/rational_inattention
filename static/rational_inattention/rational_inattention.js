@@ -26,7 +26,7 @@ class RationalInattention extends PolymerElement {
             m: Number,
             y: Number,
             q: Number,
-            endowment: Number,
+            participation_fee: Number,
             bonds: Number,
             buyOption: Boolean,
             sellOption: Boolean,
@@ -82,7 +82,7 @@ class RationalInattention extends PolymerElement {
             <div class="first">
             <public-info
                     g="[[ g ]]"
-                    credits="[[ endowment ]]"
+                    credits="[[ participation_fee ]]"
                 ></public-info>
             </div>
             <div hidden$="{{ _hideStep(step, 1) }}">
@@ -106,7 +106,7 @@ class RationalInattention extends PolymerElement {
                         m-low="{{ mLow }}"
                         m-high="{{ mHigh }}"
                         low-value="{{ lowValue }}"
-                        high-value="{{ highValue }}"              
+                        high-value="{{ highValue }}"
                         buy-price="{{ bidPrice }}"
                         sell-price="{{ askPrice }}"
                         expected-value="{{ expectedVal }}"
@@ -117,7 +117,7 @@ class RationalInattention extends PolymerElement {
                 </div>
                 <div class="step" hidden$="{{ _hideStep(step, 4) }}">
                     <results-page
-                        endowment="[[ endowment ]]"
+                        participation_fee="[[ participation_fee ]]"
                         bonds="[[ bonds ]]"
                         g="[[ g ]]"
                         m="[[ m ]]"
@@ -128,7 +128,7 @@ class RationalInattention extends PolymerElement {
                         buy-price="[[ bidPrice ]]"
                         sell-price="[[ askPrice ]]"
                         low-value="[[ lowValue ]]"
-                        high-value="[[ highValue ]]"              
+                        high-value="[[ highValue ]]"
                         cost="[[ cost ]]"
                         is-default="{{ default }}"
                         bought="{{ bought }}"
