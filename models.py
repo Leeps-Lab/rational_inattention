@@ -25,7 +25,7 @@ def parse_config(config):
         for row in rows:
             rounds.append({
                 'round': int(row['round']) if row['round'] else 0,
-                'endowment': float(row['endowment']) if row.get('endowment') else 100,
+                'participation_fee': float(row['participation_fee']) if row.get('participation_fee') else 100,
                 'initial_bonds': int(row['initial_bonds']) if row.get('initial_bonds') else 1,
                 'buy_option': False if row.get('buy_option') == 'False' else True,
                 'sell_option': False if row.get('sell_option') == 'False' else True,
@@ -73,13 +73,18 @@ class Subsession(BaseSubsession):
     default = models.BooleanField()
     buy_option = models.BooleanField()
     sell_option = models.BooleanField()
+    participation_fee = models.FloatField()
 
     def creating_session(self):
         # print('in creating_session', self.round_number)
         config = self.config
         if not self.config or self.round_number > len(config):
             return
-
+    def get_participation_fee(self):
+        if self.participation_fee is None:
+            self.participation_fee = self.config.get('participation_fee')
+            self.save()
+        return self.g
     def get_g(self):
         if self.g is None:
             self.g = self.config.get('g')
@@ -166,10 +171,3 @@ class Player(BasePlayer):
     bought = models.BooleanField(initial=False)
     sold = models.BooleanField(initial=False)
     round_payoff = models.FloatField(initial=100)
-
-def custom_export(self, players):
-    # header row
-    print(players.values_list())
-    yield ['width', 'cost', 'm_low', 'm_high', 'low_val', 'high_val', 'bid_price', 'ask_price', 'bought', 'sold', 'round_payoff']
-    for p in players:
-        yield [p.width, p.bid_price, p.ask_price, p.bought, p.sold, p.round_payoff]
