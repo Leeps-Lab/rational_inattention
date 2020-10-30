@@ -153,7 +153,7 @@ class BondPrice extends PolymerElement {
             </div>
             <div id="sell_warning" hidden$ ="[[ _hide_sell_Warning(sellPrice) ]]" >
                 <p> Warning: your ask node currently rests at the default position. </p>
-
+            </div>
             <div id="substep" hidden$="[[ _hideM(hideBeforeSubmit) ]]">
                 <h2>Actual m: [[ m ]]</h2>
                 <h3>Expected bond value:
