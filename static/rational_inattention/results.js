@@ -45,6 +45,12 @@ class Results extends PolymerElement {
                 notify: true,
                 reflectToAttribute: true,
             },
+            cost_round: {
+              type: Number,
+              computed: '_roundCost(cost)',
+              notify: true,
+              reflectToAttribute: true,
+            },
             numBonds: {
                 type: Number,
                 computed: '_getNumBonds(bonds, isBought, isSold)',
@@ -53,7 +59,7 @@ class Results extends PolymerElement {
             },
             payoff: {
                 type: Number,
-                computed: '_getPayoff(isBought, isSold, endowment, q, cost)',
+                computed: '_getPayoff(isBought, isSold, participation_fee, q, cost)',
                 notify: true,
                 reflectToAttribute: true,
             },
@@ -68,7 +74,7 @@ class Results extends PolymerElement {
                 }
                 #buy-sell {
                     opacity: 0;
-                    animation: 3s ease 6s normal forwards 1 fadein;
+                    animation: 3s ease 4s normal forwards 1 fadein;
                 }
                 @keyframes fadein{
                     0% { opacity:0; }
@@ -139,8 +145,8 @@ class Results extends PolymerElement {
                 <div id="substep" hidden$="[[ _hideResults(hideBeforeSubmit) ]]">
                     <h3>Default? <span class$="[[ _getDefaultColor(defaultResult) ]]">[[ defaultResult ]]</span></h3>
                         <h4>Actual bond payment: [[ bondPayment ]]<br/>
-                        Your private info cost: [[ cost ]]</h4>
-                    <h3>Your payoff: [[ _getPayoffFormula(isBought, isSold, endowment, q, cost) ]] = [[ payoff ]]</h3>
+                        Your private info cost: [[ _roundCost(cost) ]]</h4>
+                    <h3>Your payoff: [[ _getPayoffFormula(isBought, isSold, participation_fee, q, cost_round) ]] = [[ payoff ]]</h3>
                 </div>
             </div>
         `;
@@ -152,7 +158,7 @@ class Results extends PolymerElement {
                 { opacity: 0 },
                 { opacity: 1 },
             ], {
-                duration: 2000, //milliseconds
+                duration: 200, //milliseconds
                 easing: 'ease-in',
                 fill: 'forwards',
               //  delay: 1000, // wait until show price animation finish
@@ -160,7 +166,9 @@ class Results extends PolymerElement {
         }
         return hideBeforeSubmit;
     }
-
+    _roundCost(cost) {
+      return Math.round(cost * 100)/100;
+    }
     _getNondefault(def) {
         return 100 - def;
     }
@@ -197,7 +205,7 @@ class Results extends PolymerElement {
         return this.isDefault ? m : 100; // 0 if match
     }
 
-    _getPayoff(isBought, isSold, endowment, q, cost) {
+    _getPayoff(isBought, isSold, participation_fee, q, cost) {
         // neither bought nor sold
         let val = (this.bondPayment * this.numBonds) - cost;
         // bought
@@ -223,7 +231,7 @@ class Results extends PolymerElement {
         return bonds;
     }
 
-    _getPayoffFormula(isBought, isSold, endowment, q, cost) {
+    _getPayoffFormula(isBought, isSold, participation_fee, q, cost) {
         let f = ``;
         // bought
         if (!isBought.localeCompare('bought'))
