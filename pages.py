@@ -7,9 +7,9 @@ from . import parser as parser_py
 
 class block_page(Page):
     def is_displayed(self):
-        try:
-            return int(self.subsession.config.get('round'))%5 == 1
-        except:
+    #    try:
+    #        return int(self.subsession.config.get('round'))%5 == 1
+    #    except:
             return False
     def vars_for_template(self):
         #calculte total block payment fee
