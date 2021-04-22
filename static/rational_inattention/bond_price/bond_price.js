@@ -4,9 +4,8 @@ class BondPrice extends PolymerElement {
 
     static get properties() {
         return {
-            r: {
+            e: {
                 type: Number,
-                computed: '_getRandomRange(precision)',
             },
             mLow: {
                 type: Number,
@@ -221,7 +220,7 @@ class BondPrice extends PolymerElement {
     }
 
     _getMLowOverflow(m, precision) {
-        let mLow = m - (precision * this.r);
+        let mLow = m - (precision * this.e);
         if (mLow < 0) {
             let overflow = 0 - mLow;
             return overflow;
@@ -230,7 +229,7 @@ class BondPrice extends PolymerElement {
     }
 
     _getMHighOverflow(m, precision) {
-        let mHigh = m + (precision * (1 - this.r));
+        let mHigh = m + (precision * (1 - this.e));
         if (mHigh > this.scale) {
             let overflow = mHigh - this.scale;
             return overflow;
@@ -239,12 +238,12 @@ class BondPrice extends PolymerElement {
     }
 
     _getMHigh(m, precision) {
-        let mHigh = Math.min(this.scale, m + (precision * (1 - this.r)) + this._getMLowOverflow(m, precision));
+        let mHigh = Math.min(this.scale, m + (precision * (1 - this.e)) + this._getMLowOverflow(m, precision));
         return parseFloat(mHigh.toFixed(2));
     }
 
     _getMLow(m, precision) {
-        let mLow = Math.max(0, m - (precision * this.r) - this._getMHighOverflow(m, precision));
+        let mLow = Math.max(0, m - (precision * this.e) - this._getMHighOverflow(m, precision));
         return parseFloat(mLow.toFixed(2));
     }
 

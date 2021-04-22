@@ -51,7 +51,7 @@ def parse_config(config):
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
     players_per_group = None
-    num_rounds=48
+    num_rounds=5
 
     def round_number(self):
         return len(parse_config(self.session.config['config_file']))
@@ -77,6 +77,14 @@ class Subsession(BaseSubsession):
 
     def creating_session(self):
         # print('in creating_session', self.round_number)
+        counter = 0
+        filename = "rational_inattention/configs/e.csv"
+        with open(filename, 'r') as csvfile:
+            e_list = [row for row in csv.reader(csvfile)]
+        for player in self.get_players():
+            player.e = float(e_list[self.round_number][counter])
+            print(player.e)
+            counter = counter + 1
         config = self.config
         if not self.config or self.round_number > len(config):
             return
@@ -171,3 +179,4 @@ class Player(BasePlayer):
     bought = models.BooleanField(initial=False)
     sold = models.BooleanField(initial=False)
     round_payoff = models.FloatField(initial=0)
+    e = models.FloatField(initial = 0)

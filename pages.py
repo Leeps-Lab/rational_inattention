@@ -51,6 +51,7 @@ class MainPage(Page):
             'default': self.subsession.get_default(),
             'participation_fee': self.subsession.get_buy_option(),
             'sell_option': self.subsession.get_sell_option(),
+            'e': self.player.e,
         }
 
 class ResultsWaitPage(WaitPage):
@@ -69,7 +70,7 @@ class Results(Page):
 
         total_round_payoff = round((self.player.in_round(self.subsession.config.get('round')).round_payoff + self.player.in_round(self.subsession.config.get('round') - 1).round_payoff + self.player.in_round(self.subsession.config.get('round') - 2).round_payoff + self.player.in_round(self.subsession.config.get('round') - 3).round_payoff + self.player.in_round(self.subsession.config.get('round') - 4).round_payoff ),2)
         return{
-            'block_num': int(self.subsession.config.get('round')/8),
+            'block_num': int(self.subsession.config.get('round')/5),
             'Participation_cost': Participation_cost,
             'total_round_payoff': total_round_payoff,
             'total_payoff': round(total_round_payoff  - Participation_cost,2),
@@ -99,6 +100,6 @@ class payment_page(Page):
         ##function to sum total participation fees
         return{
             'player_id': self.player.id_in_group,
-            'total_payoff': round((payment_payoff - participation_fee_total)*.5,2)
+            'total_payoff': round((payment_payoff - participation_fee_total)*.09,2)
         }
 page_sequence = [block_page,MainPage,Results, payment_page]

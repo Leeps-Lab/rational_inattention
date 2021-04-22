@@ -26,6 +26,7 @@ class RationalInattention extends PolymerElement {
             m: Number,
             y: Number,
             q: Number,
+            e: Number,
             participation_fee: Number,
             bonds: Number,
             buyOption: Boolean,
@@ -99,6 +100,7 @@ class RationalInattention extends PolymerElement {
                         g="[[ g ]]"
                         m="[[ m ]]"
                         q="[[ q ]]"
+                        e = "[[ e ]]"
                         buy-option="[[ buyOption ]]"
                         sell-option="[[ sellOption ]]"
                         precision="[[ precision ]]"
