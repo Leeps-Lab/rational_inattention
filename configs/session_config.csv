@@ -1,6 +1,6 @@
 round,participation_fee,initial_bonds,buy_option,sell_option,g,k,m,y,q
-1,550.8,1,True,True,70,.1,70,40,76
-2,0,1,True,True,70,.1,46,84,87
-3,0,1,True,True,70,.1,92,81,13
-4,0,1,True,True,70,.1,82,58,36
-5,0,1,True,True,70,.1,73,6,90
+1,386.1,1,True,True,70,.1,59,91,56
+2,0,1,True,True,70,.1,55,69,75
+3,0,1,True,True,70,.1,10,30,25
+4,0,1,True,True,70,.1,81,31,2
+5,0,1,True,True,70,.1,86,61,29
