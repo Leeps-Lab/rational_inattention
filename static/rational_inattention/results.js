@@ -138,7 +138,7 @@ class Results extends PolymerElement {
                         Bond price: <span class="price-val">[[ q ]]</span>.
                         <span hidden$="[[ sellOption ]]">You [[ isBought ]].</span>
                         <span hidden$="[[ buyOption ]]">You [[ isSold ]].</span>
-                        <span hidden$="[[ _hideOption(buyOption, sellOption) ]]">You [[ isBought ]] and [[ isSold ]].</span>
+                        <span hidden$="[[ _hideOption(buyOption, sellOption) ]]">You [[ isBought ]] and you [[ isSold ]].</span>
                         You now have [[ numBonds ]] bonds.
                     </h4>
                 </div>

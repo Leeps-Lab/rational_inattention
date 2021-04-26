@@ -209,7 +209,7 @@ class PrecisionSelector extends PolymerElement {
             plotOptions: {
                 line: { marker: { enabled: false } },
                 series: {
-                    allowPointSelect: true,
+                    allowPointSelect: false,
                     cursor: 'pointer',
                     events: {
                         click: function (event) {
