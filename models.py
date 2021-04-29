@@ -19,7 +19,8 @@ Your app description
 """
 
 def parse_config(config):
-    with open('rational_inattention/configs/session_config.csv', newline='') as config_file:
+    filename = 'rational_inattention/configs/' + config
+    with open(filename, newline='') as config_file:
         rows = list(csv.DictReader(config_file))
         rounds = []
         for row in rows:
@@ -34,6 +35,7 @@ def parse_config(config):
                 'm': int(row['m']) if row.get('m') else int(random.uniform(0, 100)),
                 'y': int(row['y']) if row.get('y') else int(random.uniform(0, 100)),
                 'q': int(row['q']) if row.get('q') else int(random.uniform(1, 100)), # actual price should be positive
+                'height': int(row['height']) if row.get('height') else 16,
             })
     return rounds
     # reads straight from the config file constants
@@ -51,7 +53,7 @@ def parse_config(config):
 class Constants(BaseConstants):
     name_in_url = 'rational_inattention'
     players_per_group = None
-    num_rounds=5
+    num_rounds=40
 
     def round_number(self):
         return len(parse_config(self.session.config['config_file']))
@@ -69,6 +71,7 @@ class Subsession(BaseSubsession):
     m = models.IntegerField()
     y = models.IntegerField()
     q = models.IntegerField()
+    height = models.IntegerField()
     expected_value = models.FloatField()
     default = models.BooleanField()
     buy_option = models.BooleanField()
@@ -78,7 +81,7 @@ class Subsession(BaseSubsession):
     def creating_session(self):
         # print('in creating_session', self.round_number)
         counter = 0
-        filename = "rational_inattention/configs/e.csv"
+        filename = "rational_inattention/configs/" + self.session.config['e_file']
         with open(filename, 'r') as csvfile:
             e_list = [row for row in csv.reader(csvfile)]
         for player in self.get_players():
@@ -116,7 +119,11 @@ class Subsession(BaseSubsession):
             self.y = self.config.get('y')
             self.save()
         return self.y
-
+    def get_height(self):
+        if self.height is None:
+            self.height = self.config.get('height')
+            self.save()
+        return self.height
     def get_q(self):
         if self.q is None:
             self.q = self.config.get('q')

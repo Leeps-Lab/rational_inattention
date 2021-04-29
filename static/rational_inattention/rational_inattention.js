@@ -27,6 +27,7 @@ class RationalInattention extends PolymerElement {
             y: Number,
             q: Number,
             e: Number,
+            height: Number,
             participation_fee: Number,
             bonds: Number,
             buyOption: Boolean,
@@ -89,6 +90,7 @@ class RationalInattention extends PolymerElement {
             <div hidden$="{{ _hideStep(step, 1) }}">
                 <info-precision
                     k="[[ k ]]"
+                    height="[[height]]"
                     precision="{{ precision }}"
                     cost="{{ cost }}"
                     disable-select="{{ _disableStep(step, 1) }}"

@@ -47,6 +47,7 @@ class MainPage(Page):
             'm': self.subsession.get_m(),
             'y': self.subsession.get_y(),
             'q': self.subsession.get_q(),
+            'height': self.subsession.get_height(),
             'expected_value': self.subsession.get_expected_value(),
             'default': self.subsession.get_default(),
             'participation_fee': self.subsession.get_buy_option(),
@@ -84,7 +85,7 @@ class Results(Page):
 class payment_page(Page):
     def is_displayed(self):
         try:
-            return self.subsession.config.get('round') == 5
+            return self.subsession.config.get('round') == 40
         except:
             return False
     def vars_for_template(self):
@@ -100,6 +101,6 @@ class payment_page(Page):
         ##function to sum total participation fees
         return{
             'player_id': self.player.id_in_group,
-            'total_payoff': round((payment_payoff - participation_fee_total)*.09,2)
+            'total_payoff': round((payment_payoff - participation_fee_total)*.05,2)
         }
 page_sequence = [block_page,MainPage,Results, payment_page]
