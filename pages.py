@@ -15,7 +15,7 @@ class block_page(Page):
         #calculte total block payment fee
         participation = 0
         i = 0
-        while (i < 5):
+        while (i < 4):
             participation += round(self.subsession.in_round(self.subsession.config.get('round') + i ).config.get('participation_fee'),2)
             i += 1
         return {
